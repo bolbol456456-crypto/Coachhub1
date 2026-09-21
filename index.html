@@ -36,27 +36,24 @@
             
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <!-- Admin Card -->
-                <div onclick="openPinModal('admin')" class="bg-slate-900 border border-slate-800 hover:border-emerald-500 p-8 rounded-3xl cursor-pointer transition transform hover:-translate-y-2 group">
+                <div onclick="openAdminPinModal()" class="bg-slate-900 border border-slate-800 hover:border-emerald-500 p-8 rounded-3xl cursor-pointer transition transform hover:-translate-y-2 group">
                     <div class="w-16 h-16 bg-emerald-500/10 text-emerald-400 rounded-2xl flex items-center justify-center text-3xl mx-auto mb-6 group-hover:bg-emerald-500 group-hover:text-slate-950 transition"><i class="fa-solid fa-shield-halved"></i></div>
                     <h3 class="text-2xl font-bold mb-2">الأدمن (الإدارة)</h3>
-                    <p class="text-slate-400 text-sm">إدارة باقات اشتراكات المدربين (7 مستويات)، ومراقبة النظام.</p>
-                    <span class="inline-block mt-4 text-xs text-emerald-400 font-semibold bg-emerald-500/10 px-3 py-1 rounded-full">PIN: 1993</span>
+                    <p class="text-slate-400 text-sm">إدارة باقات اشتراكات المدربين، ومراقبة النظام (برمز سري خاص).</p>
                 </div>
 
                 <!-- Coach Card -->
-                <div onclick="openPinModal('coach')" class="bg-slate-900 border border-slate-800 hover:border-emerald-500 p-8 rounded-3xl cursor-pointer transition transform hover:-translate-y-2 group">
+                <div onclick="openCoachEmailModal()" class="bg-slate-900 border border-slate-800 hover:border-emerald-500 p-8 rounded-3xl cursor-pointer transition transform hover:-translate-y-2 group">
                     <div class="w-16 h-16 bg-blue-500/10 text-blue-400 rounded-2xl flex items-center justify-center text-3xl mx-auto mb-6 group-hover:bg-blue-500 group-hover:text-slate-950 transition"><i class="fa-solid fa-user-tie"></i></div>
                     <h3 class="text-2xl font-bold mb-2">المدرب (Coach)</h3>
-                    <p class="text-slate-400 text-sm">إدارة المتدربين، دفع اشتراك المنصة، فحص الأداء بالذكاء الاصطناعي، التحديات.</p>
-                    <span class="inline-block mt-4 text-xs text-blue-400 font-semibold bg-blue-500/10 px-3 py-1 rounded-full">PIN: 1234</span>
+                    <p class="text-slate-400 text-sm">تسجيل الدخول بالـ Gmail، إدارة المتدربين، وفحص الأداء بالذكاء الاصطناعي.</p>
                 </div>
 
                 <!-- Trainee Card -->
                 <div onclick="openTraineePortalModal()" class="bg-slate-900 border border-slate-800 hover:border-emerald-500 p-8 rounded-3xl cursor-pointer transition transform hover:-translate-y-2 group">
                     <div class="w-16 h-16 bg-purple-500/10 text-purple-400 rounded-2xl flex items-center justify-center text-3xl mx-auto mb-6 group-hover:bg-purple-500 group-hover:text-slate-950 transition"><i class="fa-solid fa-user"></i></div>
                     <h3 class="text-2xl font-bold mb-2">المتدرب (Trainee) - مجاني</h3>
-                    <p class="text-slate-400 text-sm">متابعة الخطط، تسجيل Check-in صوتي، النقاط، لوحة المتصدرين، وفحص الأداء (بدون رسوم).</p>
-                    <span class="inline-block mt-4 text-xs text-purple-400 font-semibold bg-purple-500/10 px-3 py-1 rounded-full">برابط البوابة</span>
+                    <p class="text-slate-400 text-sm">متابعة الخطط، تسجيل Check-in صوتي، النقاط، لوحة المتصدرين، وفحص الأداء.</p>
                 </div>
             </div>
         </div>
@@ -101,7 +98,7 @@
             <div class="flex justify-between items-center bg-slate-900 p-6 rounded-2xl border border-slate-800 flex-wrap gap-4">
                 <div>
                     <h2 class="text-2xl font-bold">لوحة تحكم المدرب المحترف</h2>
-                    <p class="text-slate-400 text-sm">أتمتة المتابعة بالذكاء الاصطناعي، تقييم الفيديوهات، وإدارة المتدربين (المتدربون يستخدمون المنصة مجاناً).</p>
+                    <p class="text-slate-400 text-sm" id="coach-welcome-email">مرحباً بك، مدربنا العزيز</p>
                 </div>
                 <div class="flex gap-2">
                     <button onclick="openAddTraineeModal()" class="bg-emerald-500 text-slate-950 font-bold px-4 py-2 rounded-xl text-sm hover:bg-emerald-400 transition"><i class="fa-solid fa-plus ml-2"></i>إضافة متدرب جديد</button>
@@ -110,12 +107,12 @@
                 </div>
             </div>
 
-            <!-- Coach SaaS Subscription Card (Only Coach Pays Subscription) -->
+            <!-- Coach SaaS Subscription Card -->
             <div class="bg-gradient-to-r from-emerald-900/30 to-slate-900 p-6 rounded-2xl border border-emerald-500/30 flex justify-between items-center flex-wrap gap-4">
                 <div>
                     <span class="text-xs bg-emerald-500/20 text-emerald-400 px-3 py-1 rounded-full font-bold">اشتراكات المنصة (SaaS)</span>
                     <h3 class="text-lg font-bold mt-2">الباقة الاحترافية النشطة</h3>
-                    <p class="text-slate-400 text-sm mt-1">سداد اشتراك المنصة الفوري عبر InstaPay: <span class="text-emerald-400 font-bold">01221078181</span> (المدرب فقط هو من يتحمل رسوم المنصة)</p>
+                    <p class="text-slate-400 text-sm mt-1">سداد اشتراك المنصة الفوري عبر InstaPay: <span class="text-emerald-400 font-bold">01221078181</span></p>
                 </div>
                 <button onclick="alert('تم إرسال إثبات سداد اشتراك المنصة للإدارة بنجاح!')" class="bg-emerald-500 text-slate-950 font-bold px-4 py-2 rounded-xl text-sm hover:bg-emerald-400 transition">تأكيد سداد اشتراك المنصة</button>
             </div>
@@ -172,7 +169,7 @@
             </div>
         </div>
 
-        <!-- 4. Trainee Portal View (Completely Free for Trainees) -->
+        <!-- 4. Trainee Portal View -->
         <div id="view-trainee" class="hidden space-y-6">
             <div class="bg-gradient-to-r from-emerald-900/40 to-slate-900 p-6 rounded-3xl border border-emerald-500/30 flex justify-between items-center flex-wrap gap-4">
                 <div>
@@ -195,7 +192,7 @@
 
             <!-- Trainee Navigation Grid -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <!-- Plan Box (No Payment / Completely Free) -->
+                <!-- Plan Box -->
                 <div class="bg-slate-900 p-6 rounded-2xl border border-slate-800 md:col-span-2 space-y-4">
                     <h3 class="text-xl font-bold flex items-center gap-2"><i class="fa-solid fa-dumbbell text-emerald-400"></i> خطتك التدريبية والغذائية</h3>
                     <div id="trainee-plan-content" class="text-slate-300 text-sm leading-relaxed bg-slate-950 p-4 rounded-xl border border-slate-800">
@@ -215,7 +212,7 @@
                 </div>
             </div>
 
-            <!-- Interactive Features Grid (Voice Check-in & Form Check) -->
+            <!-- Interactive Features Grid -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <!-- Voice Check-in Simulation -->
                 <div class="bg-slate-900 p-6 rounded-2xl border border-slate-800 space-y-4">
@@ -238,14 +235,27 @@
 
     </main>
 
-    <!-- PIN Modal -->
-    <div id="pin-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
+    <!-- Admin PIN Modal (Hidden PIN) -->
+    <div id="admin-pin-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
         <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl max-w-sm w-full text-center space-y-4">
-            <h3 id="pin-modal-title" class="text-xl font-bold">ادخل رمز الحماية (PIN)</h3>
-            <input type="password" id="pin-input" maxlength="4" class="w-full bg-slate-950 border border-slate-800 text-center text-2xl tracking-widest py-3 rounded-xl focus:border-emerald-500 outline-none" placeholder="••••">
+            <h3 class="text-xl font-bold">رمز حماية الأدمن الخاص</h3>
+            <input type="password" id="admin-pin-input" maxlength="4" class="w-full bg-slate-950 border border-slate-800 text-center text-2xl tracking-widest py-3 rounded-xl focus:border-emerald-500 outline-none" placeholder="••••">
             <div class="flex gap-2">
-                <button onclick="verifyPin()" class="flex-1 bg-emerald-500 text-slate-950 font-bold py-2 rounded-xl">دخول</button>
-                <button onclick="closePinModal()" class="flex-1 bg-slate-800 text-slate-300 py-2 rounded-xl">إلغاء</button>
+                <button onclick="verifyAdminPin()" class="flex-1 bg-emerald-500 text-slate-950 font-bold py-2 rounded-xl">دخول</button>
+                <button onclick="closeModals()" class="flex-1 bg-slate-800 text-slate-300 py-2 rounded-xl">إلغاء</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Coach Gmail Login Modal -->
+    <div id="coach-email-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
+        <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl max-w-sm w-full text-center space-y-4">
+            <h3 class="text-xl font-bold">تسجيل دخول المدرب</h3>
+            <p class="text-xs text-slate-400">أدخل البريد الإلكتروني (Gmail) الخاص بك للوصول للوحة التحكم:</p>
+            <input type="email" id="coach-email-input" class="w-full bg-slate-950 border border-slate-800 text-center py-3 px-4 rounded-xl focus:border-blue-500 outline-none text-sm" placeholder="coach@gmail.com">
+            <div class="flex gap-2">
+                <button onclick="verifyCoachEmail()" class="flex-1 bg-blue-600 hover:bg-blue-500 text-white font-bold py-2 rounded-xl">دخول بالـ Gmail</button>
+                <button onclick="closeModals()" class="flex-1 bg-slate-800 text-slate-300 py-2 rounded-xl">إلغاء</button>
             </div>
         </div>
     </div>
@@ -263,13 +273,12 @@
             </select>
             <div class="flex gap-2 pt-2">
                 <button onclick="saveNewTrainee()" class="flex-1 bg-emerald-500 text-slate-950 font-bold py-2 rounded-xl">حفظ وتوليد البوابة</button>
-                <button onclick="closeAddTraineeModal()" class="flex-1 bg-slate-800 text-slate-300 py-2 rounded-xl">إلغاء</button>
+                <button onclick="closeModals()" class="flex-1 bg-slate-800 text-slate-300 py-2 rounded-xl">إلغاء</button>
             </div>
         </div>
     </div>
 
     <script>
-        // Data & State Management (LocalStorage Integration)
         let appData = JSON.parse(localStorage.getItem('coachhub_pro_data')) || {
             packages: [
                 {id: 1, name: 'باقة المبتدئين للمدربين (شهر)', price: 500, duration: '30 يوم'},
@@ -296,8 +305,7 @@
             localStorage.setItem('coachhub_pro_data', JSON.stringify(appData));
         }
 
-        let currentRole = '';
-        let targetRole = '';
+        let currentCoachEmail = '';
         let currentTraineeId = 't1';
 
         function showRoleSelection() {
@@ -310,43 +318,56 @@
             document.getElementById('view-admin').classList.add('hidden');
             document.getElementById('view-coach').classList.add('hidden');
             document.getElementById('view-trainee').classList.add('hidden');
+            closeModals();
         }
 
-        function openPinModal(role) {
-            targetRole = role;
-            document.getElementById('pin-modal-title').innerText = role === 'admin' ? 'رمز حماية الأدمن (1993)' : 'رمز حماية المدرب (1234)';
-            document.getElementById('pin-input').value = '';
-            document.getElementById('pin-modal').classList.remove('hidden');
-            document.getElementById('pin-modal').classList.add('flex');
+        function closeModals() {
+            document.getElementById('admin-pin-modal').classList.add('hidden');
+            document.getElementById('admin-pin-modal').classList.remove('flex');
+            document.getElementById('coach-email-modal').classList.add('hidden');
+            document.getElementById('coach-email-modal').classList.remove('flex');
+            document.getElementById('add-trainee-modal').classList.add('hidden');
+            document.getElementById('add-trainee-modal').classList.remove('flex');
         }
 
-        function closePinModal() {
-            document.getElementById('pin-modal').classList.add('hidden');
-            document.getElementById('pin-modal').classList.remove('flex');
+        function openAdminPinModal() {
+            document.getElementById('admin-pin-input').value = '';
+            document.getElementById('admin-pin-modal').classList.remove('hidden');
+            document.getElementById('admin-pin-modal').classList.add('flex');
         }
 
-        function verifyPin() {
-            const val = document.getElementById('pin-input').value;
-            if(targetRole === 'admin' && val === '1993') {
-                currentRole = 'admin';
-                closePinModal();
+        function verifyAdminPin() {
+            const val = document.getElementById('admin-pin-input').value;
+            if(val === '1993') {
+                closeModals();
                 loadAdminView();
-            } else if(targetRole === 'coach' && val === '1234') {
-                currentRole = 'coach';
-                closePinModal();
+            } else {
+                alert('رمز الدخول غير صحيح!');
+            }
+        }
+
+        function openCoachEmailModal() {
+            document.getElementById('coach-email-input').value = '';
+            document.getElementById('coach-email-modal').classList.remove('hidden');
+            document.getElementById('coach-email-modal').classList.add('flex');
+        }
+
+        function verifyCoachEmail() {
+            const email = document.getElementById('coach-email-input').value.trim();
+            if(email && email.includes('@')) {
+                currentCoachEmail = email;
+                closeModals();
                 loadCoachView();
             } else {
-                alert('رمز الدخول غير صحيح! (الأدمن: 1993 - المدرب: 1234)');
+                alert('يرجى إدخال بريد إلكتروني صحيح (Gmail).');
             }
         }
 
         function openTraineePortalModal() {
-            currentRole = 'trainee';
             loadTraineeView(currentTraineeId);
         }
 
         function logout() {
-            currentRole = '';
             showRoleSelection();
         }
 
@@ -359,7 +380,7 @@
             statsEl.innerHTML = `
                 <div class="bg-slate-900 p-5 rounded-2xl border border-slate-800">
                     <div class="text-slate-400 text-sm">إجمالي المدربين المشتركين</div>
-                    <div class="text-3xl font-black mt-2 text-emerald-400">1 (أنت)</div>
+                    <div class="text-3xl font-black mt-2 text-emerald-400">1</div>
                 </div>
                 <div class="bg-slate-900 p-5 rounded-2xl border border-slate-800">
                     <div class="text-slate-400 text-sm">باقات اشتراكات المنصة</div>
@@ -401,6 +422,9 @@
         function loadCoachView() {
             hideAllViews();
             document.getElementById('view-coach').classList.remove('hidden');
+            if(currentCoachEmail) {
+                document.getElementById('coach-welcome-email').innerText = `مرحباً بك، المدرب (${currentCoachEmail})`;
+            }
             renderCoachTrainees();
             renderAICheckins();
             renderFormChecks();
@@ -483,11 +507,6 @@
             document.getElementById('add-trainee-modal').classList.add('flex');
         }
 
-        function closeAddTraineeModal() {
-            document.getElementById('add-trainee-modal').classList.add('hidden');
-            document.getElementById('add-trainee-modal').classList.remove('flex');
-        }
-
         function saveNewTrainee() {
             const name = document.getElementById('new-trainee-name').value;
             const phone = document.getElementById('new-trainee-phone').value;
@@ -501,13 +520,13 @@
                 name, phone, package: pkg, streak: 1, points: 50, plan: 'الخطط التدريبية والغذائية الخاصة بك (مجاني بالكامل).'
             });
             saveData();
-            closeAddTraineeModal();
+            closeModals();
             renderCoachTrainees();
             alert('تمت إضافة المتدرب وتوليد بوابته المجانية بنجاح!');
         }
 
         function openGroupChallengeModal() {
-            const challenge = prompt('أدخل اسم التحدي الجماعي الجديد (مثال: تحدي 30 يوم الزم بطن):');
+            const challenge = prompt('أدخل اسم التحدي الجماعي الجديد:');
             if(challenge) {
                 alert('تم إنشاء التحدي الجماعي وإرسال الإشعارات لجميع المتدربين مجاناً بنجاح! 🚀');
             }
@@ -521,16 +540,16 @@
         }
 
         function reviewFormCheck(id) {
-            const feedback = prompt('أدخل ملاحظاتك على أداء التمرين مع التوقيت (مثال: عند الدقيقة 0:45 انتبه لاستقامة الظهر):');
+            const feedback = prompt('أدخل ملاحظاتك على أداء التمرين مع التوقيت:');
             if(feedback) {
                 appData.formChecks = appData.formChecks.filter(f => f.id !== id);
                 saveData();
                 renderFormChecks();
-                alert('تم إرسال الملاحظات والتعليق الزمني للمتدرب بنجاح!');
+                alert('تم إرسال الملاحظات للمتدرب بنجاح!');
             }
         }
 
-        // Trainee Portal Functions (Completely Free)
+        // Trainee Portal Functions
         function loadTraineeView(traineeId) {
             hideAllViews();
             document.getElementById('view-trainee').classList.remove('hidden');
@@ -542,7 +561,6 @@
             document.getElementById('trainee-points-count').innerText = `${trainee.points} 🏆`;
             document.getElementById('trainee-plan-content').innerText = trainee.plan;
 
-            // Render Leaderboard
             const lb = document.getElementById('leaderboard-list');
             const sorted = [...appData.trainees].sort((a,b) => b.points - a.points);
             lb.innerHTML = sorted.map((t, idx) => `
@@ -565,7 +583,7 @@
             });
             saveData();
             document.getElementById('trainee-checkin-text').value = '';
-            alert('تم إرسال Check-in بنجاح مجاناً! قام النظام بتوليد تلخيص الذكاء الاصطناعي للمدرب.');
+            alert('تم إرسال Check-in بنجاح مجاناً!');
         }
 
         function submitFormCheck() {
