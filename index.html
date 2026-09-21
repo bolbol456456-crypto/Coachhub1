@@ -39,7 +39,7 @@
                 <div onclick="openPinModal('admin')" class="bg-slate-900 border border-slate-800 hover:border-emerald-500 p-8 rounded-3xl cursor-pointer transition transform hover:-translate-y-2 group">
                     <div class="w-16 h-16 bg-emerald-500/10 text-emerald-400 rounded-2xl flex items-center justify-center text-3xl mx-auto mb-6 group-hover:bg-emerald-500 group-hover:text-slate-950 transition"><i class="fa-solid fa-shield-halved"></i></div>
                     <h3 class="text-2xl font-bold mb-2">الأدمن (الإدارة)</h3>
-                    <p class="text-slate-400 text-sm">إدارة الأسعار، الباقات (7 مستويات)، ومراقبة النظام.</p>
+                    <p class="text-slate-400 text-sm">إدارة باقات اشتراكات المدربين (7 مستويات)، ومراقبة النظام.</p>
                     <span class="inline-block mt-4 text-xs text-emerald-400 font-semibold bg-emerald-500/10 px-3 py-1 rounded-full">PIN: 1993</span>
                 </div>
 
@@ -47,15 +47,15 @@
                 <div onclick="openPinModal('coach')" class="bg-slate-900 border border-slate-800 hover:border-emerald-500 p-8 rounded-3xl cursor-pointer transition transform hover:-translate-y-2 group">
                     <div class="w-16 h-16 bg-blue-500/10 text-blue-400 rounded-2xl flex items-center justify-center text-3xl mx-auto mb-6 group-hover:bg-blue-500 group-hover:text-slate-950 transition"><i class="fa-solid fa-user-tie"></i></div>
                     <h3 class="text-2xl font-bold mb-2">المدرب (Coach)</h3>
-                    <p class="text-slate-400 text-sm">إدارة المتدربين، مراجعة فحص الأداء بالذكاء الاصطناعي، التحديات الجماعية.</p>
+                    <p class="text-slate-400 text-sm">إدارة المتدربين، دفع اشتراك المنصة، فحص الأداء بالذكاء الاصطناعي، التحديات.</p>
                     <span class="inline-block mt-4 text-xs text-blue-400 font-semibold bg-blue-500/10 px-3 py-1 rounded-full">PIN: 1234</span>
                 </div>
 
                 <!-- Trainee Card -->
                 <div onclick="openTraineePortalModal()" class="bg-slate-900 border border-slate-800 hover:border-emerald-500 p-8 rounded-3xl cursor-pointer transition transform hover:-translate-y-2 group">
                     <div class="w-16 h-16 bg-purple-500/10 text-purple-400 rounded-2xl flex items-center justify-center text-3xl mx-auto mb-6 group-hover:bg-purple-500 group-hover:text-slate-950 transition"><i class="fa-solid fa-user"></i></div>
-                    <h3 class="text-2xl font-bold mb-2">المتدرب (Trainee)</h3>
-                    <p class="text-slate-400 text-sm">متابعة الخطط، تسجيل Check-in صوتي، النقاط، لوحة المتصدرين، وفحص الأداء.</p>
+                    <h3 class="text-2xl font-bold mb-2">المتدرب (Trainee) - مجاني</h3>
+                    <p class="text-slate-400 text-sm">متابعة الخطط، تسجيل Check-in صوتي، النقاط، لوحة المتصدرين، وفحص الأداء (بدون رسوم).</p>
                     <span class="inline-block mt-4 text-xs text-purple-400 font-semibold bg-purple-500/10 px-3 py-1 rounded-full">برابط البوابة</span>
                 </div>
             </div>
@@ -66,7 +66,7 @@
             <div class="flex justify-between items-center bg-slate-900 p-6 rounded-2xl border border-slate-800">
                 <div>
                     <h2 class="text-2xl font-bold">لوحة تحكم الأدمن</h2>
-                    <p class="text-slate-400 text-sm">إدارة الباقات السعرية (7 مستويات) وإعدادات InstaPay (01221078181).</p>
+                    <p class="text-slate-400 text-sm">إدارة باقات اشتراكات المدربين في المنصة (7 مستويات) وإعدادات InstaPay (01221078181).</p>
                 </div>
                 <button onclick="logout()" class="bg-red-500/10 text-red-400 px-4 py-2 rounded-xl text-sm font-semibold hover:bg-red-500/20">خروج</button>
             </div>
@@ -76,14 +76,14 @@
             </div>
 
             <div class="bg-slate-900 p-6 rounded-2xl border border-slate-800">
-                <h3 class="text-xl font-bold mb-4">إدارة مستويات الباقات الـ 7</h3>
+                <h3 class="text-xl font-bold mb-4">إدارة باقات اشتراكات المدربين الـ 7</h3>
                 <div class="overflow-x-auto">
                     <table class="w-full text-right">
                         <thead>
                             <tr class="border-b border-slate-800 text-slate-400">
                                 <th class="pb-3">مستوى الباقة</th>
-                                <th class="pb-3">الاسم</th>
-                                <th class="pb-3">السعر (جنيه)</th>
+                                <th class="pb-3">اسم الباقة البرمجية</th>
+                                <th class="pb-3">سعر الاشتراك (جنيه)</th>
                                 <th class="pb-3">المدة</th>
                                 <th class="pb-3">إجراء</th>
                             </tr>
@@ -101,13 +101,23 @@
             <div class="flex justify-between items-center bg-slate-900 p-6 rounded-2xl border border-slate-800 flex-wrap gap-4">
                 <div>
                     <h2 class="text-2xl font-bold">لوحة تحكم المدرب المحترف</h2>
-                    <p class="text-slate-400 text-sm">أتمتة المتابعة بالذكاء الاصطناعي، تقييم الفيديوهات، وإدارة المتدربين عبر واتساب.</p>
+                    <p class="text-slate-400 text-sm">أتمتة المتابعة بالذكاء الاصطناعي، تقييم الفيديوهات، وإدارة المتدربين (المتدربون يستخدمون المنصة مجاناً).</p>
                 </div>
                 <div class="flex gap-2">
                     <button onclick="openAddTraineeModal()" class="bg-emerald-500 text-slate-950 font-bold px-4 py-2 rounded-xl text-sm hover:bg-emerald-400 transition"><i class="fa-solid fa-plus ml-2"></i>إضافة متدرب جديد</button>
                     <button onclick="openGroupChallengeModal()" class="bg-blue-600 text-white font-bold px-4 py-2 rounded-xl text-sm hover:bg-blue-500 transition"><i class="fa-solid fa-users ml-2"></i>إنشاء تحدي جماعي</button>
                     <button onclick="logout()" class="bg-red-500/10 text-red-400 px-4 py-2 rounded-xl text-sm font-semibold hover:bg-red-500/20">خروج</button>
                 </div>
+            </div>
+
+            <!-- Coach SaaS Subscription Card (Only Coach Pays Subscription) -->
+            <div class="bg-gradient-to-r from-emerald-900/30 to-slate-900 p-6 rounded-2xl border border-emerald-500/30 flex justify-between items-center flex-wrap gap-4">
+                <div>
+                    <span class="text-xs bg-emerald-500/20 text-emerald-400 px-3 py-1 rounded-full font-bold">اشتراكات المنصة (SaaS)</span>
+                    <h3 class="text-lg font-bold mt-2">الباقة الاحترافية النشطة</h3>
+                    <p class="text-slate-400 text-sm mt-1">سداد اشتراك المنصة الفوري عبر InstaPay: <span class="text-emerald-400 font-bold">01221078181</span> (المدرب فقط هو من يتحمل رسوم المنصة)</p>
+                </div>
+                <button onclick="alert('تم إرسال إثبات سداد اشتراك المنصة للإدارة بنجاح!')" class="bg-emerald-500 text-slate-950 font-bold px-4 py-2 rounded-xl text-sm hover:bg-emerald-400 transition">تأكيد سداد اشتراك المنصة</button>
             </div>
 
             <!-- Tabs for Coach -->
@@ -120,16 +130,16 @@
             <!-- Trainees Tab Content -->
             <div id="coach-tab-trainees" class="space-y-4">
                 <div class="bg-slate-900 p-6 rounded-2xl border border-slate-800">
-                    <h3 class="text-lg font-bold mb-4">قائمة المشتركين وروابط البوابات (WhatsApp)</h3>
+                    <h3 class="text-lg font-bold mb-4">قائمة المشتركين وروابط البوابات المجانية (WhatsApp)</h3>
                     <div class="overflow-x-auto">
                         <table class="w-full text-right">
                             <thead>
                                 <tr class="border-b border-slate-800 text-slate-400">
                                     <th class="pb-3">اسم المتدرب</th>
-                                    <th class="pb-3">الباقة</th>
+                                    <th class="pb-3">نوع البرنامج</th>
                                     <th class="pb-3">رقم الهاتف</th>
                                     <th class="pb-3">Streak (أيام متتالية)</th>
-                                    <th class="pb-3">إرسال رابط البوابة (واتساب)</th>
+                                    <th class="pb-3">إرسال رابط البوابة المجانية (واتساب)</th>
                                 </tr>
                             </thead>
                             <tbody id="coach-trainees-tbody">
@@ -162,13 +172,13 @@
             </div>
         </div>
 
-        <!-- 4. Trainee Portal View -->
+        <!-- 4. Trainee Portal View (Completely Free for Trainees) -->
         <div id="view-trainee" class="hidden space-y-6">
             <div class="bg-gradient-to-r from-emerald-900/40 to-slate-900 p-6 rounded-3xl border border-emerald-500/30 flex justify-between items-center flex-wrap gap-4">
                 <div>
-                    <span class="text-xs bg-emerald-500/20 text-emerald-400 px-3 py-1 rounded-full font-bold">بوابة المتدرب الذكية</span>
+                    <span class="text-xs bg-emerald-500/20 text-emerald-400 px-3 py-1 rounded-full font-bold">بوابة المتدرب الذكية (مجانية بالكامل)</span>
                     <h2 class="text-3xl font-black mt-2" id="trainee-welcome-name">أهلاً بك، بطل</h2>
-                    <p class="text-slate-400 text-sm mt-1">باقتك الحالية: <span id="trainee-current-package" class="text-emerald-400 font-bold"></span></p>
+                    <p class="text-slate-400 text-sm mt-1">برنامجك التدريبي: <span id="trainee-current-package" class="text-emerald-400 font-bold"></span></p>
                 </div>
                 <div class="flex items-center gap-4 bg-slate-900/80 p-4 rounded-2xl border border-slate-800">
                     <div class="text-center">
@@ -185,18 +195,14 @@
 
             <!-- Trainee Navigation Grid -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <!-- Plan Box -->
+                <!-- Plan Box (No Payment / Completely Free) -->
                 <div class="bg-slate-900 p-6 rounded-2xl border border-slate-800 md:col-span-2 space-y-4">
                     <h3 class="text-xl font-bold flex items-center gap-2"><i class="fa-solid fa-dumbbell text-emerald-400"></i> خطتك التدريبية والغذائية</h3>
                     <div id="trainee-plan-content" class="text-slate-300 text-sm leading-relaxed bg-slate-950 p-4 rounded-xl border border-slate-800">
                         <!-- Loaded -->
                     </div>
-                    <div class="pt-4 border-t border-slate-800 flex justify-between items-center">
-                        <div>
-                            <p class="text-xs text-slate-400">الدفع الفوري عبر InstaPay:</p>
-                            <p class="text-sm font-bold text-emerald-400">01221078181</p>
-                        </div>
-                        <button onclick="alert('تم إرسال إشعار السداد للمدرب عبر InstaPay بنجاح!')" class="bg-emerald-500 text-slate-950 font-bold px-4 py-2 rounded-xl text-sm">تأكيد سداد الاشتراك</button>
+                    <div class="pt-2 text-xs text-slate-400 flex items-center gap-2">
+                        <i class="fa-solid fa-circle-check text-emerald-400"></i> هذه البوابة مُقدمة لك مجاناً بالكامل من الكابتن لمتابعة خطتك.
                     </div>
                 </div>
 
@@ -247,7 +253,7 @@
     <!-- Add Trainee Modal -->
     <div id="add-trainee-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
         <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl max-w-md w-full space-y-4">
-            <h3 class="text-xl font-bold">إضافة متدرب جديد</h3>
+            <h3 class="text-xl font-bold">إضافة متدرب جديد (مجاناً)</h3>
             <input type="text" id="new-trainee-name" placeholder="اسم المتدرب" class="w-full bg-slate-950 border border-slate-800 p-3 rounded-xl text-sm outline-none focus:border-emerald-500">
             <input type="text" id="new-trainee-phone" placeholder="رقم واتساب (مثال: 201234567890+)" class="w-full bg-slate-950 border border-slate-800 p-3 rounded-xl text-sm outline-none focus:border-emerald-500">
             <select id="new-trainee-package" class="w-full bg-slate-950 border border-slate-800 p-3 rounded-xl text-sm outline-none focus:border-emerald-500">
@@ -266,17 +272,17 @@
         // Data & State Management (LocalStorage Integration)
         let appData = JSON.parse(localStorage.getItem('coachhub_pro_data')) || {
             packages: [
-                {id: 1, name: 'باقة المبتدئين (شهر)', price: 500, duration: '30 يوم'},
+                {id: 1, name: 'باقة المبتدئين للمدربين (شهر)', price: 500, duration: '30 يوم'},
                 {id: 2, name: 'باقة التنشيف المتقدمة', price: 900, duration: '60 يوم'},
                 {id: 3, name: 'باقة الضخامة العضلية', price: 1200, duration: '90 يوم'},
-                {id: 4, name: 'الباقة الشاملة VIP', price: 2000, duration: '90 يوم'},
+                {id: 4, name: 'الباقة الشاملة VIP للمدربين', price: 2000, duration: '90 يوم'},
                 {id: 5, name: 'التدريب الأسبوعي السريع', price: 250, duration: '7 أيام'},
                 {id: 6, name: 'متابعة الكابتن أونلاين', price: 1500, duration: '30 يوم'},
                 {id: 7, name: 'الباقة الملكية السنوية', price: 8000, duration: '365 يوم'}
             ],
             trainees: [
-                {id: 't1', name: 'أحمد محمد', phone: '201012345678', package: 'الباقة الاحترافية', streak: 12, points: 340, plan: 'برنامج دايت عالي البروتين + تمارين حديد 5 أيام أسبوعياً.'},
-                {id: 't2', name: 'محمود خالد', phone: '201098765432', package: 'باقة الضخامة العضلية', streak: 5, points: 180, plan: 'برنامج ضخامة نظيفة + كارديو مرتين أسبوعياً.'}
+                {id: 't1', name: 'أحمد محمد', phone: '201012345678', package: 'الباقة الاحترافية', streak: 12, points: 340, plan: 'برنامج دايت عالي البروتين + تمارين حديد 5 أيام أسبوعياً (مجاني بالكامل للمتدرب).'},
+                {id: 't2', name: 'محمود خالد', phone: '201098765432', package: 'باقة الضخامة العضلية', streak: 5, points: 180, plan: 'برنامج ضخامة نظيفة + كارديو مرتين أسبوعياً (مجاني بالكامل للمتدرب).'}
             ],
             checkins: [
                 {id: 'c1', traineeName: 'أحمد محمد', text: 'التزمت بالدايت تماماً، الأوزان زادت في البنش بريس.', aiSummary: 'ملخص AI: التزام ممتاز بنسبة 95%، تقدم ملحوظ في القوة العضلية.', status: 'جديد'}
@@ -292,7 +298,7 @@
 
         let currentRole = '';
         let targetRole = '';
-        let currentTraineeId = 't1'; // Default active trainee in view
+        let currentTraineeId = 't1';
 
         function showRoleSelection() {
             hideAllViews();
@@ -349,15 +355,14 @@
             hideAllViews();
             document.getElementById('view-admin').classList.remove('hidden');
             
-            // Stats
             const statsEl = document.getElementById('admin-stats');
             statsEl.innerHTML = `
                 <div class="bg-slate-900 p-5 rounded-2xl border border-slate-800">
-                    <div class="text-slate-400 text-sm">إجمالي المتدربين</div>
-                    <div class="text-3xl font-black mt-2 text-emerald-400">${appData.trainees.length}</div>
+                    <div class="text-slate-400 text-sm">إجمالي المدربين المشتركين</div>
+                    <div class="text-3xl font-black mt-2 text-emerald-400">1 (أنت)</div>
                 </div>
                 <div class="bg-slate-900 p-5 rounded-2xl border border-slate-800">
-                    <div class="text-slate-400 text-sm">الباقات النشطة</div>
+                    <div class="text-slate-400 text-sm">باقات اشتراكات المنصة</div>
                     <div class="text-3xl font-black mt-2 text-blue-400">${appData.packages.length}</div>
                 </div>
                 <div class="bg-slate-900 p-5 rounded-2xl border border-slate-800">
@@ -370,7 +375,6 @@
                 </div>
             `;
 
-            // Packages Table
             const tbody = document.getElementById('packages-table-body');
             tbody.innerHTML = appData.packages.map(p => `
                 <tr class="border-b border-slate-800/50 text-sm">
@@ -385,7 +389,7 @@
 
         function editPackage(id) {
             const pkg = appData.packages.find(p => p.id === id);
-            const newPrice = prompt(`تعديل سعر ${pkg.name}:`, pkg.price);
+            const newPrice = prompt(`تعديل سعر اشتراك منصة ${pkg.name}:`, pkg.price);
             if(newPrice) {
                 pkg.price = Number(newPrice);
                 saveData();
@@ -425,7 +429,7 @@
                     <td class="py-3 text-amber-400 font-bold">${t.streak} أيام 🔥</td>
                     <td class="py-3">
                         <button onclick="sendWhatsAppLink('${t.phone}', '${t.name}')" class="bg-emerald-600/20 text-emerald-400 hover:bg-emerald-600 hover:text-slate-950 px-3 py-1 rounded-xl text-xs font-bold transition">
-                            <i class="fa-brands fa-whatsapp ml-1"></i> إرسال البوابة
+                            <i class="fa-brands fa-whatsapp ml-1"></i> إرسال البوابة المجانية
                         </button>
                     </td>
                 </tr>
@@ -470,7 +474,7 @@
         }
 
         function sendWhatsAppLink(phone, name) {
-            const url = `https://wa.me/${phone}?text=${encodeURIComponent('أهلاً بك يا ' + name + '! تم إعداد بوابتك الخاصة على CoachHub لمتابعة خطتك التدريبية والغذائية.')}`;
+            const url = `https://wa.me/${phone}?text=${encodeURIComponent('أهلاً بك يا ' + name + '! تم إعداد بوابتك المجانية الخاصة على CoachHub لمتابعة خطتك التدريبية والغذائية.')}`;
             window.open(url, '_blank');
         }
 
@@ -494,18 +498,18 @@
             }
             appData.trainees.push({
                 id: 't_' + Date.now(),
-                name, phone, package: pkg, streak: 1, points: 50, plan: 'الخطط التأسيسية الخاصة بك.'
+                name, phone, package: pkg, streak: 1, points: 50, plan: 'الخطط التدريبية والغذائية الخاصة بك (مجاني بالكامل).'
             });
             saveData();
             closeAddTraineeModal();
             renderCoachTrainees();
-            alert('تمت إضافة المتدرب وتوليد بوابته بنجاح!');
+            alert('تمت إضافة المتدرب وتوليد بوابته المجانية بنجاح!');
         }
 
         function openGroupChallengeModal() {
-            const challenge = prompt('أدخل اسم التحدي الجماعي الجديد (مثال: تحدي 30 يوم التزام بطن):');
+            const challenge = prompt('أدخل اسم التحدي الجماعي الجديد (مثال: تحدي 30 يوم الزم بطن):');
             if(challenge) {
-                alert('تم إنشاء التحدي الجماعي وإرسال الإشعارات لجميع المتدربين بنجاح! 🚀');
+                alert('تم إنشاء التحدي الجماعي وإرسال الإشعارات لجميع المتدربين مجاناً بنجاح! 🚀');
             }
         }
 
@@ -526,7 +530,7 @@
             }
         }
 
-        // Trainee Portal Functions
+        // Trainee Portal Functions (Completely Free)
         function loadTraineeView(traineeId) {
             hideAllViews();
             document.getElementById('view-trainee').classList.remove('hidden');
@@ -561,7 +565,7 @@
             });
             saveData();
             document.getElementById('trainee-checkin-text').value = '';
-            alert('تم إرسال Check-in بنجاح! قام النظام بتوليد تلخيص الذكاء الاصطناعي للمدرب.');
+            alert('تم إرسال Check-in بنجاح مجاناً! قام النظام بتوليد تلخيص الذكاء الاصطناعي للمدرب.');
         }
 
         function submitFormCheck() {
@@ -578,7 +582,7 @@
             saveData();
             document.getElementById('trainee-video-url').value = '';
             document.getElementById('trainee-video-note').value = '';
-            alert('تم رفع الفيديو بنجاح وجاهز لمراجعة الكابتن!');
+            alert('تم رفع الفيديو بنجاح مجاناً وجاهز لمراجعة الكابتن!');
         }
     </script>
 </body>
