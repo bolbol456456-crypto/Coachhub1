@@ -50,10 +50,10 @@
                 </div>
 
                 <!-- Trainee Card -->
-                <div onclick="openTraineePortalModal()" class="bg-slate-900 border border-slate-800 hover:border-emerald-500 p-8 rounded-3xl cursor-pointer transition transform hover:-translate-y-2 group">
+                <div onclick="openTraineeLoginModal()" class="bg-slate-900 border border-slate-800 hover:border-emerald-500 p-8 rounded-3xl cursor-pointer transition transform hover:-translate-y-2 group">
                     <div class="w-16 h-16 bg-purple-500/10 text-purple-400 rounded-2xl flex items-center justify-center text-3xl mx-auto mb-6 group-hover:bg-purple-500 group-hover:text-slate-950 transition"><i class="fa-solid fa-user"></i></div>
-                    <h3 class="text-2xl font-bold mb-2">المتدرب (Trainee) - مجاني</h3>
-                    <p class="text-slate-400 text-sm">متابعة الخطط، تسجيل Check-in صوتي، النقاط، لوحة المتصدرين، وفحص الأداء.</p>
+                    <h3 class="text-2xl font-bold mb-2">المتدرب (Trainee)</h3>
+                    <p class="text-slate-400 text-sm">تسجيل الدخول برقم الهاتف المسجل بواسطة الكوتش ومتابعة خطتك.</p>
                 </div>
             </div>
         </div>
@@ -127,16 +127,16 @@
             <!-- Trainees Tab Content -->
             <div id="coach-tab-trainees" class="space-y-4">
                 <div class="bg-slate-900 p-6 rounded-2xl border border-slate-800">
-                    <h3 class="text-lg font-bold mb-4">قائمة المشتركين وروابط البوابات المجانية (WhatsApp)</h3>
+                    <h3 class="text-lg font-bold mb-4">قائمة المشتركين وروابط البوابات (WhatsApp)</h3>
                     <div class="overflow-x-auto">
                         <table class="w-full text-right">
                             <thead>
                                 <tr class="border-b border-slate-800 text-slate-400">
                                     <th class="pb-3">اسم المتدرب</th>
                                     <th class="pb-3">نوع البرنامج</th>
-                                    <th class="pb-3">رقم الهاتف</th>
+                                    <th class="pb-3">رقم الهاتف (كلمة المرور)</th>
                                     <th class="pb-3">Streak (أيام متتالية)</th>
-                                    <th class="pb-3">إرسال رابط البوابة المجانية (واتساب)</th>
+                                    <th class="pb-3">إرسال رابط الدخول للعميل (واتساب)</th>
                                 </tr>
                             </thead>
                             <tbody id="coach-trainees-tbody">
@@ -173,7 +173,7 @@
         <div id="view-trainee" class="hidden space-y-6">
             <div class="bg-gradient-to-r from-emerald-900/40 to-slate-900 p-6 rounded-3xl border border-emerald-500/30 flex justify-between items-center flex-wrap gap-4">
                 <div>
-                    <span class="text-xs bg-emerald-500/20 text-emerald-400 px-3 py-1 rounded-full font-bold">بوابة المتدرب الذكية (مجانية بالكامل)</span>
+                    <span class="text-xs bg-emerald-500/20 text-emerald-400 px-3 py-1 rounded-full font-bold">بوابة المتدرب الذكية</span>
                     <h2 class="text-3xl font-black mt-2" id="trainee-welcome-name">أهلاً بك، بطل</h2>
                     <p class="text-slate-400 text-sm mt-1">برنامجك التدريبي: <span id="trainee-current-package" class="text-emerald-400 font-bold"></span></p>
                 </div>
@@ -199,7 +199,7 @@
                         <!-- Loaded -->
                     </div>
                     <div class="pt-2 text-xs text-slate-400 flex items-center gap-2">
-                        <i class="fa-solid fa-circle-check text-emerald-400"></i> هذه البوابة مُقدمة لك مجاناً بالكامل من الكابتن لمتابعة خطتك.
+                        <i class="fa-solid fa-circle-check text-emerald-400"></i> تم تسجيل دخولك برقم هاتفك المعتمد من الكابتن.
                     </div>
                 </div>
 
@@ -260,20 +260,37 @@
         </div>
     </div>
 
+    <!-- Trainee Phone Login Modal -->
+    <div id="trainee-login-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
+        <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl max-w-sm w-full text-center space-y-4">
+            <h3 class="text-xl font-bold">تسجيل دخول المتدرب</h3>
+            <p class="text-xs text-slate-400">أدخل رقم هاتفك المسجل مسبقاً من قِبل الكوتش:</p>
+            <input type="text" id="trainee-login-phone" class="w-full bg-slate-950 border border-slate-800 text-center py-3 px-4 rounded-xl focus:border-purple-500 outline-none text-sm font-bold tracking-wider" placeholder="مثال: 201012345678">
+            <div class="flex gap-2">
+                <button onclick="verifyTraineePhone()" class="flex-1 bg-purple-600 hover:bg-purple-500 text-white font-bold py-2 rounded-xl">دخول للنظام</button>
+                <button onclick="closeModals()" class="flex-1 bg-slate-800 text-slate-300 py-2 rounded-xl">إلغاء</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Add Trainee Modal -->
     <div id="add-trainee-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
         <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl max-w-md w-full space-y-4">
-            <h3 class="text-xl font-bold">إضافة متدرب جديد (مجاناً)</h3>
+            <h3 class="text-xl font-bold">إضافة متدرب جديد</h3>
             <input type="text" id="new-trainee-name" placeholder="اسم المتدرب" class="w-full bg-slate-950 border border-slate-800 p-3 rounded-xl text-sm outline-none focus:border-emerald-500">
-            <input type="text" id="new-trainee-phone" placeholder="رقم واتساب (مثال: 201234567890+)" class="w-full bg-slate-950 border border-slate-800 p-3 rounded-xl text-sm outline-none focus:border-emerald-500">
+            <input type="text" id="new-trainee-phone" placeholder="رقم الهاتف (سيكون كلمة المرور للدخول، مثل: 201012345678)" class="w-full bg-slate-950 border border-slate-800 p-3 rounded-xl text-sm outline-none focus:border-emerald-500">
             <select id="new-trainee-package" class="w-full bg-slate-950 border border-slate-800 p-3 rounded-xl text-sm outline-none focus:border-emerald-500">
                 <option value="باقة المبتدئين">باقة المبتدئين</option>
                 <option value="الباقة الاحترافية">الباقة الاحترافية</option>
                 <option value="باقة الـ VIP الشاملة">باقة الـ VIP الشاملة</option>
             </select>
+            <textarea id="new-trainee-details" placeholder="تفاصيل البرنامج أو المتابعة..." rows="3" class="w-full bg-slate-950 border border-slate-800 p-3 rounded-xl text-sm outline-none focus:border-emerald-500"></textarea>
+            
+            <div id="modal-whatsapp-container"></div>
+
             <div class="flex gap-2 pt-2">
-                <button onclick="saveNewTrainee()" class="flex-1 bg-emerald-500 text-slate-950 font-bold py-2 rounded-xl">حفظ وتوليد البوابة</button>
-                <button onclick="closeModals()" class="flex-1 bg-slate-800 text-slate-300 py-2 rounded-xl">إلغاء</button>
+                <button onclick="saveNewTrainee()" class="flex-1 bg-emerald-500 text-slate-950 font-bold py-2 rounded-xl">حفظ المتدرب وتجهيز الواتساب</button>
+                <button onclick="closeModals()" class="flex-1 bg-slate-800 text-slate-300 py-2 rounded-xl">إغلاق</button>
             </div>
         </div>
     </div>
@@ -290,8 +307,8 @@
                 {id: 7, name: 'الباقة الملكية السنوية', price: 8000, duration: '365 يوم'}
             ],
             trainees: [
-                {id: 't1', name: 'أحمد محمد', phone: '201012345678', package: 'الباقة الاحترافية', streak: 12, points: 340, plan: 'برنامج دايت عالي البروتين + تمارين حديد 5 أيام أسبوعياً (مجاني بالكامل للمتدرب).'},
-                {id: 't2', name: 'محمود خالد', phone: '201098765432', package: 'باقة الضخامة العضلية', streak: 5, points: 180, plan: 'برنامج ضخامة نظيفة + كارديو مرتين أسبوعياً (مجاني بالكامل للمتدرب).'}
+                {id: 't1', name: 'أحمد محمد', phone: '201012345678', package: 'الباقة الاحترافية', streak: 12, points: 340, plan: 'برنامج دايت عالي البروتين + تمارين حديد 5 أيام أسبوعياً.'},
+                {id: 't2', name: 'محمود خالد', phone: '201098765432', package: 'باقة الضخامة العضلية', streak: 5, points: 180, plan: 'برنامج ضخامة نظيفة + كارديو مرتين أسبوعياً.'}
             ],
             checkins: [
                 {id: 'c1', traineeName: 'أحمد محمد', text: 'التزمت بالدايت تماماً، الأوزان زادت في البنش بريس.', aiSummary: 'ملخص AI: التزام ممتاز بنسبة 95%، تقدم ملحوظ في القوة العضلية.', status: 'جديد'}
@@ -306,7 +323,7 @@
         }
 
         let currentCoachEmail = '';
-        let currentTraineeId = 't1';
+        let currentTrainee = null;
 
         function showRoleSelection() {
             hideAllViews();
@@ -326,6 +343,8 @@
             document.getElementById('admin-pin-modal').classList.remove('flex');
             document.getElementById('coach-email-modal').classList.add('hidden');
             document.getElementById('coach-email-modal').classList.remove('flex');
+            document.getElementById('trainee-login-modal').classList.add('hidden');
+            document.getElementById('trainee-login-modal').classList.remove('flex');
             document.getElementById('add-trainee-modal').classList.add('hidden');
             document.getElementById('add-trainee-modal').classList.remove('flex');
         }
@@ -363,8 +382,27 @@
             }
         }
 
-        function openTraineePortalModal() {
-            loadTraineeView(currentTraineeId);
+        function openTraineeLoginModal() {
+            document.getElementById('trainee-login-phone').value = '';
+            document.getElementById('trainee-login-modal').classList.remove('hidden');
+            document.getElementById('trainee-login-modal').classList.add('flex');
+        }
+
+        function verifyTraineePhone() {
+            const phoneInput = document.getElementById('trainee-login-phone').value.trim();
+            if(!phoneInput) {
+                alert('يرجى إدخال رقم الهاتف.');
+                return;
+            }
+
+            const foundTrainee = appData.trainees.find(t => t.phone === phoneInput);
+            if(foundTrainee) {
+                currentTrainee = foundTrainee;
+                closeModals();
+                loadTraineeView(foundTrainee.id);
+            } else {
+                alert('رقم الهاتف غير مسجل لدى الكوتش. يرجى التأكد من الرقم أو التواصل مع الكوتش لإضافتك.');
+            }
         }
 
         function logout() {
@@ -453,7 +491,7 @@
                     <td class="py-3 text-amber-400 font-bold">${t.streak} أيام 🔥</td>
                     <td class="py-3">
                         <button onclick="sendWhatsAppLink('${t.phone}', '${t.name}')" class="bg-emerald-600/20 text-emerald-400 hover:bg-emerald-600 hover:text-slate-950 px-3 py-1 rounded-xl text-xs font-bold transition">
-                            <i class="fa-brands fa-whatsapp ml-1"></i> إرسال البوابة المجانية
+                            <i class="fa-brands fa-whatsapp ml-1"></i> إرسال رابط الدخول للعميل
                         </button>
                     </td>
                 </tr>
@@ -498,31 +536,66 @@
         }
 
         function sendWhatsAppLink(phone, name) {
-            const url = `https://wa.me/${phone}?text=${encodeURIComponent('أهلاً بك يا ' + name + '! تم إعداد بوابتك المجانية الخاصة على CoachHub لمتابعة خطتك التدريبية والغذائية.')}`;
-            window.open(url, '_blank');
+            const loginUrl = window.location.href.split('?')[0]; // رابط صفحة المنصة الحالي
+            const message = `أهلاً بك يا ${name}، تم تسجيلك بنجاح مع الكوتش. يمكنك الدخول لمتابعة حسابك عبر هذا الرابط:\n${loginUrl}\n\nرقم هاتفك المسجل للدخول هو: ${phone}`;
+            const encodedMessage = encodeURIComponent(message);
+            const whatsappUrl = `https://wa.me/${phone}?text=${encodedMessage}`;
+            window.open(whatsappUrl, '_blank');
         }
 
         function openAddTraineeModal() {
+            document.getElementById('new-trainee-name').value = '';
+            document.getElementById('new-trainee-phone').value = '';
+            document.getElementById('new-trainee-details').value = '';
+            document.getElementById('modal-whatsapp-container').innerHTML = '';
             document.getElementById('add-trainee-modal').classList.remove('hidden');
             document.getElementById('add-trainee-modal').classList.add('flex');
         }
 
         function saveNewTrainee() {
-            const name = document.getElementById('new-trainee-name').value;
-            const phone = document.getElementById('new-trainee-phone').value;
+            const name = document.getElementById('new-trainee-name').value.trim();
+            const phone = document.getElementById('new-trainee-phone').value.trim();
             const pkg = document.getElementById('new-trainee-package').value;
+            const details = document.getElementById('new-trainee-details').value.trim() || 'البرنامج التدريبي والغذائي الخاص بك.';
+
             if(!name || !phone) {
                 alert('يرجى إدخال الاسم ورقم الهاتف.');
                 return;
             }
-            appData.trainees.push({
+
+            const existing = appData.trainees.find(t => t.phone === phone);
+            if(existing) {
+                alert('رقم الهاتف هذا مسجل مسبقاً لمتدرب آخر!');
+                return;
+            }
+
+            const newTraineeObj = {
                 id: 't_' + Date.now(),
-                name, phone, package: pkg, streak: 1, points: 50, plan: 'الخطط التدريبية والغذائية الخاصة بك (مجاني بالكامل).'
-            });
+                name,
+                phone,
+                package: pkg,
+                streak: 1,
+                points: 50,
+                plan: details
+            };
+
+            appData.trainees.push(newTraineeObj);
             saveData();
-            closeModals();
             renderCoachTrainees();
-            alert('تمت إضافة المتدرب وتوليد بوابته المجانية بنجاح!');
+
+            // إظهار زر واتساب فوري داخل الـ Modal للمتدرب المُضاف حديثاً
+            const loginUrl = window.location.href.split('?')[0];
+            const message = `أهلاً بك يا ${name}، تم تسجيلك بنجاح مع الكوتش. يمكنك الدخول لمتابعة حسابك عبر هذا الرابط:\n${loginUrl}\n\nرقم هاتفك المسجل للدخول هو: ${phone}`;
+            const whatsappUrl = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+
+            document.getElementById('modal-whatsapp-container').innerHTML = `
+                <div class="bg-emerald-950/40 p-4 rounded-xl border border-emerald-500/30 text-center space-y-2">
+                    <p class="text-xs text-emerald-300 font-semibold">تمت الإضافة بنجاح! انقر أدناه لإرسال الرابط للعميل عبر واتساب:</p>
+                    <a href="${whatsappUrl}" target="_blank" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold py-2 px-4 rounded-xl text-sm inline-block w-full transition">
+                        <i class="fa-brands fa-whatsapp ml-2"></i> إرسال رابط الدخول للعميل عبر واتساب 📱
+                    </a>
+                </div>
+            `;
         }
 
         function openGroupChallengeModal() {
@@ -553,7 +626,7 @@
         function loadTraineeView(traineeId) {
             hideAllViews();
             document.getElementById('view-trainee').classList.remove('hidden');
-            const trainee = appData.trainees.find(t => t.id === traineeId) || appData.trainees[0];
+            const trainee = appData.trainees.find(t => t.id === traineeId) || currentTrainee || appData.trainees[0];
             
             document.getElementById('trainee-welcome-name').innerText = `أهلاً بك، ${trainee.name}`;
             document.getElementById('trainee-current-package').innerText = trainee.package;
@@ -576,14 +649,14 @@
             if(!text) return alert('يرجى كتابة التحديث الأسبوعي.');
             appData.checkins.push({
                 id: 'c_' + Date.now(),
-                traineeName: 'أحمد محمد',
+                traineeName: currentTrainee ? currentTrainee.name : 'متدرب',
                 text,
                 aiSummary: 'ملخص AI: تم رصد التزام جيد مع الحاجة لتعديل طفيف في السعرات.',
                 status: 'جديد'
             });
             saveData();
             document.getElementById('trainee-checkin-text').value = '';
-            alert('تم إرسال Check-in بنجاح مجاناً!');
+            alert('تم إرسال Check-in بنجاح للمدرب!');
         }
 
         function submitFormCheck() {
@@ -592,7 +665,7 @@
             if(!videoUrl || !note) return alert('يرجى إدخال الرابط واسم التمرين.');
             appData.formChecks.push({
                 id: 'f_' + Date.now(),
-                traineeName: 'أحمد محمد',
+                traineeName: currentTrainee ? currentTrainee.name : 'متدرب',
                 videoUrl,
                 note,
                 status: 'قيد المراجعة'
@@ -600,7 +673,7 @@
             saveData();
             document.getElementById('trainee-video-url').value = '';
             document.getElementById('trainee-video-note').value = '';
-            alert('تم رفع الفيديو بنجاح مجاناً وجاهز لمراجعة الكابتن!');
+            alert('تم رفع الفيديو بنجاح وجاهز لمراجعة الكابتن!');
         }
     </script>
 </body>
