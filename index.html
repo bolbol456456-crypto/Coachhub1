@@ -3,12 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CoachHub - منصة إدارة تدريبات الجيم للمدربين والمتدربين</title>
-    <!-- Tailwind CSS -->
+    <title>CoachHub - منصة إدارة تدريبات الجيم</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Alpine.js -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap');
@@ -16,9 +13,8 @@
     </style>
 </head>
 <body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col justify-between selection:bg-emerald-500 selection:text-white" :dir="lang === 'ar' ? 'rtl' : 'ltr'">
-
     <!-- Navbar -->
-    <header class="bg-slate-900/90 backdrop-blur-md border-b border-slate-800 sticky top-0 z-50">
+    <header class="bg-slate-900/95 backdrop-blur-md border-b border-slate-800 sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex justify-between items-center">
             <div class="flex items-center space-x-3 space-x-reverse cursor-pointer" @click="currentView = 'home'">
                 <div class="bg-gradient-to-tr from-emerald-600 to-teal-500 text-white p-3 rounded-2xl shadow-lg shadow-emerald-500/20 text-xl">
@@ -26,17 +22,19 @@
                 </div>
                 <div>
                     <span class="text-2xl font-black tracking-wider bg-gradient-to-r from-emerald-400 to-teal-200 bg-clip-text text-transparent">CoachHub</span>
-                    <span class="block text-xs text-slate-400 font-medium" x-text="lang === 'ar' ? 'للمدربين والمتدربين الأبطال' : 'For Elite Trainers & Trainees'"></span>
+                    <span class="block text-xs text-slate-400 font-medium" x-text="lang === 'ar' ? 'منصة إدارة تدريبات الجيم' : 'Gym Training Platform'"></span>
                 </div>
             </div>
             
-            <div class="flex items-center space-x-3 space-x-reverse">
-                <button @click="currentView = 'home'" class="text-sm font-bold px-3 py-2 rounded-xl transition hover:bg-slate-800" :class="currentView === 'home' ? 'text-emerald-400' : 'text-slate-300'" x-text="lang === 'ar' ? 'الرئيسية' : 'Home'"></button>
-                <button @click="currentView = 'dashboard'" class="text-sm font-bold px-3 py-2 rounded-xl transition hover:bg-slate-800" :class="currentView === 'dashboard' ? 'text-emerald-400' : 'text-slate-300'" x-text="lang === 'ar' ? 'لوحة التحكم المشتركة' : 'Dashboard'"></button>
+            <div class="flex items-center space-x-2 space-x-reverse">
+                <button @click="currentView = 'home'" class="text-xs sm:text-sm font-bold px-3 py-2 rounded-xl transition" :class="currentView === 'home' ? 'bg-emerald-600/10 text-emerald-400' : 'text-slate-300 hover:bg-slate-800'" x-text="lang === 'ar' ? 'الرئيسية' : 'Home'"></button>
+                <button @click="checkAccess('trainer')" class="text-xs sm:text-sm font-bold px-3 py-2 rounded-xl transition" :class="currentView === 'trainer' ? 'bg-emerald-600/10 text-emerald-400' : 'text-slate-300 hover:bg-slate-800'" x-text="lang === 'ar' ? 'لوحة المدرب 🔒' : 'Trainer Panel 🔒'"></button>
+                <button @click="checkAccess('admin')" class="text-xs sm:text-sm font-bold px-3 py-2 rounded-xl transition" :class="currentView === 'admin' ? 'bg-emerald-600/10 text-emerald-400' : 'text-slate-300 hover:bg-slate-800'" x-text="lang === 'ar' ? 'لوحة الأدمن 🔒' : 'Admin Panel 🔒'"></button>
+                <button @click="currentView = 'client'" class="text-xs sm:text-sm font-bold px-3 py-2 rounded-xl transition" :class="currentView === 'client' ? 'bg-emerald-600/10 text-emerald-400' : 'text-slate-300 hover:bg-slate-800'" x-text="lang === 'ar' ? 'بوابة المتدرب' : 'Client Portal'"></button>
                 
-                <button @click="toggleLang()" class="bg-slate-800 hover:bg-slate-700 text-xs px-3.5 py-2 rounded-xl border border-slate-700 transition font-bold flex items-center gap-2">
+                <button @click="toggleLang()" class="bg-slate-800 hover:bg-slate-700 text-xs px-3 py-2 rounded-xl border border-slate-700 transition font-bold flex items-center gap-1.5 mr-2">
                     <i class="fa-solid fa-globe"></i>
-                    <span x-text="lang === 'ar' ? 'English' : 'عربي'"></span>
+                    <span x-text="lang === 'ar' ? 'EN' : 'عربي'"></span>
                 </button>
             </div>
         </div>
@@ -44,163 +42,139 @@
 
     <!-- Main Content -->
     <main class="flex-grow">
-        
-        <!-- Home / Landing View -->
+        <!-- 1. Home / Landing View with Motivational Images -->
         <template x-if="currentView === 'home'">
             <div>
-                <!-- Hero Section with Motivational Background & Trainer/Trainee Focus -->
-                <section class="relative overflow-hidden py-20 lg:py-28 border-b border-slate-900">
-                    <div class="absolute inset-0 z-0 opacity-20 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1600&auto=format&fit=crop');"></div>
-                    <div class="absolute inset-0 bg-gradient-to-b from-slate-950/80 via-slate-950/95 to-slate-950 z-10"></div>
+                <section class="relative py-24 px-4 overflow-hidden border-b border-slate-900">
+                    <div class="absolute inset-0 z-0 opacity-25 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1600&auto=format&fit=crop');"></div>
+                    <div class="absolute inset-0 bg-gradient-to-b from-slate-950/75 via-slate-950/90 to-slate-950 z-10"></div>
                     
-                    <div class="max-w-7xl mx-auto px-4 relative z-20 text-center max-w-4xl mx-auto">
-                        <span class="inline-flex items-center gap-2 py-1.5 px-4 rounded-full text-xs font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 mb-6 shadow-sm">
-                            <i class="fa-solid fa-fire text-emerald-500"></i> <span x-text="lang === 'ar' ? 'المنصة الأولى المعتمدة للمدربين والمتدربين' : 'The #1 Platform for Trainers & Trainees'"></span>
+                    <div class="max-w-5xl mx-auto text-center relative z-20">
+                        <span class="inline-flex items-center gap-2 py-1.5 px-4 rounded-full text-xs font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 mb-6">
+                            <i class="fa-solid fa-fire text-emerald-500"></i> <span x-text="lang === 'ar' ? 'ارتقِ بمستوى أداءك الرياضي' : 'Elevate Your Fitness Performance'"></span>
                         </span>
-                        <h1 class="text-4xl sm:text-6xl font-black tracking-tight mb-6 leading-tight" x-text="lang === 'ar' ? 'اصنع بطولتك واقضِ على الحدود بين المدرب والمتدرب' : 'Bridge the Gap Between Trainer & Trainee'"></h1>
-                        <p class="text-slate-300 text-lg sm:text-xl mb-10 max-w-2xl mx-auto" x-text="lang === 'ar' ? 'نظام متكامل يجمع العناصر الأربعة الأساسية لنجاح أي معسكر تدريبي: خطط ذكية، تغذية مخصصة، متابعة فورية، ودعم عبر واتساب.' : 'An integrated system uniting the 4 core pillars: Smart plans, custom nutrition, instant tracking & WhatsApp support.'"></p>
-                        
-                        <div class="flex flex-wrap justify-center gap-4">
-                            <a href="#pricing" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-8 py-4 rounded-2xl shadow-lg shadow-emerald-600/30 transition text-base">
-                                <i class="fa-solid fa-bolt ml-2"></i> <span x-text="lang === 'ar' ? 'اختر باقتك الآن' : 'Choose Your Plan'"></span>
-                            </a>
-                            <button @click="currentView = 'dashboard'" class="bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700 font-bold px-8 py-4 rounded-2xl transition text-base">
-                                <i class="fa-solid fa-chart-line ml-2"></i> <span x-text="lang === 'ar' ? 'استعرض لوحة التحكم' : 'Explore Dashboard'"></span>
-                            </button>
-                        </div>
+                        <h1 class="text-4xl sm:text-6xl font-black tracking-tight mb-6 leading-tight" x-text="lang === 'ar' ? 'المنصة الاحترافية الأولى لربط المدرب بالمتدرب' : 'The Ultimate Platform Connecting Trainer & Trainee'"></h1>
+                        <p class="text-slate-300 text-lg mb-10 max-w-2xl mx-auto" x-text="lang === 'ar' ? 'إدارة متكاملة للتمارين، التغذية، ومتابعة التقدم مع 7 باقات اشتراك مرنة والدفع عبر إنستاباي: 01221078181' : 'Complete management for workouts, nutrition & progress with 7 flexible tiers & InstaPay: 01221078181'"></p>
                     </div>
                 </section>
 
-                <!-- 4 Core Elements Section (العناصر الأربعة المتكاملة) -->
-                <section class="py-20 max-w-7xl mx-auto px-4">
-                    <div class="text-center max-w-2xl mx-auto mb-16">
-                        <h2 class="text-3xl font-black mb-4" x-text="lang === 'ar' ? 'العناصر الأربعة لنجاح المدرب والمتدرب' : 'The 4 Pillars of Success'"></h2>
-                        <p class="text-slate-400 text-sm" x-text="lang === 'ar' ? 'صُممت هذه العناصر خصيصاً لضمان أقصى استفادة تدريبية ونتائج حقيقية.' : 'Engineered to guarantee peak training results and real transformation.'"></p>
+                <!-- Motivational Cards Grid -->
+                <section class="max-w-7xl mx-auto px-4 py-16">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
+                        <div class="relative rounded-3xl overflow-hidden border border-slate-800 group h-80 flex flex-col justify-end p-8">
+                            <div class="absolute inset-0 bg-cover bg-center group-hover:scale-105 transition duration-500" style="background-image: url('https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?q=80&w=1000&auto=format&fit=crop');"></div>
+                            <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/60 to-transparent"></div>
+                            <div class="relative z-10">
+                                <span class="bg-emerald-600 text-white text-xs font-bold px-3 py-1 rounded-full mb-3 inline-block">للإشراف والتدريب</span>
+                                <h3 class="text-2xl font-bold mb-2">تحكم كامل كمدرب محترف</h3>
+                                <p class="text-slate-300 text-xs">صمم الجداول، راقب أوزان متدربيك، وتابع الأداء خطوة بخطوة.</p>
+                            </div>
+                        </div>
+
+                        <div class="relative rounded-3xl overflow-hidden border border-slate-800 group h-80 flex flex-col justify-end p-8">
+                            <div class="absolute inset-0 bg-cover bg-center group-hover:scale-105 transition duration-500" style="background-image: url('https://images.unsplash.com/photo-1517838277536-f5f99be501cd?q=80&w=1000&auto=format&fit=crop');"></div>
+                            <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/60 to-transparent"></div>
+                            <div class="relative z-10">
+                                <span class="bg-teal-600 text-white text-xs font-bold px-3 py-1 rounded-full mb-3 inline-block">للبطل المتدرب</span>
+                                <h3 class="text-2xl font-bold mb-2">حقق أهدافك البدنية والغذائية</h3>
+                                <p class="text-slate-300 text-xs">تتبع وجباتك، سعراتك، ونمو عضلاتك بكل سهولة عبر بوابتك الخاصة.</p>
+                            </div>
+                        </div>
                     </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                        <!-- Element 1 -->
-                        <div class="bg-slate-900/80 border border-slate-800 rounded-3xl p-6 hover:border-emerald-500/50 transition group">
-                            <div class="w-12 h-12 rounded-2xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center text-xl font-bold mb-6 group-hover:scale-110 transition">
-                                <i class="fa-solid fa-dumbbell"></i>
-                            </div>
-                            <h3 class="text-lg font-bold mb-2" x-text="lang === 'ar' ? '1. جداول التمارين المخصصة' : '1. Custom Workout Plans'"></h3>
-                            <p class="text-slate-400 text-xs leading-relaxed" x-text="lang === 'ar' ? 'يستطيع المدرب تصميم الجداول ويتابع المتدرب تكراراته وأوزانه بكل سهولة.' : 'Trainers build routines while trainees track sets, reps & weights seamlessly.'"></p>
-                        </div>
-                        <!-- Element 2 -->
-                        <div class="bg-slate-900/80 border border-slate-800 rounded-3xl p-6 hover:border-emerald-500/50 transition group">
-                            <div class="w-12 h-12 rounded-2xl bg-teal-500/10 text-teal-400 flex items-center justify-center text-xl font-bold mb-6 group-hover:scale-110 transition">
-                                <i class="fa-solid fa-utensils"></i>
-                            </div>
-                            <h3 class="text-lg font-bold mb-2" x-text="lang === 'ar' ? '2. خطط التغذية والسعرات' : '2. Nutrition & Macros'"></h3>
-                            <p class="text-slate-400 text-xs leading-relaxed" x-text="lang === 'ar' ? 'متابعة السعرات الحرارية بدقة وتعديل الوجبات حسب هدف المتدرب (ضخامة أو تنشف).' : 'Precise macro tracking tailored for bulking or cutting goals.'"></p>
-                        </div>
-                        <!-- Element 3 -->
-                        <div class="bg-slate-900/80 border border-slate-800 rounded-3xl p-6 hover:border-emerald-500/50 transition group">
-                            <div class="w-12 h-12 rounded-2xl bg-cyan-500/10 text-cyan-400 flex items-center justify-center text-xl font-bold mb-6 group-hover:scale-110 transition">
-                                <i class="fa-solid fa-chart-line"></i>
-                            </div>
-                            <h3 class="text-lg font-bold mb-2" x-text="lang === 'ar' ? '3. تقارير التقدم الأسبوعية' : '3. Weekly Progress Reports'"></h3>
-                            <p class="text-slate-400 text-xs leading-relaxed" x-text="lang === 'ar' ? 'قياس الوزن، نسب الدهون، ومقارنة الصور لضمان تطور أداء المدرب مع متدربه.' : 'Track weight, body fat & photo comparisons for guaranteed growth.'"></p>
-                        </div>
-                        <!-- Element 4 -->
-                        <div class="bg-slate-900/80 border border-slate-800 rounded-3xl p-6 hover:border-emerald-500/50 transition group">
-                            <div class="w-12 h-12 rounded-2xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center text-xl font-bold mb-6 group-hover:scale-110 transition">
-                                <i class="fa-brands fa-whatsapp"></i>
-                            </div>
-                            <h3 class="text-lg font-bold mb-2" x-text="lang === 'ar' ? '4. التواصل الفوري عبر واتساب' : '4. Instant WhatsApp Support'"></h3>
-                            <p class="text-slate-400 text-xs leading-relaxed" x-text="lang === 'ar' ? 'ربط مباشر وسريع بين المدرب والمتدرب لتلقي التوجيهات والإشعارات لحظة بلحظة.' : 'Direct connection between coach and client for real-time guidance.'"></p>
-                        </div>
+                    <!-- 7-Tier Pricing Grid -->
+                    <div class="text-center max-w-3xl mx-auto mb-12">
+                        <h2 class="text-3xl font-black mb-3" x-text="lang === 'ar' ? 'مستويات الاشتراكات السبعة' : 'The 7 Subscription Tiers'"></h2>
+                        <p class="text-slate-400 text-sm" x-text="lang === 'ar' ? 'اختر باقتك المفضلة وادفع فوراً عبر إنستاباي للحساب المعتمد: 01221078181' : 'Choose your tier and pay securely via InstaPay: 01221078181'"></p>
                     </div>
-                </section>
 
-                <!-- 7-Tier Pricing Section -->
-                <section id="pricing" class="py-20 bg-slate-900/40 border-t border-slate-900">
-                    <div class="max-w-7xl mx-auto px-4">
-                        <div class="text-center max-w-3xl mx-auto mb-16">
-                            <h2 class="text-3xl sm:text-4xl font-black mb-4" x-text="lang === 'ar' ? 'مستويات الاشتراكات السبعة (InstaPay)' : 'The 7 Subscription Tiers'"></h2>
-                            <p class="text-slate-400 text-sm" x-text="lang === 'ar' ? 'اختر الباقة المناسبة لطموحك التدريبي، والدفع الفوري عبر إنستاباي لحساب: 01221078181' : 'Choose your tier and pay securely via InstaPay: 01221078181'"></p>
-                        </div>
-
-                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                            <template x-for="tier in pricingTiers" :key="tier.id">
-                                <div class="bg-slate-900 rounded-3xl p-6 border border-slate-800 hover:border-emerald-500/50 transition flex flex-col justify-between relative group">
-                                    <div class="absolute -top-3 right-6 bg-emerald-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow" x-text="tier.nameAr"></div>
-                                    <div>
-                                        <h3 class="text-xl font-bold mb-2 mt-2" x-text="lang === 'ar' ? tier.nameAr : tier.nameEn"></h3>
-                                        <p class="text-slate-400 text-xs mb-6 min-h-[35px]" x-text="lang === 'ar' ? tier.descAr : tier.descEn"></p>
-                                    </div>
-                                    <div>
-                                        <div class="flex items-baseline mb-6 pt-4 border-t border-slate-800">
-                                            <span class="text-3xl font-black text-emerald-400" x-text="tier.price"></span>
-                                            <span class="text-xs text-slate-400 mr-1" x-text="lang === 'ar' ? ' ج.م / شهرياً' : ' EGP / mo'"></span>
-                                        </div>
-                                        <button @click="selectTier(tier)" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 rounded-xl transition text-sm shadow-md shadow-emerald-600/20" x-text="lang === 'ar' ? 'اشتترك الآن' : 'Subscribe Now'"></button>
-                                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+                        <template x-for="tier in pricingTiers" :key="tier.id">
+                            <div class="bg-slate-900 rounded-3xl p-6 border border-slate-800 hover:border-emerald-500/50 transition flex flex-col justify-between relative group">
+                                <div class="absolute -top-3 right-6 bg-emerald-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow" x-text="tier.nameAr"></div>
+                                <div>
+                                    <h3 class="text-xl font-bold mb-2 mt-2" x-text="lang === 'ar' ? tier.nameAr : tier.nameEn"></h3>
+                                    <p class="text-slate-400 text-xs mb-6" x-text="lang === 'ar' ? tier.descAr : tier.descEn"></p>
                                 </div>
-                            </template>
-                        </div>
+                                <div>
+                                    <div class="flex items-baseline mb-6 pt-4 border-t border-slate-800">
+                                        <span class="text-3xl font-black text-emerald-400" x-text="tier.price"></span>
+                                        <span class="text-xs text-slate-400 mr-1" x-text="lang === 'ar' ? ' ج.م / شهرياً' : ' EGP / mo'"></span>
+                                    </div>
+                                    <button @click="selectTier(tier)" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 rounded-xl transition text-sm shadow-md shadow-emerald-600/20" x-text="lang === 'ar' ? 'اشتترك الآن' : 'Subscribe Now'"></button>
+                                </div>
+                            </div>
+                        </template>
                     </div>
                 </section>
             </div>
         </template>
 
-        <!-- Shared Trainer & Trainee Dashboard View -->
-        <template x-if="currentView === 'dashboard'">
-            <div class="max-w-7xl mx-auto px-4 py-12">
-                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
+        <!-- 2. Trainer Dashboard View (Protected) -->
+        <template x-if="currentView === 'trainer'">
+            <div class="max-w-7xl mx-auto px-4 py-10">
+                <div class="flex justify-between items-center mb-8">
                     <div>
-                        <h2 class="text-2xl font-black" x-text="lang === 'ar' ? 'لوحة تحكم المدرب والمتدرب المشتركة' : 'Trainer & Trainee Shared Dashboard'"></h2>
-                        <p class="text-slate-400 text-xs mt-1" x-text="lang === 'ar' ? 'إدارة الاشتراكات، متابعة الأوزان، والتحقق من تحويلات InstaPay.' : 'Manage subscriptions, track weights and verify InstaPay transfers.'"></p>
+                        <h2 class="text-2xl font-black" x-text="lang === 'ar' ? 'لوحة تحكم المدرب (محمية)' : 'Trainer Dashboard (Secure)'"></h2>
+                        <p class="text-slate-400 text-xs mt-1" x-text="lang === 'ar' ? 'إدارة المتدربين والخطط التدريبية' : 'Manage trainees and workout plans'"></p>
                     </div>
-                    <button @click="currentView = 'home'" class="bg-slate-800 hover:bg-slate-700 px-4 py-2.5 rounded-xl text-xs font-bold transition">
-                        <i class="fa-solid fa-house ml-1"></i> <span x-text="lang === 'ar' ? 'العودة للرئيسية' : 'Back to Home'"></span>
+                    <button @click="currentView = 'home'" class="bg-slate-800 hover:bg-slate-700 px-4 py-2 rounded-xl text-xs font-bold">
+                        <i class="fa-solid fa-arrow-right ml-1"></i> <span x-text="lang === 'ar' ? 'الرئيسية' : 'Home'"></span>
+                    </button>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl">
+                        <h3 class="font-bold text-lg mb-2">إجمالي المتدربين</h3>
+                        <p class="text-3xl font-black text-emerald-400">14 متدرب</p>
+                    </div>
+                    <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl">
+                        <h3 class="font-bold text-lg mb-2">الخطط النشطة</h3>
+                        <p class="text-3xl font-black text-teal-400">12 خطة</p>
+                    </div>
+                    <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl">
+                        <h3 class="font-bold text-lg mb-2">حساب InstaPay</h3>
+                        <p class="text-xl font-mono font-bold text-emerald-400">01221078181</p>
+                    </div>
+                </div>
+            </div>
+        </template>
+
+        <!-- 3. Admin Dashboard View (Protected) -->
+        <template x-if="currentView === 'admin'">
+            <div class="max-w-7xl mx-auto px-4 py-10">
+                <div class="flex justify-between items-center mb-8">
+                    <div>
+                        <h2 class="text-2xl font-black" x-text="lang === 'ar' ? 'لوحة تحكم الأدمن (محمية)' : 'Admin Dashboard (Secure)'"></h2>
+                        <p class="text-slate-400 text-xs mt-1" x-text="lang === 'ar' ? 'متابعة الاشتراكات والتحقق من الحسابات' : 'Monitor subscriptions and verification'"></p>
+                    </div>
+                    <button @click="currentView = 'home'" class="bg-slate-800 hover:bg-slate-700 px-4 py-2 rounded-xl text-xs font-bold">
+                        <i class="fa-solid fa-arrow-right ml-1"></i> <span x-text="lang === 'ar' ? 'الرئيسية' : 'Home'"></span>
                     </button>
                 </div>
                 
-                <!-- Stats Overview for Both Trainer & Trainee -->
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
-                    <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl">
-                        <span class="text-xs text-slate-400 block mb-1" x-text="lang === 'ar' ? 'حساب InstaPay المعتمد' : 'Verified InstaPay Account'"></span>
-                        <span class="text-xl font-mono font-bold text-emerald-400">01221078181</span>
-                    </div>
-                    <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl">
-                        <span class="text-xs text-slate-400 block mb-1" x-text="lang === 'ar' ? 'المتدربون النشطون' : 'Active Trainees'"></span>
-                        <span class="text-xl font-bold">14 متدرب</span>
-                    </div>
-                    <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl">
-                        <span class="text-xs text-slate-400 block mb-1" x-text="lang === 'ar' ? 'حالة النظام التدريبي' : 'System Status'"></span>
-                        <span class="text-xl font-bold text-emerald-400">نشط ومُحدّث (Live)</span>
-                    </div>
-                </div>
-
-                <!-- Subscriptions Table -->
                 <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6">
-                    <h3 class="text-lg font-bold mb-4" x-text="lang === 'ar' ? 'سجل اشتراكات المتدربين والتحقق' : 'Trainee Subscriptions & Verification'"></h3>
-                    
+                    <h3 class="text-lg font-bold mb-4">التحقق من اشتراكات InstaPay (01221078181)</h3>
                     <div class="overflow-x-auto">
                         <table class="w-full text-right text-sm">
                             <thead>
-                                <tr class="border-b border-slate-800 text-slate-400 text-xs">
-                                    <th class="py-3 px-4">اسم المتدرب</th>
-                                    <th class="py-3 px-4">الباقة التدريبية</th>
+                                <tr class="border-b border-slate-800 text-slate-400">
+                                    <th class="py-3 px-4">المتدرب</th>
+                                    <th class="py-3 px-4">الباقة</th>
                                     <th class="py-3 px-4">المبلغ</th>
                                     <th class="py-3 px-4">الحالة</th>
-                                    <th class="py-3 px-4">تواصل واتساب (للمدرب والمتدرب)</th>
+                                    <th class="py-3 px-4">واتساب</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <template x-for="sub in subscriptions" :key="sub.id">
-                                    <tr class="border-b border-slate-800/50 hover:bg-slate-800/20 transition">
-                                        <td class="py-3.5 px-4 font-bold" x-text="sub.name"></td>
-                                        <td class="py-3.5 px-4 text-emerald-400" x-text="sub.tier"></td>
-                                        <td class="py-3.5 px-4 font-mono" x-text="sub.price"></td>
-                                        <td class="py-3.5 px-4">
-                                            <span class="px-2.5 py-1 rounded-full text-xs bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-bold" x-text="sub.status"></span>
-                                        </td>
-                                        <td class="py-3.5 px-4">
-                                            <a :href="'https://wa.me/201221078181?text=' + encodeURIComponent('مرحباً، أتابع بخصوص اشتراك ' + sub.tier)" target="_blank" class="inline-flex items-center gap-1.5 bg-emerald-600/20 text-emerald-400 px-3 py-1.5 rounded-xl text-xs font-bold hover:bg-emerald-600/30 transition">
-                                                <i class="fa-brands fa-whatsapp text-sm"></i> واتساب
+                                    <tr class="border-b border-slate-800/50">
+                                        <td class="py-3 px-4 font-bold" x-text="sub.name"></td>
+                                        <td class="py-3 px-4 text-emerald-400" x-text="sub.tier"></td>
+                                        <td class="py-3 px-4" x-text="sub.price"></td>
+                                        <td class="py-3 px-4"><span class="px-2.5 py-1 rounded-full text-xs bg-emerald-500/10 text-emerald-400 border border-emerald-500/20" x-text="sub.status"></span></td>
+                                        <td class="py-3 px-4">
+                                            <a :href="'https://wa.me/201221078181?text=' + encodeURIComponent('مرحباً، أتابع بخصوص اشتراك ' + sub.tier)" target="_blank" class="text-emerald-400 hover:text-emerald-300 font-bold">
+                                                <i class="fa-brands fa-whatsapp text-lg"></i>
                                             </a>
                                         </td>
                                     </tr>
@@ -211,12 +185,68 @@
                 </div>
             </div>
         </template>
+
+        <!-- 4. Client Portal View -->
+        <template x-if="currentView === 'client'">
+            <div class="max-w-7xl mx-auto px-4 py-10">
+                <div class="flex justify-between items-center mb-8">
+                    <div>
+                        <h2 class="text-2xl font-black" x-text="lang === 'ar' ? 'بوابة المتدرب التفصيلية' : 'Client Detailed Portal'"></h2>
+                        <p class="text-slate-400 text-xs mt-1" x-text="lang === 'ar' ? 'عرض التمارين، السعرات الحرارية، والتقدم الشخصي' : 'View workouts, macros, and personal progress'"></p>
+                    </div>
+                    <button @click="currentView = 'home'" class="bg-slate-800 hover:bg-slate-700 px-4 py-2 rounded-xl text-xs font-bold">
+                        <i class="fa-solid fa-arrow-right ml-1"></i> <span x-text="lang === 'ar' ? 'الرئيسية' : 'Home'"></span>
+                    </button>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6">
+                        <h3 class="font-bold text-lg mb-4 text-emerald-400"><i class="fa-solid fa-dumbbell ml-2"></i> جدول التمارين الأسبوعي</h3>
+                        <ul class="space-y-3 text-sm text-slate-300">
+                            <li class="bg-slate-950 p-3 rounded-xl border border-slate-800 flex justify-between"><span>السبت: صدر وتراسبس</span><span class="text-emerald-400">4 تمارين</span></li>
+                            <li class="bg-slate-950 p-3 rounded-xl border border-slate-800 flex justify-between"><span>الأحد: ظهر وبايسبس</span><span class="text-emerald-400">4 تمارين</span></li>
+                            <li class="bg-slate-950 p-3 rounded-xl border border-slate-800 flex justify-between"><span>الثلاثاء: أرجل وكتف</span><span class="text-emerald-400">5 تمارين</span></li>
+                        </ul>
+                    </div>
+                    <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6">
+                        <h3 class="font-bold text-lg mb-4 text-teal-400"><i class="fa-solid fa-utensils ml-2"></i> النظام الغذائي والماكروز</h3>
+                        <div class="space-y-3 text-sm text-slate-300">
+                            <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 flex justify-between"><span>البروتين المستهدف</span><span class="font-bold text-teal-400">180 جرام</span></div>
+                            <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 flex justify-between"><span>الكربوهيدرات</span><span class="font-bold text-teal-400">250 جرام</span></div>
+                            <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 flex justify-between"><span>الدهون الصحية</span><span class="font-bold text-teal-400">65 جرام</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </template>
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-slate-900 border-t border-slate-800 py-8 text-center text-xs text-slate-500">
-        <p>© 2026 CoachHub. جميع الحقوق محفوظة للمدربين والمتدربين الأبطال.</p>
-    </footer>
+    <!-- Security PIN Login Modal -->
+    <div x-show="showAuthModal" class="fixed inset-0 bg-slate-950/85 backdrop-blur-sm z-50 flex items-center justify-center p-4" style="display: none;">
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-sm w-full p-8 shadow-2xl relative">
+            <button @click="showAuthModal = false" class="absolute top-6 left-6 text-slate-400 hover:text-white">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+            
+            <div class="text-center mb-6">
+                <div class="w-12 h-12 bg-emerald-600/20 text-emerald-400 rounded-2xl flex items-center justify-center text-xl font-bold mx-auto mb-3">
+                    <i class="fa-solid fa-lock"></i>
+                </div>
+                <h3 class="text-xl font-bold" x-text="authRole === 'trainer' ? 'دخول لوحة المدرب' : 'دخول لوحة الأدمن'"></h3>
+                <p class="text-slate-400 text-xs mt-1">الرجاء إدخال الرقم السري الخاص بك للمتابعة</p>
+            </div>
+
+            <form @submit.prevent="verifyPin()">
+                <input type="password" x-model="enteredPin" placeholder="أدخل الرقم السري (الافتراضي: 1234)" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm text-center font-mono text-emerald-300 focus:outline-none focus:border-emerald-500 mb-3" autofocus>
+                
+                <p x-show="pinError" class="text-red-400 text-xs text-center mb-4 font-bold">الرقم السري غير صحيح، حاول مرة أخرى.</p>
+
+                <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 rounded-xl transition shadow-lg shadow-emerald-600/20">
+                    تأكيد الدخول
+                </button>
+            </form>
+        </div>
+    </div>
 
     <!-- Checkout Modal -->
     <div x-show="showModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4" style="display: none;">
@@ -237,14 +267,14 @@
                 <p class="text-slate-300 mb-2 font-semibold">تعليمات الدفع عبر InstaPay:</p>
                 <ol class="list-decimal list-inside text-slate-400 space-y-1.5 text-xs">
                     <li>افتح تطبيق إنستاباي.</li>
-                    <li>حول المبلغ إلى حسابنا المعتمد: <strong class="text-emerald-400 font-mono">01221078181</strong></li>
-                    <li>اضغط تأكيد لإرسال الإيصال عبر واتساب وتفعيل الحساب فوراً.</li>
+                    <li>حول المبلغ للحساب: <strong class="text-emerald-400 font-mono">01221078181</strong></li>
+                    <li>أرسل إيصال التحويل عبر واتساب لتفعيل الحساب فوراً.</li>
                 </ol>
             </div>
 
             <div class="flex gap-3 mb-4">
                 <input type="text" readonly value="01221078181" class="bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm text-center flex-grow font-mono text-emerald-300 focus:outline-none">
-                <button @click="navigator.clipboard.writeText('01221078181'); alert('تم نسخ رقم الحساب!');" class="bg-slate-800 hover:bg-slate-700 px-4 py-3 rounded-xl text-sm font-bold transition">
+                <button @click="navigator.clipboard.writeText('01221078181'); alert('تم النسخ!');" class="bg-slate-800 hover:bg-slate-700 px-4 py-3 rounded-xl text-sm font-bold transition">
                     <i class="fa-regular fa-copy"></i>
                 </button>
             </div>
@@ -255,7 +285,6 @@
         </div>
     </div>
 
-    <!-- Script Logic -->
     <script>
         function coachHubApp() {
             return {
@@ -263,29 +292,58 @@
                 currentView: 'home',
                 showModal: false,
                 selectedTier: null,
+                
+                // Security Authentication States
+                showAuthModal: false,
+                authRole: '',
+                enteredPin: '',
+                pinError: false,
+                correctPin: '1234', // يمكنك تغيير الرقم السري هنا بسهولة
+                trainerAuthed: false,
+                adminAuthed: false,
+
                 pricingTiers: [
-                    { id: 1, nameAr: 'المستوى الأساسي', nameEn: 'Basic Tier', descAr: 'برنامج تدريبي عام ومتابعة شهرية للمتدرب', descEn: 'General workout plan & monthly review', price: '200' },
-                    { id: 2, nameAr: 'المستوى البرونزي', nameEn: 'Bronze Tier', descAr: 'جدول تمارين مخصص للمبتدئين وتوجيه أساسي', descEn: 'Custom beginner routine & core guidance', price: '500' },
-                    { id: 3, nameAr: 'المستوى الفضي', nameEn: 'Silver Tier', descAr: 'برنامج تمارين وتغذية متكامل للمتدرب مع تقرير أسبوعي', descEn: 'Full workout & nutrition with weekly check-in', price: '800' },
-                    { id: 4, nameAr: 'المستوى الذهبي', nameEn: 'Gold Tier', descAr: 'متابعة أسبوعية مباشرة من المدرب وتعديل مستمر', descEn: 'Direct weekly coach check-ins & adjustments', price: '1200' },
-                    { id: 5, nameAr: 'المستوى البلاتيني', nameEn: 'Platinum Tier', descAr: 'تدريب مكثف وتواصل دائم عبر واتساب بين المدرب والمتدرب', descEn: 'Intensive coaching & continuous WhatsApp support', price: '1600' },
-                    { id: 6, nameAr: 'المستوى الماسي', nameEn: 'Diamond Tier', descAr: 'خطط احترافية متقدمة وتعديل وجبات فوري', descEn: 'Advanced professional plans & instant meal updates', price: '2000' },
-                    { id: 7, nameAr: 'المستوى الاحترافي الشامل', nameEn: 'Elite VIP Tier', descAr: 'متابعة VIP كاملة 24/7 مع الخبير للمتدربين المحترفين', descEn: 'Full 24/7 VIP coaching for elite athletes', price: '2500' }
+                    { id: 1, nameAr: 'المستوى الأساسي', nameEn: 'Basic Tier', descAr: 'برنامج تدريبي عام ومتابعة شهرية', descEn: 'General plan & monthly review', price: '200' },
+                    { id: 2, nameAr: 'المستوى البرونزي', nameEn: 'Bronze Tier', descAr: 'جدول تمارين مخصص للمبتدئين', descEn: 'Beginner routine', price: '500' },
+                    { id: 3, nameAr: 'المستوى الفضي', nameEn: 'Silver Tier', descAr: 'برنامج تمارين وتغذية متكامل', descEn: 'Full workout & nutrition', price: '800' },
+                    { id: 4, nameAr: 'المستوى الذهبي', nameEn: 'Gold Tier', descAr: 'متابعة أسبوعية مباشرة وتعديل مستمر', descEn: 'Direct weekly check-ins', price: '1200' },
+                    { id: 5, nameAr: 'المستوى البلاتيني', nameEn: 'Platinum Tier', descAr: 'تدريب مكثف وتواصل دائم عبر واتساب', descEn: 'Intensive coaching & WhatsApp', price: '1600' },
+                    { id: 6, nameAr: 'المستوى الماسي', nameEn: 'Diamond Tier', descAr: 'خطط احترافية وتعديل وجبات فوري', descEn: 'Advanced plans & instant updates', price: '2000' },
+                    { id: 7, nameAr: 'المستوى الاحترافي الشامل', nameEn: 'Elite VIP Tier', descAr: 'متابعة VIP كاملة 24/7 مع الخبير', descEn: 'Full 24/7 VIP coaching', price: '2500' }
                 ],
                 subscriptions: [
-                    { id: 1, name: 'أحمد محمود', tier: 'المستوى الذهبي', price: '1200 ج.م', status: 'مؤكد ومنشط' },
-                    { id: 2, name: 'محمود علي', tier: 'المستوى الفضي', price: '800 ج.م', status: 'قيد المراجعة' },
-                    { id: 3, name: 'كريم خالد', tier: 'المستوى الاحترافي VIP', price: '2500 ج.م', status: 'مؤكد ومنشط' }
+                    { id: 1, name: 'أحمد محمود', tier: 'المستوى الذهبي', price: '1200 ج.م', status: 'مؤكد' },
+                    { id: 2, name: 'محمود علي', tier: 'المستوى الفضي', price: '800 ج.م', status: 'قيد المراجعة' }
                 ],
-                toggleLang() {
-                    this.lang = this.lang === 'ar' ? 'en' : 'ar';
+                toggleLang() { this.lang = this.lang === 'ar' ? 'en' : 'ar'; },
+                selectTier(tier) { this.selectedTier = tier; this.showModal = true; },
+                
+                checkAccess(role) {
+                    if (role === 'trainer' && this.trainerAuthed) {
+                        this.currentView = 'trainer';
+                    } else if (role === 'admin' && this.adminAuthed) {
+                        this.currentView = 'admin';
+                    } else {
+                        this.authRole = role;
+                        this.enteredPin = '';
+                        this.pinError = false;
+                        this.showAuthModal = true;
+                    }
                 },
-                selectTier(tier) {
-                    this.selectedTier = tier;
-                    this.showModal = true;
+
+                verifyPin() {
+                    if (this.enteredPin === this.correctPin) {
+                        if (this.authRole === 'trainer') this.trainerAuthed = true;
+                        if (this.authRole === 'admin') this.adminAuthed = true;
+                        this.currentView = this.authRole;
+                        this.showAuthModal = false;
+                    } else {
+                        this.pinError = true;
+                    }
                 },
+
                 confirmSubscription() {
-                    const msg = `مرحباً، أرغب في الاشتراك في "${this.selectedTier.nameAr}" بقيمة ${this.selectedTier.price} ج.م عبر إنستاباي (01221078181). وهذا هو الإيصال.`;
+                    const msg = `مرحباً، أرغب في الاشتراك في "${this.selectedTier.nameAr}" بقيمة ${this.selectedTier.price} ج.م عبر إنستاباي (01221078181). وهذا إيصال التحويل.`;
                     window.open(`https://wa.me/201221078181?text=` + encodeURIComponent(msg), '_blank');
                 }
             }
