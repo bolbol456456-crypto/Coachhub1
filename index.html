@@ -1,245 +1,201 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar" dir="rtl" x-data="coachHubApp()">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CoachHub - منصة التدريب والاستشارات الاحترافية</title>
-    <!-- Tailwind CSS CDN -->
+    <title>CoachHub - منصة إدارة تدريبات الجيم</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Font Awesome Icons -->
+    <!-- Alpine.js -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap');
         body { font-family: 'Cairo', sans-serif; }
     </style>
 </head>
-<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col justify-between selection:bg-indigo-500 selection:text-white">
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col justify-between selection:bg-emerald-500 selection:text-white" :dir="lang === 'ar' ? 'rtl' : 'ltr'">
 
-    <!-- Header / Navbar -->
+    <!-- Navbar -->
     <header class="bg-slate-900/80 backdrop-blur-md border-b border-slate-800 sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex justify-between items-center">
             <div class="flex items-center space-x-3 space-x-reverse">
-                <div class="bg-gradient-to-tr from-indigo-600 to-purple-600 text-white p-3 rounded-2xl shadow-lg shadow-indigo-500/20 text-xl">
-                    <i class="fa-solid fa-graduation-cap"></i>
+                <div class="bg-gradient-to-tr from-emerald-600 to-teal-600 text-white p-3 rounded-2xl shadow-lg shadow-emerald-500/20 text-xl">
+                    <i class="fa-solid fa-dumbbell"></i>
                 </div>
                 <div>
-                    <span class="text-2xl font-black tracking-wider bg-gradient-to-r from-indigo-400 via-purple-300 to-pink-400 bg-clip-text text-transparent">CoachHub</span>
-                    <span class="block text-xs text-slate-400 font-medium">منصتك الاحترافية للنمو والتطوير</span>
+                    <span class="text-2xl font-black tracking-wider bg-gradient-to-r from-emerald-400 to-teal-300 bg-clip-text text-transparent">CoachHub</span>
+                    <span class="block text-xs text-slate-400 font-medium" x-text="lang === 'ar' ? 'منصة إدارة تدريبات الجيم' : 'Gym Training Platform'"></span>
                 </div>
             </div>
-            <nav class="hidden md:flex items-center space-x-8 space-x-reverse text-sm font-semibold">
-                <a href="#services" class="hover:text-indigo-400 transition">الخدمات</a>
-                <a href="#features" class="hover:text-indigo-400 transition">المميزات</a>
-                <a href="#testimonials" class="hover:text-indigo-400 transition">آراء العملاء</a>
-                <a href="#contact" class="hover:text-indigo-400 transition">اتصل بنا</a>
-            </nav>
-            <div class="flex items-center space-x-3 space-x-reverse">
-                <button onclick="toggleLanguage()" class="bg-slate-800 hover:bg-slate-700 text-xs px-3 py-2 rounded-xl border border-slate-700 transition font-bold">
-                    <i class="fa-solid fa-globe ml-1"></i> EN / AR
+            
+            <div class="flex items-center space-x-4 space-x-reverse">
+                <button @click="toggleLang()" class="bg-slate-800 hover:bg-slate-700 text-xs px-3.5 py-2 rounded-xl border border-slate-700 transition font-bold flex items-center gap-2">
+                    <i class="fa-solid fa-globe"></i>
+                    <span x-text="lang === 'ar' ? 'English' : 'عربي'"></span>
+                </button>
+                <button @click="currentView = 'admin'" class="bg-emerald-600 hover:bg-emerald-500 text-xs px-4 py-2 rounded-xl font-bold transition">
+                    <i class="fa-solid fa-user-shield ml-1"></i> <span x-text="lang === 'ar' ? 'لوحة التحكم' : 'Admin Panel'"></span>
                 </button>
             </div>
         </div>
     </header>
 
-    <!-- Hero Section -->
+    <!-- Main Content -->
     <main class="flex-grow">
-        <section class="relative overflow-hidden py-20 lg:py-32">
-            <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-indigo-900/20 via-slate-950/0 to-slate-950/0 pointer-events-none"></div>
-            <div class="max-w-5xl mx-auto px-4 text-center relative z-10">
-                <span class="inline-flex items-center gap-1.5 py-1.5 px-4 rounded-full text-xs font-bold bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 mb-6">
-                    <i class="fa-solid fa-sparkles"></i> انطلق نحو احتراف مجالك اليوم
-                </span>
-                <h1 class="text-4xl sm:text-6xl font-black tracking-tight mb-6 leading-tight">
-                    طور مهاراتك مع نخبة من <br><span class="bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">أفضل المدربين والاستشاريين</span>
-                </h1>
-                <p class="text-lg sm:text-xl text-slate-400 max-w-2xl mx-auto mb-10 leading-relaxed">
-                    جلسات واستشارات مخصصة لرفع كفاءتك المهنية والتجارية، مع سهولة تامة في الحجز والدفع الفوري عبر وسائل الدفع المحلية وإنستاباي (InstaPay).
-                </p>
-                <div class="flex flex-col sm:flex-row justify-center gap-4">
-                    <a href="#services" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-4 px-8 rounded-2xl shadow-lg shadow-indigo-600/30 transition transform hover:-translate-y-0.5">
-                        احجز جلستك الآن <i class="fa-solid fa-arrow-left mr-2"></i>
-                    </a>
-                    <a href="#features" class="bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-800 font-bold py-4 px-8 rounded-2xl transition">
-                        استكشف المميزات
-                    </a>
+        <!-- Landing / Pricing Section -->
+        <template x-if="currentView === 'home'">
+            <div class="py-16 max-w-7xl mx-auto px-4">
+                <div class="text-center max-w-3xl mx-auto mb-16">
+                    <span class="inline-flex items-center gap-1.5 py-1.5 px-4 rounded-full text-xs font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 mb-6">
+                        <i class="fa-solid fa-fire"></i> <span x-text="lang === 'ar' ? 'اختر باقة التدريب الخاصة بك' : 'Choose Your Training Plan'"></span>
+                    </span>
+                    <h1 class="text-4xl sm:text-5xl font-black tracking-tight mb-6" x-text="lang === 'ar' ? 'ارتقِ بمستوى متدربيك وحقق أهدافك الرياضية' : 'Elevate Your Training & Reach Your Goals'"></h1>
+                    <p class="text-slate-400 text-lg" x-text="lang === 'ar' ? 'نظام متكامل لإدارة علاقة مدربي الجيم بالمتدربين، مع 7 مستويات اشتراك مرنة والدفع عبر إنستاباي.' : 'Integrated system for gym trainers and clients with 7 flexible tiers and InstaPay.'"></p>
+                </div>
+
+                <!-- 7-Tier Pricing Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <template x-for="tier in pricingTiers" :key="tier.id">
+                        <div class="bg-slate-900 rounded-3xl p-6 border border-slate-800 hover:border-emerald-500/50 transition flex flex-col justify-between relative group">
+                            <div class="absolute -top-3 right-6 bg-emerald-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow" x-text="tier.nameAr"></div>
+                            <div>
+                                <h3 class="text-xl font-bold mb-2 mt-2" x-text="lang === 'ar' ? tier.nameAr : tier.nameEn"></h3>
+                                <p class="text-slate-400 text-xs mb-6" x-text="lang === 'ar' ? tier.descAr : tier.descEn"></p>
+                            </div>
+                            <div>
+                                <div class="flex items-baseline mb-6 pt-4 border-t border-slate-800">
+                                    <span class="text-3xl font-black text-emerald-400" x-text="tier.price"></span>
+                                    <span class="text-xs text-slate-400 mr-1" x-text="lang === 'ar' ? ' ج.م / شهرياً' : ' EGP / mo'"></span>
+                                </div>
+                                <button @click="selectTier(tier)" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 rounded-xl transition text-sm shadow-md shadow-emerald-600/20" x-text="lang === 'ar' ? 'اشترك الآن' : 'Subscribe Now'"></button>
+                            </div>
+                        </div>
+                    </template>
                 </div>
             </div>
-        </section>
+        </template>
 
-        <!-- Services Section -->
-        <section id="services" class="py-16 bg-slate-900/50 border-y border-slate-900">
-            <div class="max-w-7xl mx-auto px-4">
-                <div class="text-center max-w-2xl mx-auto mb-16">
-                    <h2 class="text-3xl font-black mb-4">الخدمات والبرامج المتاحة</h2>
-                    <p class="text-slate-400">اختر البرنامج أو الاستشارة التي تناسب أهدافك، وابدأ رحلة النجاح فوراً.</p>
+        <!-- Admin / Trainer Dashboard View -->
+        <template x-if="currentView === 'admin'">
+            <div class="max-w-7xl mx-auto px-4 py-10">
+                <div class="flex justify-between items-center mb-8">
+                    <h2 class="text-2xl font-black" x-text="lang === 'ar' ? 'لوحة تحكم المدربين والمتدربين' : 'Trainer & Client Dashboard'"></h2>
+                    <button @click="currentView = 'home'" class="bg-slate-800 hover:bg-slate-700 px-4 py-2 rounded-xl text-xs font-bold">
+                        <i class="fa-solid fa-arrow-right ml-1"></i> <span x-text="lang === 'ar' ? 'العودة للرئيسية' : 'Back to Home'"></span>
+                    </button>
                 </div>
                 
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <!-- Service 1 -->
-                    <div class="bg-slate-900 rounded-3xl p-8 border border-slate-800 hover:border-indigo-500/50 transition flex flex-col justify-between group">
-                        <div>
-                            <div class="w-14 h-14 bg-indigo-600/10 text-indigo-400 rounded-2xl flex items-center justify-center text-2xl font-bold mb-6 group-hover:bg-indigo-600 group-hover:text-white transition">
-                                <i class="fa-solid fa-user-tie"></i>
-                            </div>
-                            <h3 class="text-2xl font-bold mb-3">استشارة تطوير الأعمال</h3>
-                            <p class="text-slate-400 text-sm mb-6 leading-relaxed">جلسة استشارية فردية مكثفة (60 دقيقة) لتحليل مشروعك التجاري وبناء استراتيجيات نمو فعالة.</p>
-                        </div>
-                        <div>
-                            <div class="flex justify-between items-center mb-6 pt-4 border-t border-slate-800">
-                                <span class="text-slate-400 text-xs">السعر الاستثماري</span>
-                                <span class="text-2xl font-black text-indigo-400">500 ج.م</span>
-                            </div>
-                            <button onclick="openCheckout('استشارة تطوير الأعمال', '500 EGP')" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3.5 rounded-xl transition shadow-md shadow-indigo-600/20">
-                                احجز الاستشارة
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Service 2 -->
-                    <div class="bg-slate-900 rounded-3xl p-8 border border-slate-800 hover:border-purple-500/50 transition flex flex-col justify-between group">
-                        <div>
-                            <div class="w-14 h-14 bg-purple-600/10 text-purple-400 rounded-2xl flex items-center justify-center text-2xl font-bold mb-6 group-hover:bg-purple-600 group-hover:text-white transition">
-                                <i class="fa-solid fa-bullseye"></i>
-                            </div>
-                            <h3 class="text-2xl font-bold mb-3">تدريب التسويق الرقمي</h3>
-                            <p class="text-slate-400 text-sm mb-6 leading-relaxed">برنامج تدريبي متكامل لاحتراف إعلانات منصات التواصل الاجتماعي، إطلاق الحملات، وإدارة الميزانيات.</p>
-                        </div>
-                        <div>
-                            <div class="flex justify-between items-center mb-6 pt-4 border-t border-slate-800">
-                                <span class="text-slate-400 text-xs">السعر الاستثماري</span>
-                                <span class="text-2xl font-black text-purple-400">1200 ج.م</span>
-                            </div>
-                            <button onclick="openCheckout('تدريب التسويق الرقمي', '1200 EGP')" class="w-full bg-purple-600 hover:bg-purple-500 text-white font-bold py-3.5 rounded-xl transition shadow-md shadow-purple-600/20">
-                                احجز البرنامج
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Service 3 -->
-                    <div class="bg-slate-900 rounded-3xl p-8 border border-slate-800 hover:border-pink-500/50 transition flex flex-col justify-between group">
-                        <div>
-                            <div class="w-14 h-14 bg-pink-600/10 text-pink-400 rounded-2xl flex items-center justify-center text-2xl font-bold mb-6 group-hover:bg-pink-600 group-hover:text-white transition">
-                                <i class="fa-solid fa-rocket"></i>
-                            </div>
-                            <h3 class="text-2xl font-bold mb-3">باقة إطلاق العلامة التجارية</h3>
-                            <p class="text-slate-400 text-sm mb-6 leading-relaxed">متابعة شاملة خطوة بخطوة من الفكرة والتصنيع وحتى التسويق الرقمي وإدارة المتاجر.</p>
-                        </div>
-                        <div>
-                            <div class="flex justify-between items-center mb-6 pt-4 border-t border-slate-800">
-                                <span class="text-slate-400 text-xs">السعر الاستثماري</span>
-                                <span class="text-2xl font-black text-pink-400">2500 ج.م</span>
-                            </div>
-                            <button onclick="openCheckout('باقة إطلاق العلامة التجارية', '2500 EGP')" class="w-full bg-pink-600 hover:bg-pink-500 text-white font-bold py-3.5 rounded-xl transition shadow-md shadow-pink-600/20">
-                                احجز الباقة
-                            </button>
-                        </div>
+                <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6">
+                    <h3 class="text-lg font-bold mb-4" x-text="lang === 'ar' ? 'إدارة الاشتراكات والتحقق من InstaPay' : 'Subscriptions & InstaPay Verification'"></h3>
+                    <p class="text-slate-400 text-sm mb-6" x-text="lang === 'ar' ? 'حساب إنستاباي المعتمد للإيداع: 01221078181' : 'Verified InstaPay Account: 01221078181'"></p>
+                    
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-right text-sm">
+                            <thead>
+                                <tr class="border-b border-slate-800 text-slate-400">
+                                    <th class="py-3 px-4">المتدرب</th>
+                                    <th class="py-3 px-4">الباقة</th>
+                                    <th class="py-3 px-4">المبلغ</th>
+                                    <th class="py-3 px-4">الحالة</th>
+                                    <th class="py-3 px-4">تواصل واتساب</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <template x-for="sub in subscriptions" :key="sub.id">
+                                    <tr class="border-b border-slate-800/50">
+                                        <td class="py-3 px-4 font-bold" x-text="sub.name"></td>
+                                        <td class="py-3 px-4 text-emerald-400" x-text="sub.tier"></td>
+                                        <td class="py-3 px-4" x-text="sub.price"></td>
+                                        <td class="py-3 px-4">
+                                            <span class="px-2.5 py-1 rounded-full text-xs bg-emerald-500/10 text-emerald-400 border border-emerald-500/20" x-text="sub.status"></span>
+                                        </td>
+                                        <td class="py-3 px-4">
+                                            <a :href="'https://wa.me/201221078181?text=' + encodeURIComponent('مرحباً، أتابع بخصوص اشتراك ' + sub.tier)" target="_blank" class="text-emerald-400 hover:text-emerald-300 font-bold">
+                                                <i class="fa-brands fa-whatsapp text-lg"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
-        </section>
-
-        <!-- Features Section -->
-        <section id="features" class="py-20 max-w-7xl mx-auto px-4">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="p-6 bg-slate-900/40 rounded-2xl border border-slate-800/80">
-                    <div class="text-indigo-400 text-2xl mb-4"><i class="fa-solid fa-bolt"></i></div>
-                    <h3 class="text-lg font-bold mb-2">حجز سريع وفوري</h3>
-                    <p class="text-slate-400 text-sm">حدد موعدك واستشر خبيرك المفضل بثلاث خطوات سهلة وبسيطة.</p>
-                </div>
-                <div class="p-6 bg-slate-900/40 rounded-2xl border border-slate-800/80">
-                    <div class="text-purple-400 text-2xl mb-4"><i class="fa-solid fa-shield-halved"></i></div>
-                    <h3 class="text-lg font-bold mb-2">دفع آمن عبر إنستاباي</h3>
-                    <p class="text-slate-400 text-sm">حول قيمة الحجز مباشرة بكل أمان من خلال تطبيق InstaPay المعتمد.</p>
-                </div>
-                <div class="p-6 bg-slate-900/40 rounded-2xl border border-slate-800/80">
-                    <div class="text-pink-400 text-2xl mb-4"><i class="fa-solid fa-headset"></i></div>
-                    <h3 class="text-lg font-bold mb-2">دعم فني ومتابعة</h3>
-                    <p class="text-slate-400 text-sm">دعم مستمر عبر واتساب لضمان حصولك على أعلى استفادة من الجلسة.</p>
-                </div>
-            </div>
-        </section>
+        </template>
     </main>
 
     <!-- Checkout Modal -->
-    <div id="checkoutModal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-        <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-md w-full p-8 shadow-2xl relative animate-in fade-in zoom-in duration-200">
-            <button onclick="closeCheckout()" class="absolute top-6 left-6 text-slate-400 hover:text-white transition">
+    <div x-show="showModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4" style="display: none;">
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-md w-full p-8 shadow-2xl relative">
+            <button @click="showModal = false" class="absolute top-6 left-6 text-slate-400 hover:text-white">
                 <i class="fa-solid fa-xmark text-xl"></i>
             </button>
             
             <div class="text-center mb-6">
-                <div class="w-12 h-12 bg-indigo-600/20 text-indigo-400 rounded-2xl flex items-center justify-center text-xl font-bold mx-auto mb-3">
+                <div class="w-12 h-12 bg-emerald-600/20 text-emerald-400 rounded-2xl flex items-center justify-center text-xl font-bold mx-auto mb-3">
                     <i class="fa-solid fa-wallet"></i>
                 </div>
-                <h3 id="modalTitle" class="text-xl font-bold">تأكيد الحجز والدفع</h3>
-                <p id="modalPrice" class="text-indigo-400 font-bold text-lg mt-1"></p>
+                <h3 class="text-xl font-bold" x-text="selectedTier?.nameAr"></h3>
+                <p class="text-emerald-400 font-bold text-lg mt-1" x-text="selectedTier?.price + ' ج.م'"></p>
             </div>
 
             <div class="bg-slate-950 p-4 rounded-2xl border border-slate-800 mb-6 text-sm">
-                <p class="text-slate-300 mb-2 font-semibold">تعليمات التحويل عبر InstaPay:</p>
+                <p class="text-slate-300 mb-2 font-semibold">تعليمات الدفع عبر InstaPay:</p>
                 <ol class="list-decimal list-inside text-slate-400 space-y-1.5 text-xs">
-                    <li>افتح تطبيق إنستاباي الخاص بك.</li>
-                    <li>قم بالتحويل إلى العنوان التالي: <strong class="text-indigo-400 font-mono">coachhub@instapay</strong></li>
-                    <li>انسخ رقم أو عنوان الحساب بالأسفل واحتفظ بإيصال التحويل.</li>
+                    <li>افتح تطبيق إنستاباي.</li>
+                    <li>حول المبلغ إلى الحساب المعتمد: <strong class="text-emerald-400 font-mono">01221078181</strong></li>
+                    <li>أرسل إيصال التحويل عبر واتساب لتفعيل الحساب فوراً.</li>
                 </ol>
             </div>
 
             <div class="flex gap-3 mb-4">
-                <input type="text" readonly value="coachhub@instapay" id="instapayInput" class="bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm text-center flex-grow font-mono text-indigo-300 focus:outline-none">
-                <button onclick="copyInstaPay()" class="bg-slate-800 hover:bg-slate-700 px-4 py-3 rounded-xl text-sm font-bold transition flex items-center gap-2">
-                    <i class="fa-regular fa-copy"></i> نسخ
+                <input type="text" readonly value="01221078181" id="instapayAcc" class="bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm text-center flex-grow font-mono text-emerald-300 focus:outline-none">
+                <button @click="navigator.clipboard.writeText('01221078181'); alert('تم النسخ!');" class="bg-slate-800 hover:bg-slate-700 px-4 py-3 rounded-xl text-sm font-bold transition">
+                    <i class="fa-regular fa-copy"></i>
                 </button>
             </div>
 
-            <button onclick="confirmOrder()" class="w-full bg-green-600 hover:bg-green-500 text-white font-bold py-3.5 rounded-xl transition shadow-lg shadow-green-600/20">
+            <button @click="confirmSubscription()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3.5 rounded-xl transition shadow-lg shadow-emerald-600/20">
                 <i class="fa-brands fa-whatsapp ml-2"></i> تأكيد وإرسال الإيصال عبر واتساب
             </button>
         </div>
     </div>
 
-    <!-- Footer -->
-    <footer class="bg-slate-900 border-t border-slate-800 py-8 text-center text-sm text-slate-500">
-        <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row justify-between items-center gap-4">
-            <p>جميع الحقوق محفوظة &copy; 2026 CoachHub</p>
-            <div class="flex space-x-6 space-x-reverse text-slate-400">
-                <a href="#" class="hover:text-indigo-400 transition"><i class="fa-brands fa-twitter text-lg"></i></a>
-                <a href="#" class="hover:text-indigo-400 transition"><i class="fa-brands fa-linkedin text-lg"></i></a>
-                <a href="#" class="hover:text-indigo-400 transition"><i class="fa-brands fa-instagram text-lg"></i></a>
-            </div>
-        </div>
-    </footer>
-
-    <!-- JavaScript Functions -->
+    <!-- Script Logic -->
     <script>
-        let selectedService = '';
-        let selectedPrice = '';
-
-        function openCheckout(service, price) {
-            selectedService = service;
-            selectedPrice = price;
-            document.getElementById('modalTitle').innerText = service;
-            document.getElementById('modalPrice').innerText = price;
-            document.getElementById('checkoutModal').classList.remove('hidden');
-        }
-
-        function closeCheckout() {
-            document.getElementById('checkoutModal').classList.add('hidden');
-        }
-
-        function copyInstaPay() {
-            const input = document.getElementById('instapayInput');
-            navigator.clipboard.writeText(input.value);
-            alert('تم نسخ عنوان إنستاباي بنجاح: coachhub@instapay');
-        }
-
-        function confirmOrder() {
-            const message = `مرحباً، أرغب في تأكيد حجز "${selectedService}" بقيمة ${selectedPrice}. هذا هو إيصال التحويل عبر إنستاباي.`;
-            const whatsappUrl = `https://wa.me/201000000000?text=${encodeURIComponent(message)}`;
-            window.open(whatsappUrl, '_blank');
-        }
-
-        function toggleLanguage() {
-            alert('تم تفعيل واجهة اللغات المتعددة بنجاح!');
+        function coachHubApp() {
+            return {
+                lang: 'ar',
+                currentView: 'home',
+                showModal: false,
+                selectedTier: null,
+                pricingTiers: [
+                    { id: 1, nameAr: 'المستوى الأساسي', nameEn: 'Basic Tier', descAr: 'برنامج تدريبي عام ومتابعة شهرية خفيفة', descEn: 'General workout plan & monthly review', price: '200' },
+                    { id: 2, nameAr: 'المستوى البرونزي', nameEn: 'Bronze Tier', descAr: 'جدول تمارين مخصص للمبتدئين', descEn: 'Custom beginner workout routine', price: '500' },
+                    { id: 3, nameAr: 'المستوى الفضي', nameEn: 'Silver Tier', descAr: 'برنامج تمارين وتغذية متكامل', descEn: 'Full workout & nutrition program', price: '800' },
+                    { id: 4, nameAr: 'المستوى الذهبي', nameEn: 'Gold Tier', descAr: 'متابعة أسبوعية مباشرة وتعديل مستمر', descEn: 'Direct weekly check-ins & adjustments', price: '1200' },
+                    { id: 5, nameAr: 'المستوى البلاتيني', nameEn: 'Platinum Tier', descAr: 'تدريب مكثف وتواصل دائم عبر واتساب', descEn: 'Intensive coaching & continuous WhatsApp support', price: '1600' },
+                    { id: 6, nameAr: 'المستوى الماسي', nameEn: 'Diamond Tier', descAr: 'خطط احترافية متقدمة وتعديل وجبات فوري', descEn: 'Advanced professional plans & instant meal updates', price: '2000' },
+                    { id: 7, nameAr: 'المستوى الاحترافي الشامل', nameEn: 'Elite VIP Tier', descAr: 'متابعة VIP كاملة على مدار الساعة مع الخبير', descEn: 'Full 24/7 VIP coaching with the expert', price: '2500' }
+                ],
+                subscriptions: [
+                    { id: 1, name: 'أحمد محمود', tier: 'المستوى الذهبي', price: '1200 ج.م', status: 'مؤكد' },
+                    { id: 2, name: 'محمود علي', tier: 'المستوى الفضي', price: '800 ج.م', status: 'قيد المراجعة' }
+                ],
+                toggleLang() {
+                    this.lang = this.lang === 'ar' ? 'en' : 'ar';
+                },
+                selectTier(tier) {
+                    this.selectedTier = tier;
+                    this.showModal = true;
+                },
+                confirmSubscription() {
+                    const msg = `مرحباً، أرغب في الاشتراك في "${this.selectedTier.nameAr}" بقيمة ${this.selectedTier.price} ج.م عبر إنستاباي. وهذا هو الإيصال.`;
+                    window.open(`https://wa.me/201221078181?text=` + encodeURIComponent(msg), '_blank');
+                }
+            }
         }
     </script>
 </body>
