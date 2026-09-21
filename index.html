@@ -1,350 +1,449 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl" x-data="coachHubApp()">
+<html lang="ar" dir="rtl" x-data="coachHubApp()" :dir="lang === 'ar' ? 'rtl' : 'ltr'">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CoachHub - منصة إدارة تدريبات الجيم</title>
+    <title>CoachHub - منصة التدريب الاحترافية</title>
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Alpine.js CDN -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Font: Cairo -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap');
         body { font-family: 'Cairo', sans-serif; }
     </style>
 </head>
-<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col justify-between selection:bg-emerald-500 selection:text-white" :dir="lang === 'ar' ? 'rtl' : 'ltr'">
-    <!-- Navbar -->
-    <header class="bg-slate-900/95 backdrop-blur-md border-b border-slate-800 sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex justify-between items-center">
+<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col justify-between">
+
+    <!-- Top Navigation Bar -->
+    <header class="bg-slate-800 border-b border-slate-700 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
             <div class="flex items-center space-x-3 space-x-reverse cursor-pointer" @click="currentView = 'home'">
-                <div class="bg-gradient-to-tr from-emerald-600 to-teal-500 text-white p-3 rounded-2xl shadow-lg shadow-emerald-500/20 text-xl">
-                    <i class="fa-solid fa-dumbbell"></i>
-                </div>
-                <div>
-                    <span class="text-2xl font-black tracking-wider bg-gradient-to-r from-emerald-400 to-teal-200 bg-clip-text text-transparent">CoachHub</span>
-                    <span class="block text-xs text-slate-400 font-medium" x-text="lang === 'ar' ? 'منصة إدارة تدريبات الجيم' : 'Gym Training Platform'"></span>
-                </div>
+                <span class="text-2xl font-black text-indigo-400">Coach<span class="text-emerald-400">Hub</span></span>
             </div>
-            
-            <div class="flex items-center space-x-2 space-x-reverse">
-                <button @click="currentView = 'home'" class="text-xs sm:text-sm font-bold px-3 py-2 rounded-xl transition" :class="currentView === 'home' ? 'bg-emerald-600/10 text-emerald-400' : 'text-slate-300 hover:bg-slate-800'" x-text="lang === 'ar' ? 'الرئيسية' : 'Home'"></button>
-                <button @click="checkAccess('trainer')" class="text-xs sm:text-sm font-bold px-3 py-2 rounded-xl transition" :class="currentView === 'trainer' ? 'bg-emerald-600/10 text-emerald-400' : 'text-slate-300 hover:bg-slate-800'" x-text="lang === 'ar' ? 'لوحة المدرب 🔒' : 'Trainer Panel 🔒'"></button>
-                <button @click="checkAccess('admin')" class="text-xs sm:text-sm font-bold px-3 py-2 rounded-xl transition" :class="currentView === 'admin' ? 'bg-emerald-600/10 text-emerald-400' : 'text-slate-300 hover:bg-slate-800'" x-text="lang === 'ar' ? 'لوحة الأدمن 🔒' : 'Admin Panel 🔒'"></button>
-                <button @click="currentView = 'client'" class="text-xs sm:text-sm font-bold px-3 py-2 rounded-xl transition" :class="currentView === 'client' ? 'bg-emerald-600/10 text-emerald-400' : 'text-slate-300 hover:bg-slate-800'" x-text="lang === 'ar' ? 'بوابة المتدرب' : 'Client Portal'"></button>
-                
-                <button @click="toggleLang()" class="bg-slate-800 hover:bg-slate-700 text-xs px-3 py-2 rounded-xl border border-slate-700 transition font-bold flex items-center gap-1.5 mr-2">
-                    <i class="fa-solid fa-globe"></i>
-                    <span x-text="lang === 'ar' ? 'EN' : 'عربي'"></span>
+            <div class="flex items-center space-x-4 space-x-reverse">
+                <!-- Language Switcher -->
+                <button @click="toggleLang()" class="bg-slate-700 px-3 py-1.5 rounded-lg text-sm font-semibold hover:bg-slate-600 transition">
+                    <span x-text="lang === 'ar' ? 'English' : 'العربية'"></span>
                 </button>
+                <!-- Navigation Links -->
+                <nav class="hidden md:flex space-x-6 space-x-reverse text-sm font-medium">
+                    <button @click="currentView = 'home'" :class="currentView === 'home' ? 'text-indigo-400' : 'text-slate-300 hover:text-white'">الرئيسية</button>
+                    <button @click="currentView = 'plans'" :class="currentView === 'plans' ? 'text-indigo-400' : 'text-slate-300 hover:text-white'">الباقات والاشتراكات</button>
+                    <button @click="currentView = 'clientPortalLogin'" :class="currentView === 'clientPortalLogin' ? 'text-indigo-400' : 'text-slate-300 hover:text-white'">بوابة المتدرب</button>
+                </nav>
+                <!-- Access Buttons -->
+                <div class="flex space-x-2 space-x-reverse">
+                    <button @click="openLogin('trainer')" class="bg-indigo-600 hover:bg-indigo-500 px-3 py-1.5 rounded-lg text-xs font-bold shadow transition">
+                        دخول المدربين
+                    </button>
+                    <button @click="openLogin('admin')" class="bg-emerald-600 hover:bg-emerald-500 px-3 py-1.5 rounded-lg text-xs font-bold shadow transition">
+                        دخول الأدمن
+                    </button>
+                </div>
             </div>
         </div>
     </header>
 
-    <!-- Main Content -->
-    <main class="flex-grow">
-        <!-- 1. Home / Landing View with Motivational Images -->
-        <template x-if="currentView === 'home'">
-            <div>
-                <section class="relative py-24 px-4 overflow-hidden border-b border-slate-900">
-                    <div class="absolute inset-0 z-0 opacity-25 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1600&auto=format&fit=crop');"></div>
-                    <div class="absolute inset-0 bg-gradient-to-b from-slate-950/75 via-slate-950/90 to-slate-950 z-10"></div>
-                    
-                    <div class="max-w-5xl mx-auto text-center relative z-20">
-                        <span class="inline-flex items-center gap-2 py-1.5 px-4 rounded-full text-xs font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 mb-6">
-                            <i class="fa-solid fa-fire text-emerald-500"></i> <span x-text="lang === 'ar' ? 'ارتقِ بمستوى أداءك الرياضي' : 'Elevate Your Fitness Performance'"></span>
-                        </span>
-                        <h1 class="text-4xl sm:text-6xl font-black tracking-tight mb-6 leading-tight" x-text="lang === 'ar' ? 'المنصة الاحترافية الأولى لربط المدرب بالمتدرب' : 'The Ultimate Platform Connecting Trainer & Trainee'"></h1>
-                        <p class="text-slate-300 text-lg mb-10 max-w-2xl mx-auto" x-text="lang === 'ar' ? 'إدارة متكاملة للتمارين، التغذية، ومتابعة التقدم مع 7 باقات اشتراك مرنة والدفع عبر إنستاباي: 01221078181' : 'Complete management for workouts, nutrition & progress with 7 flexible tiers & InstaPay: 01221078181'"></p>
-                    </div>
-                </section>
+    <!-- Main Content Area -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-8">
 
-                <!-- Motivational Cards Grid -->
-                <section class="max-w-7xl mx-auto px-4 py-16">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
-                        <div class="relative rounded-3xl overflow-hidden border border-slate-800 group h-80 flex flex-col justify-end p-8">
-                            <div class="absolute inset-0 bg-cover bg-center group-hover:scale-105 transition duration-500" style="background-image: url('https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?q=80&w=1000&auto=format&fit=crop');"></div>
-                            <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/60 to-transparent"></div>
-                            <div class="relative z-10">
-                                <span class="bg-emerald-600 text-white text-xs font-bold px-3 py-1 rounded-full mb-3 inline-block">للإشراف والتدريب</span>
-                                <h3 class="text-2xl font-bold mb-2">تحكم كامل كمدرب محترف</h3>
-                                <p class="text-slate-300 text-xs">صمم الجداول، راقب أوزان متدربيك، وتابع الأداء خطوة بخطوة.</p>
-                            </div>
+        <!-- Home View -->
+        <div x-show="currentView === 'home'" class="space-y-12">
+            <div class="text-center py-16 bg-gradient-to-r from-indigo-900/50 to-slate-800 rounded-3xl p-8 border border-slate-700 shadow-xl">
+                <h1 class="text-4xl md:text-6xl font-black mb-4 tracking-tight">ابنِ جسمك، طوّر أداءك مع <span class="text-indigo-400">CoachHub</span></h1>
+                <p class="text-slate-400 text-lg max-w-2xl mx-auto mb-8">منصة متكاملة لإدارة التدريبات، متابعة الأنظمة الغذائية، والاشتراكات الشهرية بكل سهولة واحترافية.</p>
+                <div class="flex justify-center gap-4">
+                    <button @click="currentView = 'plans'" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold px-8 py-3 rounded-xl shadow-lg transition">استعرض الباقات</button>
+                    <button @click="currentView = 'clientPortalLogin'" class="bg-slate-700 hover:bg-slate-600 font-bold px-8 py-3 rounded-xl transition">دخول المشتركين</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Plans View -->
+        <div x-show="currentView === 'plans'" class="space-y-8">
+            <div class="text-center">
+                <h2 class="text-3xl font-black mb-2">الباقات التدريبية</h2>
+                <p class="text-slate-400">اختر الباقة المناسبة لهدفك التدريبي (تضم 7 مستويات سعرية من 200 إلى 2500 جنيه)</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                <template x-for="plan in pricingTiers" :key="plan.id">
+                    <div class="bg-slate-800 border border-slate-700 rounded-2xl p-6 flex flex-col justify-between shadow-lg hover:border-indigo-500 transition">
+                        <div>
+                            <h3 class="text-xl font-bold text-indigo-400 mb-2" x-text="plan.name"></h3>
+                            <p class="text-slate-400 text-sm mb-4" x-text="plan.desc"></p>
+                            <div class="text-3xl font-black text-white mb-6"><span x-text="plan.price"></span> <span class="text-sm font-normal text-slate-400">جنيه / شهرياً</span></div>
                         </div>
-
-                        <div class="relative rounded-3xl overflow-hidden border border-slate-800 group h-80 flex flex-col justify-end p-8">
-                            <div class="absolute inset-0 bg-cover bg-center group-hover:scale-105 transition duration-500" style="background-image: url('https://images.unsplash.com/photo-1517838277536-f5f99be501cd?q=80&w=1000&auto=format&fit=crop');"></div>
-                            <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/60 to-transparent"></div>
-                            <div class="relative z-10">
-                                <span class="bg-teal-600 text-white text-xs font-bold px-3 py-1 rounded-full mb-3 inline-block">للبطل المتدرب</span>
-                                <h3 class="text-2xl font-bold mb-2">حقق أهدافك البدنية والغذائية</h3>
-                                <p class="text-slate-300 text-xs">تتبع وجباتك، سعراتك، ونمو عضلاتك بكل سهولة عبر بوابتك الخاصة.</p>
-                            </div>
-                        </div>
+                        <button @click="selectPlan(plan)" class="w-full bg-indigo-600 hover:bg-indigo-500 font-bold py-2.5 rounded-xl transition text-center">اشتري عبر InstaPay</button>
                     </div>
+                </template>
+            </div>
+        </div>
 
-                    <!-- 7-Tier Pricing Grid -->
-                    <div class="text-center max-w-3xl mx-auto mb-12">
-                        <h2 class="text-3xl font-black mb-3" x-text="lang === 'ar' ? 'مستويات الاشتراكات السبعة' : 'The 7 Subscription Tiers'"></h2>
-                        <p class="text-slate-400 text-sm" x-text="lang === 'ar' ? 'اختر باقتك المفضلة وادفع فوراً عبر إنستاباي للحساب المعتمد: 01221078181' : 'Choose your tier and pay securely via InstaPay: 01221078181'"></p>
-                    </div>
+        <!-- Client Portal Login View -->
+        <div x-show="currentView === 'clientPortalLogin'" class="max-w-md mx-auto bg-slate-800 border border-slate-700 rounded-2xl p-8 shadow-xl">
+            <h2 class="text-2xl font-black mb-6 text-indigo-400 text-center">بوابة متابعة المتدرب</h2>
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium mb-2">أدخل رقم الهاتف المسجل:</label>
+                    <input type="text" x-model="clientQuery" placeholder="مثال: 01012345678" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 focus:outline-none focus:border-indigo-500">
+                </div>
+                <button @click="searchClientPortal()" class="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold py-3 rounded-xl transition">عرض برنامجي وبنفاتي</button>
+            </div>
+        </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
-                        <template x-for="tier in pricingTiers" :key="tier.id">
-                            <div class="bg-slate-900 rounded-3xl p-6 border border-slate-800 hover:border-emerald-500/50 transition flex flex-col justify-between relative group">
-                                <div class="absolute -top-3 right-6 bg-emerald-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow" x-text="tier.nameAr"></div>
-                                <div>
-                                    <h3 class="text-xl font-bold mb-2 mt-2" x-text="lang === 'ar' ? tier.nameAr : tier.nameEn"></h3>
-                                    <p class="text-slate-400 text-xs mb-6" x-text="lang === 'ar' ? tier.descAr : tier.descEn"></p>
-                                </div>
-                                <div>
-                                    <div class="flex items-baseline mb-6 pt-4 border-t border-slate-800">
-                                        <span class="text-3xl font-black text-emerald-400" x-text="tier.price"></span>
-                                        <span class="text-xs text-slate-400 mr-1" x-text="lang === 'ar' ? ' ج.م / شهرياً' : ' EGP / mo'"></span>
-                                    </div>
-                                    <button @click="selectTier(tier)" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 rounded-xl transition text-sm shadow-md shadow-emerald-600/20" x-text="lang === 'ar' ? 'اشتترك الآن' : 'Subscribe Now'"></button>
-                                </div>
-                            </div>
+        <!-- Trainee Dashboard -->
+        <div x-show="currentView === 'clientDashboard'" class="max-w-3xl mx-auto space-y-6">
+            <div class="bg-slate-800 border border-slate-700 rounded-2xl p-6 flex justify-between items-center">
+                <div>
+                    <h2 class="text-2xl font-black text-emerald-400" x-text="'أهلاً بك، ' + (currentClient ? currentClient.name : '')"></h2>
+                    <p class="text-slate-400 text-sm" x-text="'باقستك الحالية: ' + (currentClient ? currentClient.plan : '')"></p>
+                </div>
+                <button @click="currentView = 'home'; currentClient = null" class="bg-rose-600 hover:bg-rose-500 px-4 py-2 rounded-xl text-sm font-bold transition">خروج</button>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-slate-800 border border-slate-700 rounded-2xl p-6 space-y-3">
+                    <h3 class="text-lg font-bold text-indigo-400">🏋️‍♂️ برنامج التمارين الخاص بك</h3>
+                    <p class="text-slate-300 bg-slate-900 p-4 rounded-xl border border-slate-700 text-sm whitespace-pre-line" x-text="currentClient ? currentClient.workout : 'لا يوجد برنامج مدرج حالياً.'"></p>
+                </div>
+                <div class="bg-slate-800 border border-slate-700 rounded-2xl p-6 space-y-3">
+                    <h3 class="text-lg font-bold text-indigo-400">🥗 النظام الغذائي والبنفتس</h3>
+                    <p class="text-slate-300 bg-slate-900 p-4 rounded-xl border border-slate-700 text-sm whitespace-pre-line" x-text="currentClient ? currentClient.nutrition : 'لا يوجد نظام غذائي مدرج حالياً.'"></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Trainer Dashboard -->
+        <div x-show="currentView === 'trainerDashboard'" class="space-y-6">
+            <div class="flex justify-between items-center bg-slate-800 p-6 rounded-2xl border border-slate-700">
+                <div>
+                    <h2 class="text-2xl font-black text-indigo-400" x-text="'لوحة تحكم المدرب: ' + (currentTrainer ? currentTrainer.name : '')"></h2>
+                    <p class="text-slate-400 text-sm">إدارة المتدربين وتخصيص التمارين والأنظمة الغذائية وإرسالها.</p>
+                </div>
+                <button @click="currentView = 'home'; currentTrainer = null" class="bg-rose-600 hover:bg-rose-500 px-4 py-2 rounded-xl text-sm font-bold transition">خروج</button>
+            </div>
+
+            <!-- Add / Assign Client Form -->
+            <div class="bg-slate-800 border border-slate-700 rounded-2xl p-6 space-y-4">
+                <h3 class="text-xl font-bold text-emerald-400">➕ إضافة متدرب جديد أو تحديث بياناته</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <input type="text" x-model="newClient.name" placeholder="اسم المتدرب" class="bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm">
+                    <input type="text" x-model="newClient.phone" placeholder="رقم الهاتف (كود الدخول)" class="bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm">
+                    <select x-model="newClient.plan" class="bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm">
+                        <template x-for="p in pricingTiers">
+                            <option :value="p.name" x-text="p.name"></option>
                         </template>
-                    </div>
-                </section>
+                    </select>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <textarea x-model="newClient.workout" placeholder="تفاصيل برنامج التمارين..." class="bg-slate-900 border border-slate-700 rounded-xl p-3 text-sm h-24"></textarea>
+                    <textarea x-model="newClient.nutrition" placeholder="تفاصيل النظام الغذائي / البنفتس..." class="bg-slate-900 border border-slate-700 rounded-xl p-3 text-sm h-24"></textarea>
+                </div>
+                <button @click="addClient()" class="bg-emerald-600 hover:bg-emerald-500 font-bold px-6 py-2.5 rounded-xl text-sm transition">حفظ وإضافة المتدرب</button>
             </div>
-        </template>
 
-        <!-- 2. Trainer Dashboard View (Protected) -->
-        <template x-if="currentView === 'trainer'">
-            <div class="max-w-7xl mx-auto px-4 py-10">
-                <div class="flex justify-between items-center mb-8">
-                    <div>
-                        <h2 class="text-2xl font-black" x-text="lang === 'ar' ? 'لوحة تحكم المدرب (محمية)' : 'Trainer Dashboard (Secure)'"></h2>
-                        <p class="text-slate-400 text-xs mt-1" x-text="lang === 'ar' ? 'إدارة المتدربين والخطط التدريبية' : 'Manage trainees and workout plans'"></p>
-                    </div>
-                    <button @click="currentView = 'home'" class="bg-slate-800 hover:bg-slate-700 px-4 py-2 rounded-xl text-xs font-bold">
-                        <i class="fa-solid fa-arrow-right ml-1"></i> <span x-text="lang === 'ar' ? 'الرئيسية' : 'Home'"></span>
-                    </button>
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl">
-                        <h3 class="font-bold text-lg mb-2">إجمالي المتدربين</h3>
-                        <p class="text-3xl font-black text-emerald-400">14 متدرب</p>
-                    </div>
-                    <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl">
-                        <h3 class="font-bold text-lg mb-2">الخطط النشطة</h3>
-                        <p class="text-3xl font-black text-teal-400">12 خطة</p>
-                    </div>
-                    <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl">
-                        <h3 class="font-bold text-lg mb-2">حساب InstaPay</h3>
-                        <p class="text-xl font-mono font-bold text-emerald-400">01221078181</p>
-                    </div>
-                </div>
+            <!-- Clients List Table -->
+            <div class="bg-slate-800 border border-slate-700 rounded-2xl p-6 overflow-x-auto">
+                <h3 class="text-xl font-bold mb-4 text-indigo-400">📋 قائمة المتدربين المسجلين</h3>
+                <table class="w-full text-right text-sm">
+                    <thead>
+                        <tr class="border-b border-slate-700 text-slate-400">
+                            <th class="pb-3">الاسم</th>
+                            <th class="pb-3">الهاتف</th>
+                            <th class="pb-3">الباقة</th>
+                            <th class="pb-3">إجراءات</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-700">
+                        <template x-for="c in clients" :key="c.id">
+                            <tr>
+                                <td class="py-3 font-bold" x-text="c.name"></td>
+                                <td class="py-3 text-slate-300" x-text="c.phone"></td>
+                                <td class="py-3 text-indigo-400" x-text="c.plan"></td>
+                                <td class="py-3 flex space-x-2 space-x-reverse">
+                                    <button @click="generateWhatsAppLink(c)" class="bg-emerald-600 hover:bg-emerald-500 px-3 py-1 rounded-lg text-xs font-bold">واتساب</button>
+                                    <button @click="deleteClient(c.id)" class="bg-rose-600 hover:bg-rose-500 px-3 py-1 rounded-lg text-xs font-bold">حذف</button>
+                                </td>
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
             </div>
-        </template>
+        </div>
 
-        <!-- 3. Admin Dashboard View (Protected) -->
-        <template x-if="currentView === 'admin'">
-            <div class="max-w-7xl mx-auto px-4 py-10">
-                <div class="flex justify-between items-center mb-8">
-                    <div>
-                        <h2 class="text-2xl font-black" x-text="lang === 'ar' ? 'لوحة تحكم الأدمن (محمية)' : 'Admin Dashboard (Secure)'"></h2>
-                        <p class="text-slate-400 text-xs mt-1" x-text="lang === 'ar' ? 'متابعة الاشتراكات والتحقق من الحسابات' : 'Monitor subscriptions and verification'"></p>
-                    </div>
-                    <button @click="currentView = 'home'" class="bg-slate-800 hover:bg-slate-700 px-4 py-2 rounded-xl text-xs font-bold">
-                        <i class="fa-solid fa-arrow-right ml-1"></i> <span x-text="lang === 'ar' ? 'الرئيسية' : 'Home'"></span>
-                    </button>
+        <!-- Admin Dashboard -->
+        <div x-show="currentView === 'adminDashboard'" class="space-y-6">
+            <div class="flex justify-between items-center bg-slate-800 p-6 rounded-2xl border border-slate-700">
+                <div>
+                    <h2 class="text-2xl font-black text-emerald-400">لوحة تحكم الأدمن (الإدارة العامة)</h2>
+                    <p class="text-slate-400 text-sm">إدارة حسابات المدربين، أسعار الباقات، ومتابعة النظام.</p>
                 </div>
+                <button @click="currentView = 'home'" class="bg-rose-600 hover:bg-rose-500 px-4 py-2 rounded-xl text-sm font-bold transition">خروج</button>
+            </div>
+
+            <!-- Manage Trainers Section -->
+            <div class="bg-slate-800 border border-slate-700 rounded-2xl p-6 space-y-4">
+                <h3 class="text-xl font-bold text-indigo-400">👨‍🏫 إدارة حسابات المدربين (Gmail وكلمة المرور)</h3>
                 
-                <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6">
-                    <h3 class="text-lg font-bold mb-4">التحقق من اشتراكات InstaPay (01221078181)</h3>
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-right text-sm">
-                            <thead>
-                                <tr class="border-b border-slate-800 text-slate-400">
-                                    <th class="py-3 px-4">المتدرب</th>
-                                    <th class="py-3 px-4">الباقة</th>
-                                    <th class="py-3 px-4">المبلغ</th>
-                                    <th class="py-3 px-4">الحالة</th>
-                                    <th class="py-3 px-4">واتساب</th>
+                <!-- Add Trainer Form -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-3 bg-slate-900 p-4 rounded-xl border border-slate-700">
+                    <input type="text" x-model="newTrainer.name" placeholder="اسم المدرب" class="bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm">
+                    <input type="email" x-model="newTrainer.email" placeholder="البريد الإلكتروني (Gmail)" class="bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm">
+                    <input type="password" x-model="newTrainer.password" placeholder="كلمة المرور" class="bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm">
+                    <button @click="addTrainer()" class="bg-indigo-600 hover:bg-indigo-500 font-bold py-2 rounded-lg text-sm transition">إضافة مدرب جديد</button>
+                </div>
+
+                <!-- Trainers Table -->
+                <div class="overflow-x-auto">
+                    <table class="w-full text-right text-sm">
+                        <thead>
+                            <tr class="border-b border-slate-700 text-slate-400">
+                                <th class="pb-2">اسم المدرب</th>
+                                <th class="pb-2">البريد الإلكتروني</th>
+                                <th class="pb-2">كلمة المرور</th>
+                                <th class="pb-2">إجراءات</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-700">
+                            <template x-for="t in trainers" :key="t.id">
+                                <tr>
+                                    <td class="py-2 font-bold" x-text="t.name"></td>
+                                    <td class="py-2 text-slate-300" x-text="t.email"></td>
+                                    <td class="py-2 text-indigo-400" x-text="t.password"></td>
+                                    <td class="py-2">
+                                        <button @click="deleteTrainer(t.id)" class="bg-rose-600 hover:bg-rose-500 px-3 py-1 rounded-lg text-xs font-bold">حذف</button>
+                                    </td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                <template x-for="sub in subscriptions" :key="sub.id">
-                                    <tr class="border-b border-slate-800/50">
-                                        <td class="py-3 px-4 font-bold" x-text="sub.name"></td>
-                                        <td class="py-3 px-4 text-emerald-400" x-text="sub.tier"></td>
-                                        <td class="py-3 px-4" x-text="sub.price"></td>
-                                        <td class="py-3 px-4"><span class="px-2.5 py-1 rounded-full text-xs bg-emerald-500/10 text-emerald-400 border border-emerald-500/20" x-text="sub.status"></span></td>
-                                        <td class="py-3 px-4">
-                                            <a :href="'https://wa.me/201221078181?text=' + encodeURIComponent('مرحباً، أتابع بخصوص اشتراك ' + sub.tier)" target="_blank" class="text-emerald-400 hover:text-emerald-300 font-bold">
-                                                <i class="fa-brands fa-whatsapp text-lg"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                </template>
-                            </tbody>
-                        </table>
-                    </div>
+                            </template>
+                        </tbody>
+                    </table>
                 </div>
             </div>
-        </template>
 
-        <!-- 4. Client Portal View -->
-        <template x-if="currentView === 'client'">
-            <div class="max-w-7xl mx-auto px-4 py-10">
-                <div class="flex justify-between items-center mb-8">
-                    <div>
-                        <h2 class="text-2xl font-black" x-text="lang === 'ar' ? 'بوابة المتدرب التفصيلية' : 'Client Detailed Portal'"></h2>
-                        <p class="text-slate-400 text-xs mt-1" x-text="lang === 'ar' ? 'عرض التمارين، السعرات الحرارية، والتقدم الشخصي' : 'View workouts, macros, and personal progress'"></p>
-                    </div>
-                    <button @click="currentView = 'home'" class="bg-slate-800 hover:bg-slate-700 px-4 py-2 rounded-xl text-xs font-bold">
-                        <i class="fa-solid fa-arrow-right ml-1"></i> <span x-text="lang === 'ar' ? 'الرئيسية' : 'Home'"></span>
-                    </button>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6">
-                        <h3 class="font-bold text-lg mb-4 text-emerald-400"><i class="fa-solid fa-dumbbell ml-2"></i> جدول التمارين الأسبوعي</h3>
-                        <ul class="space-y-3 text-sm text-slate-300">
-                            <li class="bg-slate-950 p-3 rounded-xl border border-slate-800 flex justify-between"><span>السبت: صدر وتراسبس</span><span class="text-emerald-400">4 تمارين</span></li>
-                            <li class="bg-slate-950 p-3 rounded-xl border border-slate-800 flex justify-between"><span>الأحد: ظهر وبايسبس</span><span class="text-emerald-400">4 تمارين</span></li>
-                            <li class="bg-slate-950 p-3 rounded-xl border border-slate-800 flex justify-between"><span>الثلاثاء: أرجل وكتف</span><span class="text-emerald-400">5 تمارين</span></li>
-                        </ul>
-                    </div>
-                    <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6">
-                        <h3 class="font-bold text-lg mb-4 text-teal-400"><i class="fa-solid fa-utensils ml-2"></i> النظام الغذائي والماكروز</h3>
-                        <div class="space-y-3 text-sm text-slate-300">
-                            <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 flex justify-between"><span>البروتين المستهدف</span><span class="font-bold text-teal-400">180 جرام</span></div>
-                            <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 flex justify-between"><span>الكربوهيدرات</span><span class="font-bold text-teal-400">250 جرام</span></div>
-                            <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 flex justify-between"><span>الدهون الصحية</span><span class="font-bold text-teal-400">65 جرام</span></div>
+            <!-- Edit Pricing Tiers -->
+            <div class="bg-slate-800 border border-slate-700 rounded-2xl p-6 space-y-4">
+                <h3 class="text-xl font-bold text-indigo-400">⚙️ تعديل أسعار وتفاصيل الباقات الـ 7</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <template x-for="(tier, index) in pricingTiers" :key="tier.id">
+                        <div class="bg-slate-900 p-4 rounded-xl border border-slate-700 space-y-3">
+                            <div class="flex justify-between items-center">
+                                <input type="text" x-model="tier.name" class="bg-slate-800 border border-slate-700 rounded-lg px-3 py-1.5 font-bold text-sm w-2/3">
+                                <div class="flex items-center space-x-1 space-x-reverse">
+                                    <input type="number" x-model.number="tier.price" class="bg-slate-800 border border-slate-700 rounded-lg px-2 py-1.5 text-sm w-20 text-center font-bold text-emerald-400">
+                                    <span class="text-xs text-slate-400">ج.م</span>
+                                </div>
+                            </div>
+                            <input type="text" x-model="tier.desc" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-slate-300">
                         </div>
-                    </div>
+                    </template>
                 </div>
+                <button @click="saveTiers()" class="bg-indigo-600 hover:bg-indigo-500 font-bold px-6 py-2.5 rounded-xl text-sm transition">حفظ التعديلات في الباقات</button>
             </div>
-        </template>
+        </div>
+
     </main>
 
-    <!-- Security PIN Login Modal -->
-    <div x-show="showAuthModal" class="fixed inset-0 bg-slate-950/85 backdrop-blur-sm z-50 flex items-center justify-center p-4" style="display: none;">
-        <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-sm w-full p-8 shadow-2xl relative">
-            <button @click="showAuthModal = false" class="absolute top-6 left-6 text-slate-400 hover:text-white">
-                <i class="fa-solid fa-xmark text-xl"></i>
-            </button>
+    <!-- Login Modal (Gmail & Password for Trainer / PIN for Admin) -->
+    <div x-show="showLoginModal" class="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
+        <div class="bg-slate-800 border border-slate-700 rounded-2xl p-6 max-w-sm w-full space-y-4">
+            <h3 class="text-xl font-bold text-indigo-400" x-text="loginRole === 'admin' ? 'تسجيل دخول الأدمن' : 'تسجيل دخول المدرب عبر Gmail'"></h3>
             
-            <div class="text-center mb-6">
-                <div class="w-12 h-12 bg-emerald-600/20 text-emerald-400 rounded-2xl flex items-center justify-center text-xl font-bold mx-auto mb-3">
-                    <i class="fa-solid fa-lock"></i>
+            <!-- Trainer Inputs (Gmail & Password) -->
+            <div x-show="loginRole === 'trainer'" class="space-y-3">
+                <div>
+                    <label class="block text-xs text-slate-400 mb-1">البريد الإلكتروني (Gmail):</label>
+                    <input type="email" x-model="loginEmail" placeholder="trainer@gmail.com" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-indigo-500">
                 </div>
-                <h3 class="text-xl font-bold" x-text="authRole === 'trainer' ? 'دخول لوحة المدرب' : 'دخول لوحة الأدمن'"></h3>
-                <p class="text-slate-400 text-xs mt-1">الرجاء إدخال الرقم السري الخاص بك للمتابعة</p>
+                <div>
+                    <label class="block text-xs text-slate-400 mb-1">كلمة المرور:</label>
+                    <input type="password" x-model="loginPassword" placeholder="********" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-indigo-500">
+                </div>
             </div>
 
-            <form @submit.prevent="verifyPin()">
-                <input type="password" x-model="enteredPin" placeholder="أدخل الرقم السري (الافتراضي: 1234)" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm text-center font-mono text-emerald-300 focus:outline-none focus:border-emerald-500 mb-3" autofocus>
-                
-                <p x-show="pinError" class="text-red-400 text-xs text-center mb-4 font-bold">الرقم السري غير صحيح، حاول مرة أخرى.</p>
+            <!-- Admin Input (PIN) -->
+            <div x-show="loginRole === 'admin'" class="space-y-3">
+                <p class="text-slate-400 text-sm">أدخل رمز الأدمن (الافتراضي: 0000)</p>
+                <input type="password" x-model="loginPin" maxlength="4" placeholder="****" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-center text-2xl tracking-widest focus:outline-none focus:border-indigo-500">
+            </div>
 
-                <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 rounded-xl transition shadow-lg shadow-emerald-600/20">
-                    تأكيد الدخول
-                </button>
-            </form>
+            <div class="flex space-x-3 space-x-reverse pt-2">
+                <button @click="handleLogin()" class="flex-1 bg-indigo-600 hover:bg-indigo-500 font-bold py-2.5 rounded-xl transition">دخول</button>
+                <button @click="showLoginModal = false; loginPin = ''; loginEmail = ''; loginPassword = ''" class="flex-1 bg-slate-700 hover:bg-slate-600 font-bold py-2.5 rounded-xl transition">إلغاء</button>
+            </div>
         </div>
     </div>
 
-    <!-- Checkout Modal -->
-    <div x-show="showModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4" style="display: none;">
-        <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-md w-full p-8 shadow-2xl relative">
-            <button @click="showModal = false" class="absolute top-6 left-6 text-slate-400 hover:text-white">
-                <i class="fa-solid fa-xmark text-xl"></i>
-            </button>
-            
-            <div class="text-center mb-6">
-                <div class="w-12 h-12 bg-emerald-600/20 text-emerald-400 rounded-2xl flex items-center justify-center text-xl font-bold mx-auto mb-3">
-                    <i class="fa-solid fa-wallet"></i>
-                </div>
-                <h3 class="text-xl font-bold" x-text="selectedTier?.nameAr"></h3>
-                <p class="text-emerald-400 font-bold text-lg mt-1" x-text="selectedTier?.price + ' ج.م'"></p>
+    <!-- InstaPay Checkout Modal -->
+    <div x-show="showCheckoutModal" class="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
+        <div class="bg-slate-800 border border-slate-700 rounded-2xl p-6 max-w-md w-full space-y-4">
+            <h3 class="text-xl font-bold text-emerald-400">إتمام الدفع عبر InstaPay</h3>
+            <p class="text-slate-300 text-sm">يرجى تحويل المبلغ المطلوب للباقة إلى رقم InstaPay التالي:</p>
+            <div class="bg-slate-900 p-4 rounded-xl border border-slate-700 text-center">
+                <span class="text-2xl font-black text-indigo-400 tracking-wider">01221078181</span>
             </div>
-
-            <div class="bg-slate-950 p-4 rounded-2xl border border-slate-800 mb-6 text-sm">
-                <p class="text-slate-300 mb-2 font-semibold">تعليمات الدفع عبر InstaPay:</p>
-                <ol class="list-decimal list-inside text-slate-400 space-y-1.5 text-xs">
-                    <li>افتح تطبيق إنستاباي.</li>
-                    <li>حول المبلغ للحساب: <strong class="text-emerald-400 font-mono">01221078181</strong></li>
-                    <li>أرسل إيصال التحويل عبر واتساب لتفعيل الحساب فوراً.</li>
-                </ol>
-            </div>
-
-            <div class="flex gap-3 mb-4">
-                <input type="text" readonly value="01221078181" class="bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm text-center flex-grow font-mono text-emerald-300 focus:outline-none">
-                <button @click="navigator.clipboard.writeText('01221078181'); alert('تم النسخ!');" class="bg-slate-800 hover:bg-slate-700 px-4 py-3 rounded-xl text-sm font-bold transition">
-                    <i class="fa-regular fa-copy"></i>
-                </button>
-            </div>
-
-            <button @click="confirmSubscription()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3.5 rounded-xl transition shadow-lg shadow-emerald-600/20">
-                <i class="fa-brands fa-whatsapp ml-2"></i> تأكيد وإرسال الإيصال عبر واتساب
-            </button>
+            <p class="text-slate-400 text-xs">بعد التحويل، تواصل معنا عبر واتساب بإرسال الإيصال واسمك لتفعيل الحساب فوراً.</p>
+            <button @click="showCheckoutModal = false" class="w-full bg-slate-700 hover:bg-slate-600 font-bold py-2.5 rounded-xl transition">إغلاق</button>
         </div>
     </div>
 
+    <!-- Footer -->
+    <footer class="bg-slate-800 border-t border-slate-700 text-center py-4 text-sm text-slate-400">
+        <p>&copy; 2026 CoachHub. جميع الحقوق محفوظة.</p>
+    </footer>
+
+    <!-- Alpine.js Application Logic -->
     <script>
         function coachHubApp() {
             return {
                 lang: 'ar',
                 currentView: 'home',
-                showModal: false,
-                selectedTier: null,
-                
-                // Security Authentication States
-                showAuthModal: false,
-                authRole: '',
-                enteredPin: '',
-                pinError: false,
-                correctPin: '1234', // يمكنك تغيير الرقم السري هنا بسهولة
-                trainerAuthed: false,
-                adminAuthed: false,
+                showLoginModal: false,
+                showCheckoutModal: false,
+                loginRole: 'trainer',
+                loginPin: '',
+                loginEmail: '',
+                loginPassword: '',
+                clientQuery: '',
+                currentClient: null,
+                currentTrainer: null,
 
-                pricingTiers: [
-                    { id: 1, nameAr: 'المستوى الأساسي', nameEn: 'Basic Tier', descAr: 'برنامج تدريبي عام ومتابعة شهرية', descEn: 'General plan & monthly review', price: '200' },
-                    { id: 2, nameAr: 'المستوى البرونزي', nameEn: 'Bronze Tier', descAr: 'جدول تمارين مخصص للمبتدئين', descEn: 'Beginner routine', price: '500' },
-                    { id: 3, nameAr: 'المستوى الفضي', nameEn: 'Silver Tier', descAr: 'برنامج تمارين وتغذية متكامل', descEn: 'Full workout & nutrition', price: '800' },
-                    { id: 4, nameAr: 'المستوى الذهبي', nameEn: 'Gold Tier', descAr: 'متابعة أسبوعية مباشرة وتعديل مستمر', descEn: 'Direct weekly check-ins', price: '1200' },
-                    { id: 5, nameAr: 'المستوى البلاتيني', nameEn: 'Platinum Tier', descAr: 'تدريب مكثف وتواصل دائم عبر واتساب', descEn: 'Intensive coaching & WhatsApp', price: '1600' },
-                    { id: 6, nameAr: 'المستوى الماسي', nameEn: 'Diamond Tier', descAr: 'خطط احترافية وتعديل وجبات فوري', descEn: 'Advanced plans & instant updates', price: '2000' },
-                    { id: 7, nameAr: 'المستوى الاحترافي الشامل', nameEn: 'Elite VIP Tier', descAr: 'متابعة VIP كاملة 24/7 مع الخبير', descEn: 'Full 24/7 VIP coaching', price: '2500' }
+                // Persistent Trainers List (Gmail & Password)
+                trainers: JSON.parse(localStorage.getItem('coachhub_trainers')) || [
+                    { id: 1, name: 'محمد المدرب', email: 'trainer@gmail.com', password: '123' }
                 ],
-                subscriptions: [
-                    { id: 1, name: 'أحمد محمود', tier: 'المستوى الذهبي', price: '1200 ج.م', status: 'مؤكد' },
-                    { id: 2, name: 'محمود علي', tier: 'المستوى الفضي', price: '800 ج.م', status: 'قيد المراجعة' }
+                newTrainer: { name: '', email: '', password: '' },
+
+                // Persistent Pricing Tiers
+                pricingTiers: JSON.parse(localStorage.getItem('coachhub_tiers')) || [
+                    { id: 1, name: 'باقة المبتدئين', desc: 'متابعة أساسية وتمرين منزلي', price: 200 },
+                    { id: 2, name: 'باقة اللياقة', desc: 'برنامج تدريبي لمدة شهر', price: 400 },
+                    { id: 3, name: 'الباقة البرونزية', desc: 'برنامج تدريبي + نظام غذائي', price: 700 },
+                    { id: 4, name: 'الباقة الفضية', desc: 'متابعة أسبوعية وتعديل مباشر', price: 1000 },
+                    { id: 5, name: 'الباقة الذهبية', desc: 'تدريب شخصي مكثف ومتابعة يومية', price: 1500 },
+                    { id: 6, name: 'باقة الـ VIP', desc: 'استشارات خاصة وتغذية مخصصة', price: 2000 },
+                    { id: 7, name: 'الباقة الشاملة الاحترافية', desc: 'إشراف كامل وتصميم برامج متقدمة', price: 2500 }
                 ],
-                toggleLang() { this.lang = this.lang === 'ar' ? 'en' : 'ar'; },
-                selectTier(tier) { this.selectedTier = tier; this.showModal = true; },
-                
-                checkAccess(role) {
-                    if (role === 'trainer' && this.trainerAuthed) {
-                        this.currentView = 'trainer';
-                    } else if (role === 'admin' && this.adminAuthed) {
-                        this.currentView = 'admin';
-                    } else {
-                        this.authRole = role;
-                        this.enteredPin = '';
-                        this.pinError = false;
-                        this.showAuthModal = true;
+
+                // Persistent Clients Data
+                clients: JSON.parse(localStorage.getItem('coachhub_clients')) || [
+                    { id: 1, name: 'أحمد محمد', phone: '01012345678', plan: 'الباقة البرونزية', workout: 'تمرن صدر وظهر اليوم بتركيز عالي.', nutrition: 'وجبات غنية بالبروتين + 3 لتر ماء.' }
+                ],
+
+                newClient: { name: '', phone: '', plan: 'باقة المبتدئين', workout: '', nutrition: '' },
+
+                toggleLang() {
+                    this.lang = this.lang === 'ar' ? 'en' : 'ar';
+                },
+
+                openLogin(role) {
+                    this.loginRole = role;
+                    this.loginPin = '';
+                    this.loginEmail = '';
+                    this.loginPassword = '';
+                    this.showLoginModal = true;
+                },
+
+                handleLogin() {
+                    if (this.loginRole === 'admin') {
+                        if (this.loginPin === '0000') {
+                            this.showLoginModal = false;
+                            this.currentView = 'adminDashboard';
+                        } else {
+                            alert('رمز الأدمن غير صحيح (الافتراضي: 0000)');
+                        }
+                    } else if (this.loginRole === 'trainer') {
+                        const matchedTrainer = this.trainers.find(t => t.email.trim().toLowerCase() === this.loginEmail.trim().toLowerCase() && t.password === this.loginPassword);
+                        if (matchedTrainer) {
+                            this.currentTrainer = matchedTrainer;
+                            this.showLoginModal = false;
+                            this.currentView = 'trainerDashboard';
+                        } else {
+                            alert('البريد الإلكتروني أو كلمة المرور للمدرب غير صحيحة. (جرب trainer@gmail.com وكلمة المرور 123)');
+                        }
                     }
                 },
 
-                verifyPin() {
-                    if (this.enteredPin === this.correctPin) {
-                        if (this.authRole === 'trainer') this.trainerAuthed = true;
-                        if (this.authRole === 'admin') this.adminAuthed = true;
-                        this.currentView = this.authRole;
-                        this.showAuthModal = false;
-                    } else {
-                        this.pinError = true;
+                addTrainer() {
+                    if (!this.newTrainer.name || !this.newTrainer.email || !this.newTrainer.password) {
+                        alert('يرجى إكمال بيانات المدرب (الاسم، البريد، كلمة المرور)');
+                        return;
+                    }
+                    this.trainers.push({
+                        id: Date.now(),
+                        ...this.newTrainer
+                    });
+                    localStorage.setItem('coachhub_trainers', JSON.stringify(this.trainers));
+                    this.newTrainer = { name: '', email: '', password: '' };
+                    alert('تم إضافة المدرب بنجاح وأصبح بإمكانه تسجيل الدخول بـ Gmail الخاص به!');
+                },
+
+                deleteTrainer(id) {
+                    if (this.trainers.length <= 1) {
+                        alert('لا يمكن حذف كل المدربين، يجب وجود مدرب واحد على الأقل.');
+                        return;
+                    }
+                    if (confirm('هل أنت متأكد من حذف هذا المدرب؟')) {
+                        this.trainers = this.trainers.filter(t => t.id !== id);
+                        localStorage.setItem('coachhub_trainers', JSON.stringify(this.trainers));
                     }
                 },
 
-                confirmSubscription() {
-                    const msg = `مرحباً، أرغب في الاشتراك في "${this.selectedTier.nameAr}" بقيمة ${this.selectedTier.price} ج.م عبر إنستاباي (01221078181). وهذا إيصال التحويل.`;
-                    window.open(`https://wa.me/201221078181?text=` + encodeURIComponent(msg), '_blank');
+                selectPlan(plan) {
+                    this.showCheckoutModal = true;
+                },
+
+                searchClientPortal() {
+                    if (!this.clientQuery) {
+                        alert('يرجى إدخال رقم الهاتف أولاً');
+                        return;
+                    }
+                    const found = this.clients.find(c => c.phone.trim() === this.clientQuery.trim());
+                    if (found) {
+                        this.currentClient = found;
+                        this.currentView = 'clientDashboard';
+                    } else {
+                        alert('لم يتم العثور على اشتراك برقم الهاتف هذا.');
+                    }
+                },
+
+                addClient() {
+                    if (!this.newClient.name || !this.newClient.phone) {
+                        alert('يرجى إدخال اسم المتدرب ورقم الهاتف.');
+                        return;
+                    }
+                    this.clients.push({
+                        id: Date.now(),
+                        ...this.newClient
+                    });
+                    this.saveData();
+                    this.newClient = { name: '', phone: '', plan: 'باقة المبتدئين', workout: '', nutrition: '' };
+                    alert('تم إضافة المتدرب وحفظ البيانات بنجاح!');
+                },
+
+                deleteClient(id) {
+                    if (confirm('هل أنت متأكد من حذف هذا المتدرب؟')) {
+                        this.clients = this.clients.filter(c => c.id !== id);
+                        this.saveData();
+                    }
+                },
+
+                saveTiers() {
+                    localStorage.setItem('coachhub_tiers', JSON.stringify(this.pricingTiers));
+                    alert('تم تحديث وحفظ أسعار الباقات بنجاح!');
+                },
+
+                saveData() {
+                    localStorage.setItem('coachhub_clients', JSON.stringify(this.clients));
+                    localStorage.setItem('coachhub_tiers', JSON.stringify(this.pricingTiers));
+                },
+
+                generateWhatsAppLink(client) {
+                    const phone = '201221078181';
+                    const text = encodeURIComponent(`مرحباً بك يا ${client.name}، تفاصيل برنامجك التدريبي والغذائي لباقة (${client.plan}):\n\n🏋️‍♂️ التمارين:\n${client.workout}\n\n🥗 الغذاء والبنفتس:\n${client.nutrition}`);
+                    window.open(`https://wa.me/${client.phone}?text=${text}`, '_blank');
                 }
             }
         }
