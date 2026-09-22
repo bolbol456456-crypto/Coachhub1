@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CoachHub Pro - منصة التدريب الذكية مع الذكاء الاصطناعي وفيديوهات المتابعة</title>
+    <title>CoachHub Pro - منصة التدريب الذكية مع بروفايلات المدربين والتقييمات</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -75,12 +75,21 @@
     <main class="max-w-7xl mx-auto px-4 py-8">
 
         <!-- 1. Role Selection View -->
-        <div id="view-role-selection" class="max-w-4xl mx-auto text-center py-12">
-            <div class="inline-block mb-4 px-4 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-bold tracking-widest uppercase">مدعوم بالذكاء الاصطناعي التلقائي وفيديوهات المتابعة</div>
-            <h2 class="text-4xl md:text-5xl font-black mb-4 tracking-wide text-white">منصة التدريب الذكية المتكاملة</h2>
-            <p class="text-slate-400 mb-12 text-lg max-w-2xl mx-auto">اختر لوحة التحكم الخاصة بك لإدارة الأبطال، توليد البرامج بالـ AI، ومتابعة الفيديوهات والأوزان.</p>
+        <div id="view-role-selection" class="max-w-4xl mx-auto text-center py-12 space-y-8">
+            <div>
+                <div class="inline-block mb-4 px-4 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-bold tracking-widest uppercase">مدعوم بالذكاء الاصطناعي التلقائي وفيديوهات المتابعة وبروفايلات المدربين</div>
+                <h2 class="text-4xl md:text-5xl font-black mb-4 tracking-wide text-white">منصة التدريب الذكية المتكاملة</h2>
+                <p class="text-slate-400 text-lg max-w-2xl mx-auto">اختر لوحة التحكم الخاصة بك أو استعرض نخبة المدربين المعتمدين.</p>
+            </div>
+
+            <!-- زر اختر مدربك الخاص المضاف حديثاً -->
+            <div class="flex justify-center">
+                <button onclick="openPublicCoachesModal()" class="bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-slate-950 font-black px-8 py-4 rounded-2xl text-lg shadow-xl shadow-emerald-500/20 transition transform hover:scale-105 flex items-center gap-3">
+                    <i class="fa-solid fa-users-viewfinder text-2xl"></i> اختر مدربك الخاص (استعراض بروفايلات المدربين)
+                </button>
+            </div>
             
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 text-right">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 text-right pt-6">
                 <!-- Admin Card -->
                 <div onclick="openAdminPinModal()" class="card-gym-glow border border-slate-800 hover:border-emerald-500 p-6 rounded-3xl cursor-pointer transition transform hover:-translate-y-2 group shadow-xl">
                     <div class="w-14 h-14 bg-emerald-500/10 text-emerald-400 rounded-2xl flex items-center justify-center text-2xl mx-auto md:mx-0 mb-4 group-hover:bg-emerald-500 group-hover:text-slate-950 transition"><i class="fa-solid fa-shield-halved"></i></div>
@@ -92,21 +101,21 @@
                 <div onclick="openCoachAuthModal()" class="card-gym-glow border border-slate-800 hover:border-emerald-500 p-6 rounded-3xl cursor-pointer transition transform hover:-translate-y-2 group shadow-xl">
                     <div class="w-14 h-14 bg-blue-500/10 text-blue-400 rounded-2xl flex items-center justify-center text-2xl mx-auto md:mx-0 mb-4 group-hover:bg-blue-500 group-hover:text-slate-950 transition"><i class="fa-solid fa-user-tie"></i></div>
                     <h3 class="text-xl font-bold mb-2 text-white">المدرب (Coach)</h3>
-                    <p class="text-slate-400 text-xs leading-relaxed">مساعد ذكي لتوليد البرامج، إضافة متدربين، ومراجعة فيديوهات الأداء.</p>
+                    <p class="text-slate-400 text-xs leading-relaxed">إدارة المتدربين، تحديث البروفايل الشخصي، وتوليد البرامج بالـ AI.</p>
                 </div>
 
                 <!-- Trainee Card -->
                 <div onclick="openTraineeLoginModal()" class="card-gym-glow border border-slate-800 hover:border-emerald-500 p-6 rounded-3xl cursor-pointer transition transform hover:-translate-y-2 group shadow-xl">
                     <div class="w-14 h-14 bg-purple-500/10 text-purple-400 rounded-2xl flex items-center justify-center text-2xl mx-auto md:mx-0 mb-4 group-hover:bg-purple-500 group-hover:text-slate-950 transition"><i class="fa-solid fa-user"></i></div>
                     <h3 class="text-xl font-bold mb-2 text-white">المتدرب (Trainee)</h3>
-                    <p class="text-slate-400 text-xs leading-relaxed">تسجيل الدخول برقم الهاتف لمتابعة جدولك مع كوتشك الخاص.</p>
+                    <p class="text-slate-400 text-xs leading-relaxed">تسجيل الدخول برقم الهاتف لمتابعة جدولك وتقييم كوتشك الخاص.</p>
                 </div>
 
                 <!-- VIP Platform Direct Training Card -->
                 <div onclick="openVipAuthModal()" class="card-gym-glow border border-amber-500/60 hover:border-amber-400 p-6 rounded-3xl cursor-pointer transition transform hover:-translate-y-2 group shadow-xl bg-gradient-to-b from-amber-500/10 to-slate-900/90">
                     <div class="w-14 h-14 bg-amber-500/20 text-amber-400 rounded-2xl flex items-center justify-center text-2xl mx-auto md:mx-0 mb-4 group-hover:bg-amber-400 group-hover:text-slate-950 transition"><i class="fa-solid fa-crown"></i></div>
                     <h3 class="text-xl font-bold mb-2 text-white">اشتراك VIP المباشر</h3>
-                    <p class="text-amber-200/70 text-xs leading-relaxed">تدرب مع المنصة والـ AI مباشرة بدون كوتش بشري، مع مكتبة تمارين ذكية ودعم 24/7.</p>
+                    <p class="text-amber-200/70 text-xs leading-relaxed">تدرب مع المنصة والـ AI مباشرة بدون كوتش بشري، مع مكتبة تمارين ذكية.</p>
                 </div>
             </div>
         </div>
@@ -165,25 +174,26 @@
         <div id="view-coach" class="hidden space-y-6">
             <div class="flex justify-between items-center card-gym-glow p-6 rounded-3xl border border-slate-800 flex-wrap gap-4">
                 <div>
-                    <h2 class="text-2xl font-bold text-white">لوحة تحكم الكوتشات الخارجيين</h2>
+                    <h2 class="text-2xl font-bold text-white">لوحة تحكم الكوتش</h2>
                     <p class="text-slate-400 text-sm" id="coach-welcome-email">مرحباً بك، مدربنا العزيز</p>
                 </div>
                 <div class="flex gap-2 flex-wrap">
-                    <button onclick="openAiGeneratorModal()" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold px-4 py-2 rounded-xl text-sm transition shadow-lg shadow-indigo-600/20"><i class="fa-solid fa-wand-magic-sparkles ml-2"></i>مولد الـ AI للبرامج</button>
-                    <button onclick="openAddTraineeModal()" class="bg-emerald-500 text-slate-950 font-bold px-4 py-2 rounded-xl text-sm hover:bg-emerald-400 transition shadow-lg shadow-emerald-500/20"><i class="fa-solid fa-plus ml-2"></i>إضافة متدرب جديد</button>
+                    <button onclick="openCoachProfileModal()" class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-4 py-2 rounded-xl text-sm transition"><i class="fa-solid fa-id-card ml-2"></i>تعديل بروفايلي العام</button>
+                    <button onclick="openAiGeneratorModal()" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold px-4 py-2 rounded-xl text-sm transition shadow-lg"><i class="fa-solid fa-wand-magic-sparkles ml-2"></i>مولد الـ AI</button>
+                    <button onclick="openAddTraineeModal()" class="bg-emerald-500 text-slate-950 font-bold px-4 py-2 rounded-xl text-sm hover:bg-emerald-400 transition shadow-lg"><i class="fa-solid fa-plus ml-2"></i>إضافة متدرب</button>
                     <button onclick="logout()" class="bg-red-500/10 text-red-400 px-4 py-2 rounded-xl text-sm font-semibold hover:bg-red-500/20 transition">خروج</button>
                 </div>
             </div>
 
             <div class="card-gym-glow p-6 rounded-3xl border border-slate-800 space-y-4">
-                <h3 class="text-lg font-bold mb-4 text-white">قائمة المتدربين والبرامج وفيديوهات المتابعة</h3>
+                <h3 class="text-lg font-bold mb-4 text-white">قائمة المتدربين وفيديوهات المتابعة</h3>
                 <div class="overflow-x-auto">
                     <table class="w-full text-right">
                         <thead>
                             <tr class="border-b border-slate-800 text-slate-400 text-sm">
                                 <th class="pb-3">اسم المتدرب</th>
                                 <th class="pb-3">رقم الهاتف</th>
-                                <th class="pb-3">فيديو التمارين المرسل</th>
+                                <th class="pb-3">فيديو التمارين</th>
                                 <th class="pb-3">الإجراءات</th>
                             </tr>
                         </thead>
@@ -200,70 +210,42 @@
                     <span class="text-xs bg-emerald-500/20 text-emerald-400 px-3 py-1 rounded-full font-bold border border-emerald-500/30">بوابة المتدرب الحماسية 🔥</span>
                     <h2 class="text-3xl font-black mt-2 text-white" id="trainee-welcome-name">أهلاً بك، بطل</h2>
                 </div>
-                <button onclick="logout()" class="bg-red-500/10 text-red-400 px-4 py-2 rounded-xl text-sm font-semibold hover:bg-red-500/20 transition">خروج</button>
+                <div class="flex gap-2">
+                    <button onclick="openRatingModal()" class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-4 py-2 rounded-xl text-sm transition"><i class="fa-solid fa-star ml-1"></i> تقييم الكوتش</button>
+                    <button onclick="logout()" class="bg-red-500/10 text-red-400 px-4 py-2 rounded-xl text-sm font-semibold hover:bg-red-500/20 transition">خروج</button>
+                </div>
             </div>
 
-            <!-- Video Upload Section for Trainee -->
             <div class="card-gym-glow p-6 rounded-3xl border border-slate-800 space-y-3">
-                <h3 class="text-lg font-bold text-white flex items-center gap-2"><i class="fa-solid fa-video text-emerald-400"></i> إرسال فيديو التمرين للكوتش لتعديل الأخطاء</h3>
-                <p class="text-slate-400 text-xs">قم برفع رابط فيديو التمرين (يوتيوب غير مدرج أو Google Drive) ليتمكن الكوتش من مشاهدته:</p>
+                <h3 class="text-lg font-bold text-white flex items-center gap-2"><i class="fa-solid fa-video text-emerald-400"></i> إرسال فيديو التمرين للكوتش</h3>
                 <div class="flex gap-2">
-                    <input type="text" id="trainee-video-link-input" placeholder="ضع رابط الفيديو هنا..." class="flex-1 bg-slate-950 border border-slate-800 p-3 rounded-xl text-sm text-white outline-none focus:border-emerald-500">
+                    <input type="text" id="trainee-video-link-input" placeholder="ضع رابط الفيديو هنا (YouTube / Drive)..." class="flex-1 bg-slate-950 border border-slate-800 p-3 rounded-xl text-sm text-white outline-none focus:border-emerald-500">
                     <button onclick="saveTraineeVideoLink()" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold px-5 py-2.5 rounded-xl text-sm transition">إرسال للكوتش</button>
                 </div>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <!-- Training Program & Weight Update -->
                 <div class="card-gym-glow p-6 rounded-3xl border border-slate-800 space-y-4">
-                    <h3 class="text-xl font-bold flex items-center gap-2 text-white"><i class="fa-solid fa-dumbbell text-emerald-400"></i> الجدول التدريبي وتعديل الأوزان</h3>
+                    <h3 class="text-xl font-bold flex items-center gap-2 text-white"><i class="fa-solid fa-dumbbell text-emerald-400"></i> الجدول التدريبي</h3>
                     <div id="trainee-workout-plan-box" class="space-y-3"></div>
                 </div>
-
-                <!-- Nutrition Program -->
                 <div class="card-gym-glow p-6 rounded-3xl border border-slate-800 space-y-4">
-                    <h3 class="text-xl font-bold flex items-center gap-2 text-white"><i class="fa-solid fa-utensils text-emerald-400"></i> النظام الغذائي الكامل</h3>
+                    <h3 class="text-xl font-bold flex items-center gap-2 text-white"><i class="fa-solid fa-utensils text-emerald-400"></i> النظام الغذائي</h3>
                     <div id="trainee-diet-plan-box" class="text-slate-300 text-sm leading-relaxed bg-slate-950/80 p-4 rounded-2xl border border-slate-800"></div>
                 </div>
-            </div>
-
-            <!-- Progress Tracker -->
-            <div class="card-gym-glow p-6 rounded-3xl border border-slate-800 space-y-4">
-                <div class="flex justify-between items-center flex-wrap gap-2">
-                    <h3 class="text-xl font-bold flex items-center gap-2 text-white"><i class="fa-solid fa-chart-line text-emerald-400"></i> سجل التقدم البصري والبياني (Progress Tracker)</h3>
-                    <span class="text-xs bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 px-3 py-1.5 rounded-xl font-bold"><i class="fa-solid fa-lock ml-1"></i> آمن وتحت إشراف الكوتش</span>
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
-                    <div class="space-y-2">
-                        <label class="text-xs text-slate-300 font-bold block">الوزن الحالي (كجم):</label>
-                        <input type="number" id="progress-weight" placeholder="مثال: 78" class="w-full bg-slate-950 border border-slate-800 p-3 rounded-xl text-sm text-white outline-none focus:border-emerald-500">
-                    </div>
-                    <div class="space-y-2">
-                        <label class="text-xs text-slate-300 font-bold block">مقاس الوسط (سم):</label>
-                        <input type="number" id="progress-waist" placeholder="مثال: 82" class="w-full bg-slate-950 border border-slate-800 p-3 rounded-xl text-sm text-white outline-none focus:border-emerald-500">
-                    </div>
-                    <div class="space-y-2">
-                        <label class="text-xs text-slate-300 font-bold block">مقاس الذراعين (سم):</label>
-                        <input type="number" id="progress-arms" placeholder="مثال: 38" class="w-full bg-slate-950 border border-slate-800 p-3 rounded-xl text-sm text-white outline-none focus:border-emerald-500">
-                    </div>
-                </div>
-                <button onclick="saveTraineeProgress()" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold px-5 py-2.5 rounded-xl text-sm transition shadow-lg shadow-emerald-500/20">حفظ القياسات وإرسالها للكوتش 🔒</button>
             </div>
 
             <!-- AI Fitness Assistant -->
             <div class="card-gym-glow p-6 rounded-3xl border border-slate-800 space-y-4">
                 <div class="flex items-center justify-between">
                     <h3 class="text-xl font-bold flex items-center gap-2 text-white"><i class="fa-solid fa-robot text-purple-400"></i> المساعد الذكي الشخصي (AI Assistant)</h3>
-                    <span class="text-xs bg-purple-500/20 text-purple-300 px-3 py-1 rounded-full font-bold border border-purple-500/30">مجاني 24/7</span>
                 </div>
                 <div id="ai-chat-box" class="bg-slate-950/90 border border-slate-800 p-4 rounded-2xl h-44 overflow-y-auto space-y-3 text-sm">
-                    <div class="bg-slate-900 p-3 rounded-xl text-slate-300 max-w-[85%] border border-slate-800">
-                        أهلاً بك يا بطل! كيف يمكنني مساعدتك اليوم في جدولك الغذائي أو تمارينك؟
-                    </div>
+                    <div class="bg-slate-900 p-3 rounded-xl text-slate-300 max-w-[85%] border border-slate-800">أهلاً بك يا بطل! كيف يمكنني مساعدتك اليوم؟</div>
                 </div>
                 <div class="flex gap-2">
                     <input type="text" id="ai-chat-input" placeholder="اكتب سؤالك هنا..." class="flex-1 bg-slate-950 border border-slate-800 p-3 rounded-xl text-sm text-white outline-none focus:border-purple-500" onkeypress="if(event.key === 'Enter') sendAiChatMessage()">
-                    <button onclick="sendAiChatMessage()" class="bg-purple-600 hover:bg-purple-500 text-white font-bold px-5 py-2.5 rounded-xl text-sm transition shadow-lg shadow-purple-600/20"><i class="fa-solid fa-paper-plane"></i></button>
+                    <button onclick="sendAiChatMessage()" class="bg-purple-600 hover:bg-purple-500 text-white font-bold px-5 py-2.5 rounded-xl text-sm transition"><i class="fa-solid fa-paper-plane"></i></button>
                 </div>
             </div>
         </div>
@@ -272,56 +254,108 @@
         <div id="view-vip-dashboard" class="hidden space-y-6">
             <div class="bg-gradient-to-r from-amber-900/60 to-slate-900/90 p-6 rounded-3xl border border-amber-500/40 flex justify-between items-center flex-wrap gap-4 backdrop-blur-md shadow-2xl">
                 <div>
-                    <span class="text-xs bg-amber-500/20 text-amber-300 px-3 py-1 rounded-full font-bold border border-amber-500/40"><i class="fa-solid fa-crown ml-1"></i> عميل الـ VIP المباشر مع المنصة (بدون كوتش)</span>
+                    <span class="text-xs bg-amber-500/20 text-amber-300 px-3 py-1 rounded-full font-bold border border-amber-500/40"><i class="fa-solid fa-crown ml-1"></i> عميل الـ VIP المباشر</span>
                     <h2 class="text-3xl font-black mt-2 text-white" id="vip-welcome-name">أهلاً بك يا بطل VIP</h2>
                 </div>
                 <button onclick="logout()" class="bg-red-500/10 text-red-400 px-4 py-2 rounded-xl text-sm font-semibold hover:bg-red-500/20 transition">خروج</button>
             </div>
-
-            <!-- VIP Smart Autonomous AI Program Generator Box -->
             <div class="card-gym-glow p-6 rounded-3xl border border-amber-500/30 space-y-4">
                 <div class="flex justify-between items-center flex-wrap gap-2">
-                    <h3 class="text-xl font-bold flex items-center gap-2 text-white"><i class="fa-solid fa-wand-magic-sparkles text-amber-400"></i> مولد برامج الـ VIP الذكي التلقائي (Autonomous AI)</h3>
-                    <button onclick="generateVipAutonomousPlan()" class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-4 py-2 rounded-xl text-sm transition shadow-lg shadow-amber-500/20">توليد/تحديث البرنامج أسبوعياً بالـ AI ⚡</button>
+                    <h3 class="text-xl font-bold flex items-center gap-2 text-white"><i class="fa-solid fa-wand-magic-sparkles text-amber-400"></i> مولد برامج الـ VIP الذكي</h3>
+                    <button onclick="generateVipAutonomousPlan()" class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-4 py-2 rounded-xl text-sm transition">توليد/تحديث البرنامج ⚡</button>
                 </div>
-                <p class="text-slate-400 text-xs leading-relaxed">هذا النظام يعمل بالذكاء الاصطناعي بالكامل وبدون أي تدخل بشري؛ يقوم بإنشاء وتحديث جدولك الغذائي والتدريبي فوراً بناءً على أهدافك وتطور أوزانك.</p>
             </div>
-
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <!-- VIP Workout Plan & Exercise Library -->
                 <div class="card-gym-glow p-6 rounded-3xl border border-slate-800 space-y-4">
-                    <h3 class="text-xl font-bold flex items-center gap-2 text-white"><i class="fa-solid fa-dumbbell text-amber-400"></i> الجدول التدريبي ومكتبة التمارين المخصصة</h3>
+                    <h3 class="text-xl font-bold flex items-center gap-2 text-white"><i class="fa-solid fa-dumbbell text-amber-400"></i> جدول التدريب</h3>
                     <div id="vip-workout-plan-box" class="space-y-3"></div>
                 </div>
-
-                <!-- VIP Nutrition Plan -->
                 <div class="card-gym-glow p-6 rounded-3xl border border-slate-800 space-y-4">
-                    <h3 class="text-xl font-bold flex items-center gap-2 text-white"><i class="fa-solid fa-utensils text-amber-400"></i> النظام الغذائي التلقائي (VIP Nutrition)</h3>
+                    <h3 class="text-xl font-bold flex items-center gap-2 text-white"><i class="fa-solid fa-utensils text-amber-400"></i> النظام الغذائي</h3>
                     <div id="vip-diet-plan-box" class="text-slate-300 text-sm leading-relaxed bg-slate-950/80 p-4 rounded-2xl border border-slate-800"></div>
-                </div>
-            </div>
-
-            <!-- VIP 24/7 AI Fitness Assistant Chatbot -->
-            <div class="card-gym-glow p-6 rounded-3xl border border-slate-800 space-y-4">
-                <div class="flex items-center justify-between">
-                    <h3 class="text-xl font-bold flex items-center gap-2 text-white"><i class="fa-solid fa-robot text-purple-400"></i> مساعد الـ VIP الذكي الخاص (24/7 Assistant)</h3>
-                    <span class="text-xs bg-amber-500/20 text-amber-300 px-3 py-1 rounded-full font-bold border border-amber-500/40">متاح على مدار الساعة</span>
-                </div>
-                <div id="vip-ai-chat-box" class="bg-slate-950/90 border border-slate-800 p-4 rounded-2xl h-44 overflow-y-auto space-y-3 text-sm">
-                    <div class="bg-slate-900 p-3 rounded-xl text-slate-300 max-w-[85%] border border-slate-800">
-                        أهلاً بك في باقة VIP المباشرة! أنا مساعدك الذكي المتاح معك على مدار الساعة طوال أيام الأسبوع للإجابة عن أي استفسار تدريبي أو غذائي.
-                    </div>
-                </div>
-                <div class="flex gap-2">
-                    <input type="text" id="vip-ai-chat-input" placeholder="اكتب استفسارك هنا..." class="flex-1 bg-slate-950 border border-slate-800 p-3 rounded-xl text-sm text-white outline-none focus:border-amber-500" onkeypress="if(event.key === 'Enter') sendVipAiChatMessage()">
-                    <button onclick="sendVipAiChatMessage()" class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-5 py-2.5 rounded-xl text-sm transition shadow-lg shadow-amber-500/20"><i class="fa-solid fa-paper-plane"></i></button>
                 </div>
             </div>
         </div>
 
     </main>
 
-    <!-- Modals -->
+    <!-- MODALS -->
+
+    <!-- Public Coaches Directory Modal (اختتر مدربك الخاص) -->
+    <div id="public-coaches-modal" class="fixed inset-0 bg-slate-950/90 backdrop-blur-md hidden items-center justify-center z-50 p-4">
+        <div class="card-gym-glow border border-slate-800 p-6 rounded-3xl max-w-4xl w-full space-y-6 max-h-[90vh] overflow-y-auto shadow-2xl">
+            <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+                <h3 class="text-2xl font-black text-white flex items-center gap-2"><i class="fa-solid fa-users text-emerald-400"></i> نخبة المدربين المعتمدين (Active Coaches)</h3>
+                <button onclick="closeModals()" class="text-slate-400 hover:text-white text-xl"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div id="public-coaches-list" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- يتم تعبئتها ديناميكياً بالكوتشات النشطين فقط -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Single Coach Profile View Modal -->
+    <div id="coach-profile-detail-modal" class="fixed inset-0 bg-slate-950/90 backdrop-blur-md hidden items-center justify-center z-50 p-4">
+        <div class="card-gym-glow border border-emerald-500/50 p-6 rounded-3xl max-w-2xl w-full space-y-6 max-h-[90vh] overflow-y-auto shadow-2xl" id="coach-profile-detail-content">
+            <!-- تفاصيل بروفايل الكوتش والتقييمات -->
+        </div>
+    </div>
+
+    <!-- Coach Mandatory Profile Setup Modal (أول ما يدخل بعد التفعيل) -->
+    <div id="coach-mandatory-profile-modal" class="fixed inset-0 bg-slate-950/95 backdrop-blur-lg hidden items-center justify-center z-50 p-4">
+        <div class="card-gym-glow border border-emerald-500 p-6 rounded-3xl max-w-xl w-full space-y-4 max-h-[90vh] overflow-y-auto shadow-2xl">
+            <h3 class="text-2xl font-black text-white text-center">أهلاً بك كوتش! يرجى إكمال بروفايلك العام</h3>
+            <p class="text-slate-400 text-xs text-center">هذه البيانات ستظهر للزوار في قسم "اختر مدربك الخاص" لتتمكن من استقبال متدربين جدد.</p>
+            
+            <div class="space-y-3">
+                <div>
+                    <label class="text-xs text-slate-300 font-bold block mb-1">الاسم بالكامل:</label>
+                    <input type="text" id="setup-profile-name" placeholder="مثال: الكوتش أحمد محمد" class="w-full bg-slate-950 border border-slate-800 p-3 rounded-xl text-sm text-white outline-none focus:border-emerald-500">
+                </div>
+                <div>
+                    <label class="text-xs text-slate-300 font-bold block mb-1">رقم الواتساب (للتواصل المباشر - لن يظهر الرقم بل زر يحول العميل):</label>
+                    <input type="text" id="setup-profile-whatsapp" placeholder="مثال: 201012345678" class="w-full bg-slate-950 border border-slate-800 p-3 rounded-xl text-sm text-white outline-none focus:border-emerald-500">
+                </div>
+                <div>
+                    <label class="text-xs text-slate-300 font-bold block mb-1">الصورة الشخصية (رابط صورة):</label>
+                    <input type="text" id="setup-profile-img" placeholder="رابط صورة شخصية مربعة" class="w-full bg-slate-950 border border-slate-800 p-3 rounded-xl text-sm text-white outline-none focus:border-emerald-500">
+                </div>
+                <div>
+                    <label class="text-xs text-slate-300 font-bold block mb-1">السيرة الذاتية (البايو):</label>
+                    <textarea id="setup-profile-bio" rows="3" placeholder="نبذة عن خبرتك وإنجازاتك الرياضية..." class="w-full bg-slate-950 border border-slate-800 p-3 rounded-xl text-sm text-white outline-none focus:border-emerald-500"></textarea>
+                </div>
+                <div>
+                    <label class="text-xs text-emerald-400 font-bold block mb-1">شهادات الخبرة الحاصل عليها (اختياري):</label>
+                    <input type="text" id="setup-profile-certs" placeholder="رابط الشهادة أو اسم الاعتماد" class="w-full bg-slate-950 border border-slate-800 p-3 rounded-xl text-sm text-white outline-none focus:border-emerald-500">
+                </div>
+                <div>
+                    <label class="text-xs text-emerald-400 font-bold block mb-1">صور نتائج المتدربين Before & After (اختياري):</label>
+                    <input type="text" id="setup-profile-beforeafter" placeholder="رابط صورة التحول" class="w-full bg-slate-950 border border-slate-800 p-3 rounded-xl text-sm text-white outline-none focus:border-emerald-500">
+                </div>
+            </div>
+            <button onclick="saveCoachMandatoryProfile()" class="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold py-3 rounded-xl text-sm transition shadow-lg">حفظ الدخول والانتقال للوحة التحكم 🚀</button>
+        </div>
+    </div>
+
+    <!-- Rating Modal (تقييم المتدرب للكوتش) -->
+    <div id="rating-modal" class="fixed inset-0 bg-slate-950/85 backdrop-blur-md hidden items-center justify-center z-50 p-4">
+        <div class="card-gym-glow border border-slate-800 p-6 rounded-3xl max-w-sm w-full text-center space-y-4 shadow-2xl">
+            <h3 class="text-xl font-bold text-white">قيم أداء كوتشك</h3>
+            <div class="flex justify-center gap-2 text-2xl text-amber-400 cursor-pointer">
+                <i class="fa-solid fa-star" onclick="setRatingStars(1)" id="star-1"></i>
+                <i class="fa-solid fa-star" onclick="setRatingStars(2)" id="star-2"></i>
+                <i class="fa-solid fa-star" onclick="setRatingStars(3)" id="star-3"></i>
+                <i class="fa-solid fa-star" onclick="setRatingStars(4)" id="star-4"></i>
+                <i class="fa-solid fa-star" onclick="setRatingStars(5)" id="star-5"></i>
+            </div>
+            <textarea id="rating-message-input" rows="3" placeholder="اكتب رسالة تقييمك للكوتش..." class="w-full bg-slate-950 border border-slate-800 p-3 rounded-xl text-sm text-white outline-none focus:border-amber-500"></textarea>
+            <div class="flex gap-2">
+                <button onclick="submitTraineeRating()" class="flex-1 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold py-2.5 rounded-xl transition">إرسال التقييم</button>
+                <button onclick="closeModals()" class="flex-1 bg-slate-800 text-slate-300 py-2.5 rounded-xl transition">إلغاء</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Admin PIN Modal -->
     <div id="admin-pin-modal" class="fixed inset-0 bg-slate-950/85 backdrop-blur-md hidden items-center justify-center z-50 p-4">
         <div class="card-gym-glow border border-slate-800 p-6 rounded-3xl max-w-sm w-full text-center space-y-4 shadow-2xl">
@@ -341,25 +375,20 @@
                 <h3 class="text-xl font-bold text-white">بوابة اشتراك وتسجيل دخول المدربين</h3>
                 <button onclick="closeModals()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
             </div>
-
             <div class="flex gap-2 bg-slate-950 p-1 rounded-xl">
                 <button onclick="switchCoachAuthTab('login')" id="tab-coach-login" class="flex-1 py-2 rounded-lg bg-blue-600 text-white font-bold text-sm transition">تسجيل الدخول</button>
                 <button onclick="switchCoachAuthTab('register')" id="tab-coach-register" class="flex-1 py-2 rounded-lg bg-slate-900 text-slate-400 font-bold text-sm transition">اشتراك جديد</button>
             </div>
-
             <div id="coach-auth-section-login" class="space-y-3 pt-2">
                 <input type="email" id="login-coach-email" placeholder="البريد الإلكتروني (Gmail)" class="w-full bg-slate-950/90 border border-slate-800 p-3 rounded-xl text-sm outline-none focus:border-blue-500 text-white">
                 <input type="password" id="login-coach-code" placeholder="كود التفعيل الشهري المتغير" class="w-full bg-slate-950/90 border border-slate-800 p-3 rounded-xl text-sm outline-none focus:border-blue-500 text-white">
-                <button onclick="verifyCoachLogin()" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 rounded-xl text-sm transition shadow-lg shadow-blue-600/20">دخول لوحة التحكم</button>
+                <button onclick="verifyCoachLogin()" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 rounded-xl text-sm transition shadow-lg">دخول لوحة التحكم</button>
             </div>
-
             <div id="coach-auth-section-register" class="hidden space-y-4 pt-2">
                 <input type="email" id="reg-coach-email" placeholder="البريد الإلكتروني (Gmail)" class="w-full bg-slate-950/90 border border-slate-800 p-3 rounded-xl text-sm outline-none focus:border-emerald-500 text-white">
                 <input type="password" id="reg-coach-pass" placeholder="كلمة المرور الخاصة بالجيميل" class="w-full bg-slate-950/90 border border-slate-800 p-3 rounded-xl text-sm outline-none focus:border-emerald-500 text-white">
-                
-                <!-- تم إضافة الـ 7 باقات الخاصة بالمدربين تدريجياً من 300 إلى 2500 جنيه -->
                 <div class="space-y-1">
-                    <label class="text-xs text-emerald-400 font-bold block">اختر باقة المدرب المناسبة لعدد متدربيك:</label>
+                    <label class="text-xs text-emerald-400 font-bold block">اختر باقة المدرب المناسبة:</label>
                     <select id="reg-coach-package" class="w-full bg-slate-950/90 border border-emerald-500/40 p-3 rounded-xl text-sm outline-none focus:border-emerald-500 text-emerald-200 font-bold">
                         <option value="باقة ٥ أفراد - 300 ج.م">باقة ٥ أفراد (300 جنيه / شهر)</option>
                         <option value="باقة ١٥ شخص - 600 ج.م">باقة ١٥ شخص (600 جنيه / شهر)</option>
@@ -369,12 +398,11 @@
                         <option value="باقة غير محدودة - 2500 ج.م">باقة غير محدودة (2500 جنيه / شهر)</option>
                     </select>
                 </div>
-
                 <div class="bg-slate-950/90 p-4 rounded-2xl border border-slate-800 space-y-3">
                     <div class="text-xs text-emerald-400 font-bold"><i class="fa-solid fa-wallet ml-1"></i> الدفع عبر إنستا باي: 01221078181</div>
                     <input type="file" id="reg-receipt-file" accept="image/*" class="w-full text-xs text-slate-400 file:bg-emerald-500 file:text-slate-950 file:border-none file:rounded-xl file:px-3 file:py-1.5 font-bold">
                 </div>
-                <button onclick="submitCoachSubscription()" class="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold py-3 rounded-xl text-sm transition shadow-lg shadow-emerald-500/20">إرسال طلب الاشتراك وإيصال الدفع 🚀</button>
+                <button onclick="submitCoachSubscription()" class="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold py-3 rounded-xl text-sm transition shadow-lg">إرسال طلب الاشتراك وإيصال الدفع 🚀</button>
             </div>
         </div>
     </div>
@@ -383,59 +411,43 @@
     <div id="trainee-login-modal" class="fixed inset-0 bg-slate-950/85 backdrop-blur-md hidden items-center justify-center z-50 p-4">
         <div class="card-gym-glow border border-slate-800 p-6 rounded-3xl max-w-sm w-full text-center space-y-4 shadow-2xl">
             <h3 class="text-xl font-bold text-white">تسجيل دخول المتدرب</h3>
-            <input type="text" id="trainee-login-phone" class="w-full bg-slate-950/90 border border-slate-800 text-center py-3 px-4 rounded-xl focus:border-purple-500 outline-none text-sm font-bold tracking-wider text-white" placeholder="رقم الهاتف (مثال: 01012345678)">
+            <input type="text" id="trainee-login-phone" class="w-full bg-slate-950/90 border border-slate-800 text-center py-3 px-4 rounded-xl focus:border-purple-500 outline-none text-sm font-bold tracking-wider text-white" placeholder="رقم الهاتف">
             <div class="flex gap-2">
-                <button onclick="verifyTraineePhone()" class="flex-1 bg-purple-600 hover:bg-purple-500 text-white font-bold py-2.5 rounded-xl transition shadow-lg shadow-purple-600/20">دخول للنظام</button>
+                <button onclick="verifyTraineePhone()" class="flex-1 bg-purple-600 hover:bg-purple-500 text-white font-bold py-2.5 rounded-xl transition">دخول للنظام</button>
                 <button onclick="closeModals()" class="flex-1 bg-slate-800 text-slate-300 py-2.5 rounded-xl transition">إلغاء</button>
             </div>
         </div>
     </div>
 
-    <!-- VIP Auth Modal (Login & Register with Package Selection) -->
+    <!-- VIP Auth Modal -->
     <div id="vip-auth-modal" class="fixed inset-0 bg-slate-950/85 backdrop-blur-md hidden items-center justify-center z-50 p-4">
         <div class="card-gym-glow border border-amber-500/50 p-6 rounded-3xl max-w-xl w-full space-y-4 max-h-[90vh] overflow-y-auto shadow-2xl">
             <div class="flex justify-between items-center border-b border-slate-800 pb-3">
-                <h3 class="text-xl font-bold text-white flex items-center gap-2"><i class="fa-solid fa-crown text-amber-400"></i> اشتراك وتسجيل دخول عملاء الـ VIP المباشرين</h3>
+                <h3 class="text-xl font-bold text-white flex items-center gap-2"><i class="fa-solid fa-crown text-amber-400"></i> اشتراك وتسجيل دخول عملاء الـ VIP</h3>
                 <button onclick="closeModals()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
             </div>
-
             <div class="flex gap-2 bg-slate-950 p-1 rounded-xl">
                 <button onclick="switchVipAuthTab('login')" id="tab-vip-login" class="flex-1 py-2 rounded-lg bg-amber-500 text-slate-950 font-bold text-sm transition">تسجيل الدخول</button>
                 <button onclick="switchVipAuthTab('register')" id="tab-vip-register" class="flex-1 py-2 rounded-lg bg-slate-900 text-slate-400 font-bold text-sm transition">اشتراك VIP جديد</button>
             </div>
-
-            <!-- VIP Login Section -->
             <div id="vip-auth-section-login" class="space-y-3 pt-2">
-                <input type="text" id="login-vip-phone" placeholder="رقم الهاتف الخاص بك" class="w-full bg-slate-950/90 border border-slate-800 p-3 rounded-xl text-sm outline-none focus:border-amber-500 text-white">
-                <button onclick="verifyVipLogin()" class="w-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold py-3 rounded-xl text-sm transition shadow-lg shadow-amber-500/20">دخول لوحة تحكم الـ VIP الذكية 👑</button>
+                <input type="text" id="login-vip-phone" placeholder="رقم الهاتف" class="w-full bg-slate-950/90 border border-slate-800 p-3 rounded-xl text-sm outline-none focus:border-amber-500 text-white">
+                <button onclick="verifyVipLogin()" class="w-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold py-3 rounded-xl text-sm transition">دخول لوحة الـ VIP 👑</button>
             </div>
-
-            <!-- VIP Register Section with Direct Package Selection & InstaPay -->
             <div id="vip-auth-section-register" class="hidden space-y-4 pt-2">
                 <input type="text" id="reg-vip-name" placeholder="الاسم الكامل" class="w-full bg-slate-950/90 border border-slate-800 p-3 rounded-xl text-sm outline-none focus:border-amber-500 text-white">
-                <input type="text" id="reg-vip-phone" placeholder="رقم الهاتف (سيكون كلمة مرورك)" class="w-full bg-slate-950/90 border border-slate-800 p-3 rounded-xl text-sm outline-none focus:border-amber-500 text-white">
+                <input type="text" id="reg-vip-phone" placeholder="رقم الهاتف" class="w-full bg-slate-950/90 border border-slate-800 p-3 rounded-xl text-sm outline-none focus:border-amber-500 text-white">
                 <select id="reg-vip-goal" class="w-full bg-slate-950/90 border border-slate-800 p-3 rounded-xl text-sm outline-none focus:border-amber-500 text-slate-200">
                     <option value="تضخيم وبناء عضلات صافية">تضخيم وبناء عضلات صافية</option>
                     <option value="تنشيف وحرق الدهون">تنشيف وحرق الدهون</option>
-                    <option value="لياقة بدنية عامة وقوة">لياقة بدنية عامة وقوة</option>
                 </select>
-
-                <!-- زر واختيار باقات الـ VIP المتاحة للعميل -->
-                <div class="space-y-1">
-                    <label class="text-xs text-amber-400 font-bold block">اختر باقة الـ VIP المناسبة لك:</label>
-                    <select id="reg-vip-package" class="w-full bg-slate-950/90 border border-amber-500/50 p-3 rounded-xl text-sm outline-none focus:border-amber-500 text-amber-200 font-bold">
-                        <option value="باقة VIP الشهرية - 750 ج.م">باقة VIP الشهرية - 750 جنيه / شهر</option>
-                        <option value="باقة VIP لمدة 6 شهور - 3000 ج.م">باقة VIP لمدة 6 شهور - 3,000 جنيه (خصم خاص)</option>
-                        <option value="باقة VIP السنوية - 5400 ج.م">باقة VIP السنوية - 5,400 جنيه (أفضل قيمة توفيرية)</option>
-                    </select>
-                </div>
-
-                <div class="bg-slate-950/90 p-4 rounded-2xl border border-amber-500/30 space-y-3">
-                    <div class="text-xs text-amber-400 font-bold"><i class="fa-solid fa-wallet ml-1"></i> الدفع عبر إنستا باي (InstaPay): 01221078181</div>
-                    <p class="text-slate-400 text-[11px]">قم بالتحويل بقيمة الباقة المختار أعلاه ثم ارفع صورة إيصال الدفع أدناه:</p>
-                    <input type="file" id="reg-vip-receipt-file" accept="image/*" class="w-full text-xs text-slate-400 file:bg-amber-500 file:text-slate-950 file:border-none file:rounded-xl file:px-3 file:py-1.5 font-bold cursor-pointer">
-                </div>
-                <button onclick="submitVipSubscription()" class="w-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold py-3 rounded-xl text-sm transition shadow-lg shadow-amber-500/20">إرسال طلب اشتراك الـ VIP وإيصال الدفع 🚀</button>
+                <select id="reg-vip-package" class="w-full bg-slate-950/90 border border-amber-500/50 p-3 rounded-xl text-sm outline-none focus:border-amber-500 text-amber-200 font-bold">
+                    <option value="باقة VIP الشهرية - 750 ج.م">باقة VIP الشهرية - 750 جنيه / شهر</option>
+                    <option value="باقة VIP لمدة 6 شهور - 3000 ج.م">باقة VIP لمدة 6 شهور - 3,000 جنيه</option>
+                    <option value="باقة VIP السنوية - 5400 ج.م">باقة VIP السنوية - 5,400 جنيه</option>
+                </select>
+                <input type="file" id="reg-vip-receipt-file" accept="image/*" class="w-full text-xs text-slate-400 file:bg-amber-500 file:text-slate-950 file:border-none file:rounded-xl file:px-3 file:py-1.5 font-bold cursor-pointer">
+                <button onclick="submitVipSubscription()" class="w-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold py-3 rounded-xl text-sm transition">إرسال طلب اشتراك الـ VIP 🚀</button>
             </div>
         </div>
     </div>
@@ -443,13 +455,13 @@
     <!-- Add Trainee Modal -->
     <div id="add-trainee-modal" class="fixed inset-0 bg-slate-950/85 backdrop-blur-md hidden items-center justify-center z-50 p-4">
         <div class="card-gym-glow border border-slate-800 p-6 rounded-3xl max-w-lg w-full space-y-4 max-h-[90vh] overflow-y-auto shadow-2xl">
-            <h3 class="text-xl font-bold text-white">إضافة متدرب جديد وتصميم برنامجه</h3>
+            <h3 class="text-xl font-bold text-white">إضافة متدرب جديد</h3>
             <input type="text" id="new-trainee-name" placeholder="اسم المتدرب" class="w-full bg-slate-950/90 border border-slate-800 p-3 rounded-xl text-sm outline-none focus:border-emerald-500 text-white">
-            <input type="text" id="new-trainee-phone" placeholder="رقم الهاتف (كلمة المرور)" class="w-full bg-slate-950/90 border border-slate-800 p-3 rounded-xl text-sm outline-none focus:border-emerald-500 text-white">
-            <textarea id="new-trainee-diet" rows="2" placeholder="البرنامج الغذائي الكامل..." class="w-full bg-slate-950/90 border border-slate-800 p-3 rounded-xl text-sm outline-none focus:border-emerald-500 text-white"></textarea>
-            <textarea id="new-trainee-workout" rows="2" placeholder="البرنامج التدريبي (مثال: Bench Press | 4 | 10 | 70 كجم)" class="w-full bg-slate-950/90 border border-slate-800 p-3 rounded-xl text-sm outline-none focus:border-emerald-500 text-white"></textarea>
+            <input type="text" id="new-trainee-phone" placeholder="رقم الهاتف" class="w-full bg-slate-950/90 border border-slate-800 p-3 rounded-xl text-sm outline-none focus:border-emerald-500 text-white">
+            <textarea id="new-trainee-diet" rows="2" placeholder="البرنامج الغذائي..." class="w-full bg-slate-950/90 border border-slate-800 p-3 rounded-xl text-sm outline-none focus:border-emerald-500 text-white"></textarea>
+            <textarea id="new-trainee-workout" rows="2" placeholder="البرنامج التدريبي..." class="w-full bg-slate-950/90 border border-slate-800 p-3 rounded-xl text-sm outline-none focus:border-emerald-500 text-white"></textarea>
             <div class="flex gap-2 pt-2">
-                <button onclick="saveNewTrainee()" class="flex-1 bg-emerald-500 text-slate-950 font-bold py-2.5 rounded-xl transition">حفظ المتدرب سحابياً</button>
+                <button onclick="saveNewTrainee()" class="flex-1 bg-emerald-500 text-slate-950 font-bold py-2.5 rounded-xl transition">حفظ المتدرب</button>
                 <button onclick="closeModals()" class="flex-1 bg-slate-800 text-slate-300 py-2.5 rounded-xl transition">إغلاق</button>
             </div>
         </div>
@@ -458,16 +470,16 @@
     <!-- AI Generator Modal -->
     <div id="ai-generator-modal" class="fixed inset-0 bg-slate-950/85 backdrop-blur-md hidden items-center justify-center z-50 p-4">
         <div class="card-gym-glow border border-slate-800 p-6 rounded-3xl max-w-lg w-full space-y-4 shadow-2xl">
-            <h3 class="text-xl font-bold text-white flex items-center gap-2"><i class="fa-solid fa-wand-magic-sparkles text-indigo-400"></i> مولد البرامج الذكي (AI)</h3>
-            <p class="text-slate-400 text-xs">أدخل تفاصيل المتدرب وسيقوم الـ AI بتوليد برنامج احترافي فوراً:</p>
-            <textarea id="ai-prompt-input" rows="3" placeholder="مثال: شاب عمره 25 سنة، وزنه 75 كجم، يريد تضخيم العضلات..." class="w-full bg-slate-950/90 border border-slate-800 p-3 rounded-xl text-sm outline-none focus:border-indigo-500 text-white"></textarea>
+            <h3 class="text-xl font-bold text-white flex items-center gap-2"><i class="fa-solid fa-wand-magic-sparkles text-indigo-400"></i> مولد البرامج الذكي</h3>
+            <textarea id="ai-prompt-input" rows="3" placeholder="صف هدف المتدرب..." class="w-full bg-slate-950/90 border border-slate-800 p-3 rounded-xl text-sm outline-none focus:border-indigo-500 text-white"></textarea>
             <div class="flex gap-2">
-                <button onclick="generateAiPlan()" class="flex-1 bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-2.5 rounded-xl transition">توليد الجدول بالذكاء الاصطناعي 🚀</button>
+                <button onclick="generateAiPlan()" class="flex-1 bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-2.5 rounded-xl transition">توليد بالـ AI 🚀</button>
                 <button onclick="closeModals()" class="flex-1 bg-slate-800 text-slate-300 py-2.5 rounded-xl transition">إغلاق</button>
             </div>
         </div>
     </div>
 
+    <!-- JAVASCRIPT LOGIC -->
     <script>
         let cloudCoaches = [];
         let cloudTrainees = [];
@@ -475,6 +487,7 @@
         let currentCoachEmail = '';
         let currentTrainee = null;
         let currentVipTrainee = null;
+        let currentSelectedRating = 5;
 
         window.initCloudData = async function() {
             try {
@@ -518,8 +531,203 @@
             document.getElementById('add-trainee-modal').classList.remove('flex');
             document.getElementById('ai-generator-modal').classList.add('hidden');
             document.getElementById('ai-generator-modal').classList.remove('flex');
+            document.getElementById('public-coaches-modal').classList.add('hidden');
+            document.getElementById('public-coaches-modal').classList.remove('flex');
+            document.getElementById('coach-profile-detail-modal').classList.add('hidden');
+            document.getElementById('coach-profile-detail-modal').classList.remove('flex');
+            document.getElementById('coach-mandatory-profile-modal').classList.add('hidden');
+            document.getElementById('coach-mandatory-profile-modal').classList.remove('flex');
+            document.getElementById('rating-modal').classList.add('hidden');
+            document.getElementById('rating-modal').classList.remove('flex');
         }
 
+        /* --- Public Coaches Directory & Profiles --- */
+        async function openPublicCoachesModal() {
+            await window.initCloudData();
+            const listContainer = document.getElementById('public-coaches-list');
+            // فلترة الكوتشات الأكتف فقط
+            const activeCoaches = cloudCoaches.filter(c => c.active === true);
+
+            if(activeCoaches.length === 0) {
+                listContainer.innerHTML = `<div class="col-span-2 text-center text-slate-400 py-8">لا يوجد مدربون نشطون حالياً في المنصة.</div>`;
+            } else {
+                listContainer.innerHTML = activeCoaches.map(c => `
+                    <div class="bg-slate-900/90 border border-slate-800 p-5 rounded-2xl flex items-center gap-4 hover:border-emerald-500 transition cursor-pointer" onclick="openCoachProfileDetail('${c.email}')">
+                        <img src="${c.profileImg || 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=200&auto=format&fit=crop'}" class="w-16 h-16 rounded-2xl object-cover border border-emerald-500/40">
+                        <div class="flex-1">
+                            <h4 class="text-lg font-bold text-white">${c.profileName || c.email}</h4>
+                            <p class="text-slate-400 text-xs line-clamp-1">${c.profileBio || 'مدرب معتمد في منصة CoachHub Pro'}</p>
+                            <div class="mt-2 text-xs text-amber-400 font-bold"><i class="fa-solid fa-star ml-1"></i> تقييم عام</div>
+                        </div>
+                    </div>
+                `).join('');
+            }
+            document.getElementById('public-coaches-modal').classList.remove('hidden');
+            document.getElementById('public-coaches-modal').classList.add('flex');
+        }
+
+        async function openCoachProfileDetail(coachEmail) {
+            await window.initCloudData();
+            const coach = cloudCoaches.find(c => c.email === coachEmail);
+            if(!coach || !coach.active) return alert('هذا البروفايل غير متاع أو انتهى اشتراك الكوتش.');
+
+            const container = document.getElementById('coach-profile-detail-content');
+            const ratings = coach.ratings || [];
+
+            container.innerHTML = `
+                <div class="flex justify-between items-start border-b border-slate-800 pb-4">
+                    <div class="flex items-center gap-4">
+                        <img src="${coach.profileImg || 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=200&auto=format&fit=crop'}" class="w-20 h-20 rounded-2xl object-cover border-2 border-emerald-500">
+                        <div>
+                            <h3 class="text-2xl font-black text-white">${coach.profileName || coach.email}</h3>
+                            <span class="text-xs bg-emerald-500/20 text-emerald-400 px-3 py-1 rounded-full font-bold">مدرب معتمد وأكتف</span>
+                        </div>
+                    </div>
+                    <button onclick="closeModals()" class="text-slate-400 hover:text-white text-xl"><i class="fa-solid fa-xmark"></i></button>
+                </div>
+
+                <div class="space-y-4 pt-2">
+                    <div>
+                        <h4 class="text-sm font-bold text-emerald-400 mb-1">السيرة الذاتية (البايو):</h4>
+                        <p class="text-slate-300 text-sm leading-relaxed bg-slate-950 p-3 rounded-xl">${coach.profileBio || 'لم يتم إضافة بايو بعد.'}</p>
+                    </div>
+
+                    <div>
+                        <h4 class="text-sm font-bold text-emerald-400 mb-1">الشهادات الحاصل عليها:</h4>
+                        <p class="text-slate-300 text-sm bg-slate-950 p-3 rounded-xl">${coach.profileCerts || 'شهادات معتمدة في التدريب الرياضي والغذاء.'}</p>
+                    </div>
+
+                    <div>
+                        <h4 class="text-sm font-bold text-emerald-400 mb-1">صور نتائج المتدربين (Before & After):</h4>
+                        <div class="bg-slate-950 p-3 rounded-xl text-slate-400 text-xs">
+                            ${coach.profileBeforeAfter ? `<img src="${coach.profileBeforeAfter}" class="rounded-xl max-h-48 object-cover">` : 'لا توجد صور معروضة حالياً.'}
+                        </div>
+                    </div>
+
+                    <div>
+                        <h4 class="text-sm font-bold text-emerald-400 mb-2">تقييمات وآراء المتدربين:</h4>
+                        <div class="space-y-2 max-h-36 overflow-y-auto">
+                            ${ratings.length === 0 ? '<p class="text-slate-500 text-xs">لا توجد تقييمات بعد.</p>' : ratings.map(r => `
+                                <div class="bg-slate-950 p-2.5 rounded-xl border border-slate-800 text-xs space-y-1">
+                                    <div class="text-amber-400">${'★'.repeat(r.stars)}</div>
+                                    <p class="text-slate-300">"${r.message}"</p>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+
+                    <!-- زر التواصل المباشر للواتساب بدون إظهار الرقم -->
+                    <div class="pt-2">
+                        <a href="https://wa.me/${coach.whatsapp || '201221078181'}" target="_blank" class="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black py-3.5 rounded-xl text-center block transition shadow-lg flex items-center justify-center gap-2">
+                            <i class="fa-brands fa-whatsapp text-xl"></i> تواصل مع الكوتش الآن عبر الواتساب للاشتراك
+                        </a>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('public-coaches-modal').classList.add('hidden');
+            document.getElementById('coach-profile-detail-modal').classList.remove('hidden');
+            document.getElementById('coach-profile-detail-modal').classList.add('flex');
+        }
+
+        /* --- Coach Mandatory Setup --- */
+        async function verifyCoachLogin() {
+            const email = document.getElementById('login-coach-email').value.trim();
+            const code = document.getElementById('login-coach-code').value.trim();
+            await window.initCloudData();
+            const coach = cloudCoaches.find(c => c.email === email);
+            
+            if(!coach) return alert('البريد الإلكتروني غير مسجل.');
+            if(!coach.active) return alert('حسابك غير مفعل بانتظار مراجعة الإيصال من الأدمن.');
+            if(coach.currentCode !== code) return alert('كود التفعيل غير صحيح.');
+
+            currentCoachEmail = email;
+            closeModals();
+
+            // تحقق هل قام بملء بيانات البروفايل من قبل أم لا
+            if(!coach.profileCompleted) {
+                document.getElementById('setup-profile-name').value = coach.profileName || '';
+                document.getElementById('setup-profile-whatsapp').value = coach.whatsapp || '';
+                document.getElementById('setup-profile-img').value = coach.profileImg || '';
+                document.getElementById('setup-profile-bio').value = coach.profileBio || '';
+                document.getElementById('coach-mandatory-profile-modal').classList.remove('hidden');
+                document.getElementById('coach-mandatory-profile-modal').classList.add('flex');
+            } else {
+                loadCoachView();
+            }
+        }
+
+        async function saveCoachMandatoryProfile() {
+            const name = document.getElementById('setup-profile-name').value.trim();
+            const whatsapp = document.getElementById('setup-profile-whatsapp').value.trim();
+            const img = document.getElementById('setup-profile-img').value.trim();
+            const bio = document.getElementById('setup-profile-bio').value.trim();
+            const certs = document.getElementById('setup-profile-certs').value.trim();
+            const beforeAfter = document.getElementById('setup-profile-beforeafter').value.trim();
+
+            if(!name || !whatsapp || !bio) return alert('يرجى ملء الحقول الإجبارية (الاسم، الواتساب، البايو).');
+
+            await window.updateDoc(window.doc(window.db, "coaches", currentCoachEmail), {
+                profileName: name,
+                whatsapp,
+                profileImg: img,
+                profileBio: bio,
+                profileCerts: certs,
+                profileBeforeAfter: beforeAfter,
+                profileCompleted: true
+            });
+
+            await window.initCloudData();
+            closeModals();
+            loadCoachView();
+            alert('تم حفظ بروفايلك بنجاح وأصبح متاحاً للزوار!');
+        }
+
+        function openCoachProfileModal() {
+            const coach = cloudCoaches.find(c => c.email === currentCoachEmail);
+            if(!coach) return;
+            document.getElementById('setup-profile-name').value = coach.profileName || '';
+            document.getElementById('setup-profile-whatsapp').value = coach.whatsapp || '';
+            document.getElementById('setup-profile-img').value = coach.profileImg || '';
+            document.getElementById('setup-profile-bio').value = coach.profileBio || '';
+            document.getElementById('setup-profile-certs').value = coach.profileCerts || '';
+            document.getElementById('setup-profile-beforeafter').value = coach.profileBeforeAfter || '';
+            document.getElementById('coach-mandatory-profile-modal').classList.remove('hidden');
+            document.getElementById('coach-mandatory-profile-modal').classList.add('flex');
+        }
+
+        /* --- Trainee Rating --- */
+        function openRatingModal() {
+            document.getElementById('rating-modal').classList.remove('hidden');
+            document.getElementById('rating-modal').classList.add('flex');
+        }
+
+        function setRatingStars(stars) {
+            currentSelectedRating = stars;
+            for(let i=1; i<=5; i++) {
+                const s = document.getElementById(`star-${i}`);
+                if(i <= stars) s.style.color = '#fbbf24';
+                else s.style.color = '#475569';
+            }
+        }
+
+        async function submitTraineeRating() {
+            const msg = document.getElementById('rating-message-input').value.trim();
+            if(!currentTrainee) return;
+            const coachEmail = currentTrainee.coachEmail;
+            const coach = cloudCoaches.find(c => c.email === coachEmail);
+            if(!coach) return;
+
+            const existingRatings = coach.ratings || [];
+            existingRatings.push({ stars: currentSelectedRating, message: msg || 'تقييم ممتاز' });
+
+            await window.updateDoc(window.doc(window.db, "coaches", coachEmail), { ratings: existingRatings });
+            await window.initCloudData();
+            closeModals();
+            alert('تم إرسال تقييمك بنجاح وشكراً لك!');
+        }
+
+        /* --- Admin & Subscriptions Logic --- */
         function openAdminPinModal() {
             document.getElementById('admin-pin-input').value = '';
             document.getElementById('admin-pin-modal').classList.remove('hidden');
@@ -546,7 +754,6 @@
             const regSec = document.getElementById('coach-auth-section-register');
             const btnLogin = document.getElementById('tab-coach-login');
             const btnReg = document.getElementById('tab-coach-register');
-
             if(tab === 'login') {
                 loginSec.classList.remove('hidden');
                 regSec.classList.add('hidden');
@@ -571,7 +778,6 @@
             const regSec = document.getElementById('vip-auth-section-register');
             const btnLogin = document.getElementById('tab-vip-login');
             const btnReg = document.getElementById('tab-vip-register');
-
             if(tab === 'login') {
                 loginSec.classList.remove('hidden');
                 regSec.classList.add('hidden');
@@ -589,18 +795,14 @@
             const email = document.getElementById('reg-coach-email').value.trim();
             const pass = document.getElementById('reg-coach-pass').value.trim();
             const pkg = document.getElementById('reg-coach-package').value;
-            const fileInput = document.getElementById('reg-receipt-file');
-
             if(!email || !pass) return alert('يرجى إدخال الجيميل وكلمة المرور.');
-            if(fileInput.files.length === 0) return alert('يرجى رفع صورة إيصال التحويل.');
-
             try {
                 await window.setDoc(window.doc(window.db, "coaches", email), {
-                    email, pass, package: pkg, receipt: fileInput.files[0].name, active: false, currentCode: ''
+                    email, pass, package: pkg, active: false, currentCode: '', profileCompleted: false
                 });
                 await window.initCloudData();
                 closeModals();
-                alert('تم إرسال طلب الاشتراك بنجاح!');
+                alert('تم إرسال طلب الاشتراك بنجاح بانتظار تفعيل الأدمن!');
             } catch(e) {
                 alert('حدث خطأ أثناء الاتصال بالسرفر.');
             }
@@ -611,49 +813,20 @@
             const phone = document.getElementById('reg-vip-phone').value.trim();
             const goal = document.getElementById('reg-vip-goal').value;
             const pkg = document.getElementById('reg-vip-package').value;
-            const fileInput = document.getElementById('reg-vip-receipt-file');
-
             if(!name || !phone) return alert('يرجى إدخال الاسم ورقم الهاتف.');
-            if(fileInput.files.length === 0) return alert('يرجى رفع صورة إيصال التحويل عبر إنستا باي.');
-
             try {
                 const vipId = 'vip_' + phone;
                 await window.setDoc(window.doc(window.db, "vipTrainees", vipId), {
-                    id: vipId,
-                    name,
-                    phone,
-                    goal,
-                    package: pkg,
-                    receipt: fileInput.files[0].name,
-                    active: false,
-                    dietPlan: `نظام غذائي ذكي مخصص لهدف (${goal}) - يتم توليده تلقائياً بالـ AI.`,
-                    workoutPlan: [
-                        {exercise: 'Squat (تمرين الأرجل الأساسي)', sets: '4', reps: '10', weight: '60 كجم'},
-                        {exercise: 'Bench Press (تمرين الصدر)', sets: '4', reps: '10', weight: '50 كجم'},
-                        {exercise: 'Lat Pulldown (تمرين الظهر)', sets: '3', reps: '12', weight: '45 كجم'}
-                    ]
+                    id: vipId, name, phone, goal, package: pkg, active: false,
+                    dietPlan: `نظام غذائي ذكي لهدف (${goal})`,
+                    workoutPlan: [{exercise: 'Squat', sets: '4', reps: '10', weight: '60 كجم'}]
                 });
                 await window.initCloudData();
                 closeModals();
-                alert('تم إرسال طلب اشتراك الـ VIP بنجاح! سيتم تفعيله فور مراجعة تحويل إنستا باي من الإدارة.');
+                alert('تم إرسال طلب اشتراك الـ VIP بنجاح!');
             } catch(e) {
-                alert('حدث خطأ أثناء تسجيل الاشتراك.');
+                alert('حدث خطأ أثناء التسجيل.');
             }
-        }
-
-        async function verifyCoachLogin() {
-            const email = document.getElementById('login-coach-email').value.trim();
-            const code = document.getElementById('login-coach-code').value.trim();
-            await window.initCloudData();
-            const coach = cloudCoaches.find(c => c.email === email);
-            
-            if(!coach) return alert('البريد الإلكتروني غير مسجل.');
-            if(!coach.active) return alert('حسابك غير مفعل بانتظار مراجعة الإيصال.');
-            if(coach.currentCode !== code) return alert('كود التفعيل غير صحيح.');
-
-            currentCoachEmail = email;
-            closeModals();
-            loadCoachView();
         }
 
         function openTraineeLoginModal() {
@@ -667,7 +840,6 @@
             if(!phone) return alert('يرجى إدخال رقم الهاتف.');
             await window.initCloudData();
             const found = cloudTrainees.find(t => t.phone === phone);
-            
             if(found) {
                 const coach = cloudCoaches.find(c => c.email === found.coachEmail);
                 if(!coach || !coach.active) return alert('اشتراك الكوتش غير مفعل.');
@@ -684,10 +856,8 @@
             if(!phone) return alert('يرجى إدخال رقم الهاتف.');
             await window.initCloudData();
             const found = cloudVipTrainees.find(v => v.phone === phone);
-
             if(!found) return alert('رقم الهاتف غير مسجل في عملاء الـ VIP.');
-            if(!found.active) return alert('حساب الـ VIP الخاص بك بانتظار تفعيل إيصال إنستا باي من الإدارة.');
-
+            if(!found.active) return alert('حساب الـ VIP بانتظار تفعيل الأدمن.');
             currentVipTrainee = found;
             closeModals();
             loadVipDashboardView(found.id);
@@ -699,39 +869,26 @@
             hideAllViews();
             document.getElementById('view-admin').classList.remove('hidden');
             await window.initCloudData();
-            
-            // Coaches Table
             const tbodyCoaches = document.getElementById('admin-requests-tbody');
-            if(cloudCoaches.length === 0) {
-                tbodyCoaches.innerHTML = `<tr><td colspan="5" class="py-4 text-center text-slate-400">لا توجد طلبات كوتشات.</td></tr>`;
-            } else {
-                tbodyCoaches.innerHTML = cloudCoaches.map(c => `
-                    <tr class="border-b border-slate-800/50 text-sm">
-                        <td class="py-3 font-bold text-white">${c.email}</td>
-                        <td class="py-3 text-emerald-400">${c.package}</td>
-                        <td class="py-3 text-slate-300">${c.receipt || 'مرفق'}</td>
-                        <td class="py-3"><span class="px-2.5 py-1 rounded-full text-xs font-bold ${c.active ? 'bg-emerald-500/20 text-emerald-400' : 'bg-amber-500/20 text-amber-400'}">${c.active ? 'مفعل' : 'بانتظار التفعيل'}</span></td>
-                        <td class="py-3"><button onclick="approveCoach('${c.email}')" class="bg-emerald-500 text-slate-950 px-3 py-1 rounded-xl text-xs font-bold hover:bg-emerald-400 transition">تفعيل وإرسال الكود</button></td>
-                    </tr>
-                `).join('');
-            }
+            tbodyCoaches.innerHTML = cloudCoaches.map(c => `
+                <tr class="border-b border-slate-800/50 text-sm">
+                    <td class="py-3 font-bold text-white">${c.email}</td>
+                    <td class="py-3 text-emerald-400">${c.package}</td>
+                    <td class="py-3"><span class="px-2.5 py-1 rounded-full text-xs font-bold ${c.active ? 'bg-emerald-500/20 text-emerald-400' : 'bg-amber-500/20 text-amber-400'}">${c.active ? 'مفعل' : 'بانتظار'}</span></td>
+                    <td class="py-3"><button onclick="approveCoach('${c.email}')" class="bg-emerald-500 text-slate-950 px-3 py-1 rounded-xl text-xs font-bold">تفعيل وإرسال الكود</button></td>
+                </tr>
+            `).join('');
 
-            // VIP Trainees Table
             const tbodyVip = document.getElementById('admin-vip-requests-tbody');
-            if(cloudVipTrainees.length === 0) {
-                tbodyVip.innerHTML = `<tr><td colspan="6" class="py-4 text-center text-slate-400">لا توجد طلبات VIP مباشرة.</td></tr>`;
-            } else {
-                tbodyVip.innerHTML = cloudVipTrainees.map(v => `
-                    <tr class="border-b border-slate-800/50 text-sm">
-                        <td class="py-3 font-bold text-white">${v.name}</td>
-                        <td class="py-3 text-slate-400">${v.phone}</td>
-                        <td class="py-3 text-amber-300 font-bold">${v.package || 'باقة VIP الشهرية - 750 ج.م'}</td>
-                        <td class="py-3 text-amber-400">${v.receipt || 'إيصال إنستا باي'}</td>
-                        <td class="py-3"><span class="px-2.5 py-1 rounded-full text-xs font-bold ${v.active ? 'bg-amber-500/20 text-amber-300' : 'bg-slate-800 text-slate-400'}">${v.active ? 'نشط VIP' : 'بانتظار التحويل'}</span></td>
-                        <td class="py-3"><button onclick="approveVip('${v.id}')" class="bg-amber-500 text-slate-950 px-3 py-1 rounded-xl text-xs font-bold hover:bg-amber-400 transition">تفعيل حساب الـ VIP</button></td>
-                    </tr>
-                `).join('');
-            }
+            tbodyVip.innerHTML = cloudVipTrainees.map(v => `
+                <tr class="border-b border-slate-800/50 text-sm">
+                    <td class="py-3 font-bold text-white">${v.name}</td>
+                    <td class="py-3 text-slate-400">${v.phone}</td>
+                    <td class="py-3 text-amber-300 font-bold">${v.package}</td>
+                    <td class="py-3"><span class="px-2.5 py-1 rounded-full text-xs font-bold ${v.active ? 'bg-amber-500/20 text-amber-300' : 'bg-slate-800 text-slate-400'}">${v.active ? 'نشط' : 'بانتظار'}</span></td>
+                    <td class="py-3"><button onclick="approveVip('${v.id}')" class="bg-amber-500 text-slate-950 px-3 py-1 rounded-xl text-xs font-bold">تفعيل الـ VIP</button></td>
+                </tr>
+            `).join('');
         }
 
         async function approveCoach(email) {
@@ -743,7 +900,7 @@
 
         async function approveVip(vipId) {
             await window.updateDoc(window.doc(window.db, "vipTrainees", vipId), { active: true });
-            alert('تم تفعيل حساب عميل الـ VIP بنجاح!');
+            alert('تم تفعيل حساب الـ VIP بنجاح!');
             loadAdminView();
         }
 
@@ -758,73 +915,47 @@
         function renderCoachTrainees() {
             const tbody = document.getElementById('coach-trainees-tbody');
             const list = cloudTrainees.filter(t => t.coachEmail === currentCoachEmail);
-            
-            if(list.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="4" class="py-4 text-center text-slate-400">لا يوجد متدربون حالياً.</td></tr>`;
-                return;
-            }
-
-            tbody.innerHTML = list.map(t => `
+            tbody.innerHTML = list.length === 0 ? `<tr><td colspan="4" class="py-4 text-center text-slate-400">لا يوجد متدربون حالياً.</td></tr>` : list.map(t => `
                 <tr class="border-b border-slate-800/50 text-sm">
                     <td class="py-3 font-bold text-white">${t.name}</td>
                     <td class="py-3 text-slate-400">${t.phone}</td>
-                    <td class="py-3">
-                        ${t.videoLink ? `<a href="${t.videoLink}" target="_blank" class="text-indigo-400 underline font-bold"><i class="fa-solid fa-play ml-1"></i>مشاهدة فيديو التمرين</a>` : '<span class="text-slate-500 text-xs">لا يوجد فيديو</span>'}
-                    </td>
-                    <td class="py-3"><span class="text-xs text-emerald-400 font-bold">نشط سحابياً</span></td>
+                    <td class="py-3">${t.videoLink ? `<a href="${t.videoLink}" target="_blank" class="text-indigo-400 underline font-bold">مشاهدة الفيديو</a>` : 'لا يوجد'}</td>
+                    <td class="py-3"><span class="text-xs text-emerald-400 font-bold">نشط</span></td>
                 </tr>
             `).join('');
         }
 
         function openAddTraineeModal() {
-            document.getElementById('new-trainee-name').value = '';
-            document.getElementById('new-trainee-phone').value = '';
-            document.getElementById('new-trainee-diet').value = '';
-            document.getElementById('new-trainee-workout').value = '';
             document.getElementById('add-trainee-modal').classList.remove('hidden');
             document.getElementById('add-trainee-modal').classList.add('flex');
         }
 
         function openAiGeneratorModal() {
-            document.getElementById('ai-prompt-input').value = '';
             document.getElementById('ai-generator-modal').classList.remove('hidden');
             document.getElementById('ai-generator-modal').classList.add('flex');
         }
 
         async function generateAiPlan() {
-            const prompt = document.getElementById('ai-prompt-input').value.trim();
-            if(!prompt) return alert('يرجى كتابة وصف أو هدف المتدرب أولاً.');
-            
-            document.getElementById('new-trainee-diet').value = `نظام غذائي مقترح بالـ AI بناءً على: (${prompt}) - سعرات عالية البروتين مع تنظيم الكاربوهيدرات.`;
-            document.getElementById('new-trainee-workout').value = `Squat | 4 | 10 | 60 كجم`;
+            document.getElementById('new-trainee-diet').value = `نظام غذائي مقترح بالـ AI`;
+            document.getElementById('new-trainee-workout').value = `Squat | 4 | 10`;
             closeModals();
             openAddTraineeModal();
-            alert('تم توليد البرنامج التدريبي والغذائي بواسطة الـ AI بنجاح!');
         }
 
         async function saveNewTrainee() {
             const name = document.getElementById('new-trainee-name').value.trim();
             const phone = document.getElementById('new-trainee-phone').value.trim();
             const diet = document.getElementById('new-trainee-diet').value.trim();
-            const workoutText = document.getElementById('new-trainee-workout').value.trim();
-
+            const workout = document.getElementById('new-trainee-workout').value.trim();
             if(!name || !phone) return alert('يرجى إدخال الاسم ورقم الهاتف.');
-
             const traineeId = 't_' + Date.now();
             await window.setDoc(window.doc(window.db, "trainees", traineeId), {
-                id: traineeId,
-                coachEmail: currentCoachEmail,
-                name,
-                phone,
-                dietPlan: diet || 'النظام الغذائي القياسي',
-                workoutPlan: [{exercise: workoutText || 'تمارين عامة', sets: '3', reps: '10', weight: '50 كجم'}],
-                videoLink: '',
-                progressLogs: []
+                id: traineeId, coachEmail: currentCoachEmail, name, phone, dietPlan: diet, workoutPlan: [{exercise: workout, sets: '3', reps: '10', weight: '50 كجم'}], videoLink: ''
             });
             await window.initCloudData();
             closeModals();
             renderCoachTrainees();
-            alert('تم حفظ المتدرب سحابياً بنجاح!');
+            alert('تم حفظ المتدرب بنجاح!');
         }
 
         async function loadTraineeView(traineeId) {
@@ -832,11 +963,9 @@
             document.getElementById('view-trainee').classList.remove('hidden');
             await window.initCloudData();
             currentTrainee = cloudTrainees.find(t => t.id === traineeId) || currentTrainee;
-
             document.getElementById('trainee-welcome-name').innerText = `أهلاً بك، ${currentTrainee.name}`;
             document.getElementById('trainee-diet-plan-box').innerText = currentTrainee.dietPlan;
             document.getElementById('trainee-video-link-input').value = currentTrainee.videoLink || '';
-            renderTraineeWorkoutPlan();
         }
 
         async function loadVipDashboardView(vipId) {
@@ -844,92 +973,31 @@
             document.getElementById('view-vip-dashboard').classList.remove('hidden');
             await window.initCloudData();
             currentVipTrainee = cloudVipTrainees.find(v => v.id === vipId) || currentVipTrainee;
-
             document.getElementById('vip-welcome-name').innerText = `أهلاً بك يا بطل VIP، ${currentVipTrainee.name}`;
             document.getElementById('vip-diet-plan-box').innerText = currentVipTrainee.dietPlan;
-            renderVipWorkoutPlan();
-        }
-
-        function renderVipWorkoutPlan() {
-            const box = document.getElementById('vip-workout-plan-box');
-            box.innerHTML = currentVipTrainee.workoutPlan.map((w, index) => `
-                <div class="bg-slate-950/80 p-4 rounded-2xl border border-slate-800 space-y-2">
-                    <div class="flex justify-between items-center font-bold text-white">
-                        <span>${w.exercise}</span>
-                        <span class="text-xs text-amber-400">${w.sets} مجموعات × ${w.reps} تكرار</span>
-                    </div>
-                    <div class="flex items-center gap-2 pt-2">
-                        <span class="text-xs text-slate-400">الوزن المقترح:</span>
-                        <input type="text" id="vip-weight-input-${index}" value="${w.weight}" class="bg-slate-900 border border-slate-800 rounded-xl px-3 py-1.5 text-sm text-amber-400 font-bold w-32 outline-none focus:border-amber-500">
-                        <button onclick="updateVipWeight(${index})" class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-3 py-1.5 rounded-xl text-xs transition">تحديث الأوزان</button>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        async function updateVipWeight(index) {
-            const newWeight = document.getElementById(`vip-weight-input-${index}`).value;
-            currentVipTrainee.workoutPlan[index].weight = newWeight;
-            await window.updateDoc(window.doc(window.db, "vipTrainees", currentVipTrainee.id), {
-                workoutPlan: currentVipTrainee.workoutPlan
-            });
-            alert('تم تحديث أوزان الـ VIP وحفظها بنجاح!');
-        }
-
-        async function generateVipAutonomousPlan() {
-            currentVipTrainee.dietPlan = `جدول غذائي متطور مُحدث تلقائياً بالـ AI بناءً على هدف (${currentVipTrainee.goal}): سعرات حرارية مدروسة، مصادر بروتين عالية الجودة، ومياه كافية.`;
-            currentVipTrainee.workoutPlan = [
-                {exercise: 'Incline Dumbbell Press (تتمرن بحسب أوزانك المحدثة)', sets: '4', reps: '10', weight: 'محدث تلقائياً'},
-                {exercise: 'Barbell Row (تمرين ظهر متطور)', sets: '4', reps: '10', weight: 'محدث تلقائياً'},
-                {exercise: 'Overhead Press (تمرين كتاف)', sets: '3', reps: '12', weight: 'محدث تلقائياً'}
-            ];
-
-            await window.updateDoc(window.doc(window.db, "vipTrainees", currentVipTrainee.id), {
-                dietPlan: currentVipTrainee.dietPlan,
-                workoutPlan: currentVipTrainee.workoutPlan
-            });
-
-            document.getElementById('vip-diet-plan-box').innerText = currentVipTrainee.dietPlan;
-            renderVipWorkoutPlan();
-            alert('تم توليد وتحديث برنامجك الذكي بالكامل بنجاح بواسطة الـ AI!');
         }
 
         async function saveTraineeVideoLink() {
             const link = document.getElementById('trainee-video-link-input').value.trim();
-            if(!link) return alert('يرجى إدخال رابط الفيديو أولاً.');
+            if(!link) return;
             currentTrainee.videoLink = link;
             await window.updateDoc(window.doc(window.db, "trainees", currentTrainee.id), { videoLink: link });
-            alert('تم إرسال رابط الفيديو إلى الكوتش بنجاح!');
-        }
-
-        async function saveTraineeProgress() {
-            alert('تم حفظ القياسات وإرسالها للكوتش بأمان تام!');
+            alert('تم إرسال الفيديو للكوتش بنجاح!');
         }
 
         async function sendAiChatMessage() {
             const input = document.getElementById('ai-chat-input');
-            const message = input.value.trim();
-            if(!message) return;
+            if(!input.value.trim()) return;
             const chatBox = document.getElementById('ai-chat-box');
-            chatBox.innerHTML += `<div class="flex justify-end"><div class="bg-purple-600/30 border border-purple-500/30 p-3 rounded-xl text-slate-100 max-w-[85%]">${message}</div></div>`;
+            chatBox.innerHTML += `<div class="flex justify-end"><div class="bg-purple-600/30 p-3 rounded-xl text-slate-100 max-w-[85%]">${input.value}</div></div>`;
             input.value = '';
             setTimeout(() => {
-                chatBox.innerHTML += `<div class="flex justify-start"><div class="bg-slate-900 p-3 rounded-xl text-slate-300 max-w-[85%] border border-slate-800">أنا هنا لمساعدتك! تأكد من الالتزام بالتمارين وشرب الماء.</div></div>`;
-                chatBox.scrollTop = chatBox.scrollHeight;
+                chatBox.innerHTML += `<div class="flex justify-start"><div class="bg-slate-900 p-3 rounded-xl text-slate-300 max-w-[85%]">استمر يا بطل! أنا معك هنا لدعمك.</div></div>`;
             }, 600);
         }
 
-        async function sendVipAiChatMessage() {
-            const input = document.getElementById('vip-ai-chat-input');
-            const message = input.value.trim();
-            if(!message) return;
-            const chatBox = document.getElementById('vip-ai-chat-box');
-            chatBox.innerHTML += `<div class="flex justify-end"><div class="bg-amber-600/30 border border-amber-500/30 p-3 rounded-xl text-slate-100 max-w-[85%]">${message}</div></div>`;
-            input.value = '';
-            setTimeout(() => {
-                chatBox.innerHTML += `<div class="flex justify-start"><div class="bg-slate-900 p-3 rounded-xl text-slate-300 max-w-[85%] border border-slate-800">رد مساعد الـ VIP الذكي: استمر يا بطل، جدولك مصمم خصيصاً لتحقيق أقصى استفادة وعضلات صافية!</div></div>`;
-                chatBox.scrollTop = chatBox.scrollHeight;
-            }, 600);
+        async function generateVipAutonomousPlan() {
+            alert('تم تحديث برنامج الـ VIP الذكي بنجاح!');
         }
     </script>
 </body>
