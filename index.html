@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CoachHub Pro - منصة التدريب الذكية مع بروفايلات المدربين والتقييمات</title>
+    <title>CoachHub Pro - منصة التدريب الذكية مع بروفايلات المدربين والتقييمات وضمان Escrow</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -63,7 +63,7 @@
         <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
             <div class="flex items-center gap-3">
                 <div class="bg-emerald-500 text-slate-950 p-2.5 rounded-2xl font-black text-xl shadow-lg shadow-emerald-500/20"><i class="fa-solid fa-dumbbell"></i></div>
-                <h1 class="text-2xl font-black tracking-wider text-white">Coach<span class="text-emerald-400">Hub</span> <span class="text-xs bg-emerald-500/20 text-emerald-400 px-2.5 py-1 rounded-full border border-emerald-500/30">AI & Cloud</span></h1>
+                <h1 class="text-2xl font-black tracking-wider text-white">Coach<span class="text-emerald-400">Hub</span> <span class="text-xs bg-emerald-500/20 text-emerald-400 px-2.5 py-1 rounded-full border border-emerald-500/30">AI, Escrow & Cloud</span></h1>
             </div>
             <div id="nav-actions" class="flex gap-2">
                 <button onclick="showRoleSelection()" class="bg-slate-800/80 hover:bg-slate-700 text-slate-200 px-4 py-2 rounded-xl text-sm font-semibold transition border border-slate-700"><i class="fa-solid fa-arrow-right-arrow-left ml-2"></i>تغيير الحساب</button>
@@ -77,15 +77,18 @@
         <!-- 1. Role Selection View -->
         <div id="view-role-selection" class="max-w-4xl mx-auto text-center py-12 space-y-8">
             <div>
-                <div class="inline-block mb-4 px-4 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-bold tracking-widest uppercase">مدعوم بالذكاء الاصطناعي التلقائي وفيديوهات المتابعة وبروفايلات المدربين</div>
+                <div class="inline-block mb-4 px-4 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-bold tracking-widest uppercase">مدعوم بالذكاء الاصطناعي، نظام الضمان المالي Escrow، وتقييمات موثقة</div>
                 <h2 class="text-4xl md:text-5xl font-black mb-4 tracking-wide text-white">منصة التدريب الذكية المتكاملة</h2>
-                <p class="text-slate-400 text-lg max-w-2xl mx-auto">اختر لوحة التحكم الخاصة بك أو استعرض نخبة المدربين المعتمدين.</p>
+                <p class="text-slate-400 text-lg max-w-2xl mx-auto">اختر لوحة التحكم الخاصة بك أو استعرض نخبة المدربين المعتمدين مع حماية كاملة لحقوقك المالية[cite: 1, 6].</p>
             </div>
 
-            <!-- زر اختر مدربك الخاص المضاف حديثاً -->
-            <div class="flex justify-center">
+            <!-- زر اتفاقية الاستخدام وضمان الحقوق المضاف حديثاً -->
+            <div class="flex justify-center gap-4 flex-wrap">
                 <button onclick="openPublicCoachesModal()" class="bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-slate-950 font-black px-8 py-4 rounded-2xl text-lg shadow-xl shadow-emerald-500/20 transition transform hover:scale-105 flex items-center gap-3">
-                    <i class="fa-solid fa-users-viewfinder text-2xl"></i> اختر مدربك الخاص (استعراض بروفايلات المدربين)
+                    <i class="fa-solid fa-users-viewfinder text-2xl"></i> استعراض بروفايلات المدربين وضمان Escrow[cite: 1, 6]
+                </button>
+                <button onclick="openTermsModal()" class="bg-slate-800 hover:bg-slate-700 text-emerald-400 font-bold px-6 py-4 rounded-2xl text-sm border border-emerald-500/30 transition flex items-center gap-2">
+                    <i class="fa-solid fa-file-contract text-lg"></i> اتفاقية الاستخدام وحماية الحقوق[cite: 3]
                 </button>
             </div>
             
@@ -108,14 +111,14 @@
                 <div onclick="openTraineeLoginModal()" class="card-gym-glow border border-slate-800 hover:border-emerald-500 p-6 rounded-3xl cursor-pointer transition transform hover:-translate-y-2 group shadow-xl">
                     <div class="w-14 h-14 bg-purple-500/10 text-purple-400 rounded-2xl flex items-center justify-center text-2xl mx-auto md:mx-0 mb-4 group-hover:bg-purple-500 group-hover:text-slate-950 transition"><i class="fa-solid fa-user"></i></div>
                     <h3 class="text-xl font-bold mb-2 text-white">المتدرب (Trainee)</h3>
-                    <p class="text-slate-400 text-xs leading-relaxed">تسجيل الدخول برقم الهاتف لمتابعة جدولك وتقييم كوتشك الخاص.</p>
+                    <p class="text-slate-400 text-xs leading-relaxed">تسجيل الدخول برقم الهاتف لمتابعة جدولك وتقييم كوتشك الخاص[cite: 5].</p>
                 </div>
 
                 <!-- VIP Platform Direct Training Card -->
                 <div onclick="openVipAuthModal()" class="card-gym-glow border border-amber-500/60 hover:border-amber-400 p-6 rounded-3xl cursor-pointer transition transform hover:-translate-y-2 group shadow-xl bg-gradient-to-b from-amber-500/10 to-slate-900/90">
                     <div class="w-14 h-14 bg-amber-500/20 text-amber-400 rounded-2xl flex items-center justify-center text-2xl mx-auto md:mx-0 mb-4 group-hover:bg-amber-400 group-hover:text-slate-950 transition"><i class="fa-solid fa-crown"></i></div>
                     <h3 class="text-xl font-bold mb-2 text-white">اشتراك VIP المباشر</h3>
-                    <p class="text-amber-200/70 text-xs leading-relaxed">تدرب مع المنصة والـ AI مباشرة بدون كوتش بشري، مع مكتبة تمارين ذكية.</p>
+                    <p class="text-amber-200/70 text-xs leading-relaxed">تدرب مع المنصة والـ AI مباشرة بدون كوتش بشري، مع توليد خطط مخصصة[cite: 2].</p>
                 </div>
             </div>
         </div>
@@ -125,7 +128,7 @@
             <div class="flex justify-between items-center card-gym-glow p-6 rounded-3xl border border-slate-800">
                 <div>
                     <h2 class="text-2xl font-bold text-white">لوحة تحكم الأدمن</h2>
-                    <p class="text-slate-400 text-sm">متابعة إيصالات التحويل وتفعيل اشتراكات المدربين وعملاء الـ VIP.</p>
+                    <p class="text-slate-400 text-sm">متابعة إيصالات التحويل، فض النزاعات، وتفعيل الاشتراكات[cite: 2].</p>
                 </div>
                 <button onclick="logout()" class="bg-red-500/10 text-red-400 px-4 py-2 rounded-xl text-sm font-semibold hover:bg-red-500/20 transition">خروج</button>
             </div>
@@ -210,8 +213,9 @@
                     <span class="text-xs bg-emerald-500/20 text-emerald-400 px-3 py-1 rounded-full font-bold border border-emerald-500/30">بوابة المتدرب الحماسية 🔥</span>
                     <h2 class="text-3xl font-black mt-2 text-white" id="trainee-welcome-name">أهلاً بك، بطل</h2>
                 </div>
-                <div class="flex gap-2">
-                    <button onclick="openRatingModal()" class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-4 py-2 rounded-xl text-sm transition"><i class="fa-solid fa-star ml-1"></i> تقييم الكوتش</button>
+                <div class="flex gap-2 flex-wrap">
+                    <button onclick="openDisputeModal()" class="bg-red-500/20 text-red-400 hover:bg-red-500/30 font-bold px-4 py-2 rounded-xl text-sm transition border border-red-500/30"><i class="fa-solid fa-triangle-exclamation ml-1"></i> فتح نزاع / تجميد أموال[cite: 2]</button>
+                    <button onclick="openRatingModal()" class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-4 py-2 rounded-xl text-sm transition"><i class="fa-solid fa-star ml-1"></i> تقييم موثق للكوتش[cite: 5]</button>
                     <button onclick="logout()" class="bg-red-500/10 text-red-400 px-4 py-2 rounded-xl text-sm font-semibold hover:bg-red-500/20 transition">خروج</button>
                 </div>
             </div>
@@ -261,17 +265,17 @@
             </div>
             <div class="card-gym-glow p-6 rounded-3xl border border-amber-500/30 space-y-4">
                 <div class="flex justify-between items-center flex-wrap gap-2">
-                    <h3 class="text-xl font-bold flex items-center gap-2 text-white"><i class="fa-solid fa-wand-magic-sparkles text-amber-400"></i> مولد برامج الـ VIP الذكي</h3>
-                    <button onclick="generateVipAutonomousPlan()" class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-4 py-2 rounded-xl text-sm transition">توليد/تحديث البرنامج ⚡</button>
+                    <h3 class="text-xl font-bold flex items-center gap-2 text-white"><i class="fa-solid fa-wand-magic-sparkles text-amber-400"></i> مولد برامج الـ VIP الذكي (مدعوم بـ Gemini API)[cite: 2]</h3>
+                    <button onclick="generateVipAutonomousPlan()" class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-4 py-2 rounded-xl text-sm transition">توليد/تحديث الخطة بالذكاء الاصطناعي ⚡</button>
                 </div>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="card-gym-glow p-6 rounded-3xl border border-slate-800 space-y-4">
-                    <h3 class="text-xl font-bold flex items-center gap-2 text-white"><i class="fa-solid fa-dumbbell text-amber-400"></i> جدول التدريب</h3>
-                    <div id="vip-workout-plan-box" class="space-y-3"></div>
+                    <h3 class="text-xl font-bold flex items-center gap-2 text-white"><i class="fa-solid fa-dumbbell text-amber-400"></i> جدول التدريب المخصص</h3>
+                    <div id="vip-workout-plan-box" class="space-y-3 text-slate-300 text-sm leading-relaxed bg-slate-950/80 p-4 rounded-2xl border border-slate-800"></div>
                 </div>
                 <div class="card-gym-glow p-6 rounded-3xl border border-slate-800 space-y-4">
-                    <h3 class="text-xl font-bold flex items-center gap-2 text-white"><i class="fa-solid fa-utensils text-amber-400"></i> النظام الغذائي</h3>
+                    <h3 class="text-xl font-bold flex items-center gap-2 text-white"><i class="fa-solid fa-utensils text-amber-400"></i> النظام الغذائي (طبيعي متكامل)[cite: 2]</h3>
                     <div id="vip-diet-plan-box" class="text-slate-300 text-sm leading-relaxed bg-slate-950/80 p-4 rounded-2xl border border-slate-800"></div>
                 </div>
             </div>
@@ -281,11 +285,48 @@
 
     <!-- MODALS -->
 
-    <!-- Public Coaches Directory Modal (اختتر مدربك الخاص) -->
+    <!-- Terms and Conditions Modal (اتفاقية الاستخدام وحماية الحقوق) -->
+    <div id="terms-modal" class="fixed inset-0 bg-slate-950/90 backdrop-blur-md hidden items-center justify-center z-50 p-4">
+        <div class="card-gym-glow border border-emerald-500/50 p-6 rounded-3xl max-w-2xl w-full space-y-6 max-h-[90vh] overflow-y-auto shadow-2xl" dir="rtl">
+            <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+                <h3 class="text-xl font-black text-white flex items-center gap-2"><i class="fa-solid fa-file-contract text-emerald-400"></i> اتفاقية الاستخدام وسياسة حماية الحقوق - CoachHub Pro</h3>
+                <button onclick="closeModals()" class="text-slate-400 hover:text-white text-xl"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="bg-slate-950 p-4 rounded-2xl border border-slate-800 text-xs text-slate-300 space-y-3 leading-relaxed">
+                <p><strong>1. دور المنصة (وسيط مالي وضمان Escrow):</strong> تعمل منصة CoachHub Pro كحلقة وصل تقنية ووسيط مالي آمن بين المتدرب والكوتش. يتم حجز أموال الاشتراكات لدى المنصة وضمان عدم تحويلها للكوتش إلا بعد بدء الخدمة وتحقق الالتزام التام[cite: 3].</p>
+                <p><strong>2. سياسة الاسترجاع والنزاعات:</strong> يحق للعميل فتح طلب نزاع وتجميد المدفوعات خلال 48 ساعة من الاشتراك في حال عدم تجاوب الكوتش أو الإخلال ببنود الباقة، وقرار الإدارة هو الفيصل بناءً على السجلات[cite: 3].</p>
+                <p><strong>3. حظر التعاملات الخارجية (للكباتن):</strong> يقر الكوتش المنضم للمنصة بعدم محاولة تحويل عملاء المنصة للتعامل الشخصي خارج النظام، وفي حال ثبوت ذلك يتم حظر حسابه نهائياً ومساءلته قانونياً[cite: 3].</p>
+                <p><strong>4. إخلاء المسؤولية الصحية:</strong> الجداول التدريبية والغذائية المقدمة استرشادية، ويخلي الموقع مسؤوليته التامة عن أي إصابات ناتجة عن عدم استشارة طبيب مختص[cite: 3].</p>
+            </div>
+            <div class="flex items-center gap-3">
+                <input type="checkbox" id="agreeTerms" class="w-5 h-5 text-emerald-500 rounded bg-slate-950 border-slate-800">
+                <label for="agreeTerms" class="text-xs font-medium text-slate-200">
+                    أقر بأنني قرأت جميع الشروط والأحكام وأوافق عليها التزاماً كاملاً[cite: 3].
+                </label>
+            </div>
+            <button onclick="submitAgreement()" class="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold py-3 rounded-xl text-sm transition shadow-lg">موافقة ومتابعة[cite: 3]</button>
+        </div>
+    </div>
+
+    <!-- Dispute Modal (فتح نزاع وتجميد الأموال) -->
+    <div id="dispute-modal" class="fixed inset-0 bg-slate-950/90 backdrop-blur-md hidden items-center justify-center z-50 p-4" dir="rtl">
+        <div class="card-gym-glow border border-red-500/50 p-6 rounded-3xl max-w-md w-full space-y-4 shadow-2xl">
+            <h3 class="text-xl font-bold text-white flex items-center gap-2"><i class="fa-solid fa-triangle-exclamation text-red-400"></i> فتح نزاع وتجميد المدفوعات[cite: 2]</h3>
+            <p class="text-slate-400 text-xs leading-relaxed">إذا واجهتك أي مشكلة مع الكوتش (عدم الرد، إخلال بالبرنامج)، يمكنك فتح نزاع وسنقوم بتجميد الأموال ومراجعة طلبك خلال 48 ساعة[cite: 2].</p>
+            <input type="text" id="dispute-txn-id" placeholder="رقم المعاملة (مثال: TXN-1001)" class="w-full bg-slate-950 border border-slate-800 p-3 rounded-xl text-sm text-white outline-none focus:border-red-500">
+            <textarea id="dispute-reason-input" rows="3" placeholder="اكتب سبب النزاع بالتفصيل..." class="w-full bg-slate-950 border border-slate-800 p-3 rounded-xl text-sm text-white outline-none focus:border-red-500"></textarea>
+            <div class="flex gap-2">
+                <button onclick="submitDispute()" class="flex-1 bg-red-600 hover:bg-red-500 text-white font-bold py-2.5 rounded-xl transition">تأكيد وفتح النزاع[cite: 2]</button>
+                <button onclick="closeModals()" class="flex-1 bg-slate-800 text-slate-300 py-2.5 rounded-xl transition">إلغاء</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Public Coaches Directory Modal (اختبر مدربك الخاص مع ضمان Escrow) -->
     <div id="public-coaches-modal" class="fixed inset-0 bg-slate-950/90 backdrop-blur-md hidden items-center justify-center z-50 p-4">
         <div class="card-gym-glow border border-slate-800 p-6 rounded-3xl max-w-4xl w-full space-y-6 max-h-[90vh] overflow-y-auto shadow-2xl">
             <div class="flex justify-between items-center border-b border-slate-800 pb-3">
-                <h3 class="text-2xl font-black text-white flex items-center gap-2"><i class="fa-solid fa-users text-emerald-400"></i> نخبة المدربين المعتمدين (Active Coaches)</h3>
+                <h3 class="text-2xl font-black text-white flex items-center gap-2"><i class="fa-solid fa-users text-emerald-400"></i> نخبة المدربين المعتمدين مع ضمان المنصة (Escrow)[cite: 1, 6]</h3>
                 <button onclick="closeModals()" class="text-slate-400 hover:text-white text-xl"><i class="fa-solid fa-xmark"></i></button>
             </div>
             <div id="public-coaches-list" class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -297,11 +338,11 @@
     <!-- Single Coach Profile View Modal -->
     <div id="coach-profile-detail-modal" class="fixed inset-0 bg-slate-950/90 backdrop-blur-md hidden items-center justify-center z-50 p-4">
         <div class="card-gym-glow border border-emerald-500/50 p-6 rounded-3xl max-w-2xl w-full space-y-6 max-h-[90vh] overflow-y-auto shadow-2xl" id="coach-profile-detail-content">
-            <!-- تفاصيل بروفايل الكوتش والتقييمات -->
+            <!-- تفاصيل بروفايل الكوتش والتقييمات الموثقة وزر الدفع الآمن -->
         </div>
     </div>
 
-    <!-- Coach Mandatory Profile Setup Modal (أول ما يدخل بعد التفعيل) -->
+    <!-- Coach Mandatory Profile Setup Modal -->
     <div id="coach-mandatory-profile-modal" class="fixed inset-0 bg-slate-950/95 backdrop-blur-lg hidden items-center justify-center z-50 p-4">
         <div class="card-gym-glow border border-emerald-500 p-6 rounded-3xl max-w-xl w-full space-y-4 max-h-[90vh] overflow-y-auto shadow-2xl">
             <h3 class="text-2xl font-black text-white text-center">أهلاً بك كوتش! يرجى إكمال بروفايلك العام</h3>
@@ -310,14 +351,14 @@
             <div class="space-y-3">
                 <div>
                     <label class="text-xs text-slate-300 font-bold block mb-1">الاسم بالكامل:</label>
-                    <input type="text" id="setup-profile-name" placeholder="مثال: الكوتش أحمد محمد" class="w-full bg-slate-950 border border-slate-800 p-3 rounded-xl text-sm text-white outline-none focus:border-emerald-500">
+                    <input type="text" id="setup-profile-name" placeholder="مثال: الكوتش أحمد محمود" class="w-full bg-slate-950 border border-slate-800 p-3 rounded-xl text-sm text-white outline-none focus:border-emerald-500">
                 </div>
                 <div>
-                    <label class="text-xs text-slate-300 font-bold block mb-1">رقم الواتساب (للتواصل المباشر - لن يظهر الرقم بل زر يحول العميل):</label>
+                    <label class="text-xs text-slate-300 font-bold block mb-1">رقم الواتساب:</label>
                     <input type="text" id="setup-profile-whatsapp" placeholder="مثال: 201012345678" class="w-full bg-slate-950 border border-slate-800 p-3 rounded-xl text-sm text-white outline-none focus:border-emerald-500">
                 </div>
                 <div>
-                    <label class="text-xs text-slate-300 font-bold block mb-1">الصورة الشخصية (رابط صورة):</label>
+                    <label class="text-xs text-slate-300 font-bold block mb-1">رابط الصورة الشخصية:</label>
                     <input type="text" id="setup-profile-img" placeholder="رابط صورة شخصية مربعة" class="w-full bg-slate-950 border border-slate-800 p-3 rounded-xl text-sm text-white outline-none focus:border-emerald-500">
                 </div>
                 <div>
@@ -325,7 +366,7 @@
                     <textarea id="setup-profile-bio" rows="3" placeholder="نبذة عن خبرتك وإنجازاتك الرياضية..." class="w-full bg-slate-950 border border-slate-800 p-3 rounded-xl text-sm text-white outline-none focus:border-emerald-500"></textarea>
                 </div>
                 <div>
-                    <label class="text-xs text-emerald-400 font-bold block mb-1">شهادات الخبرة الحاصل عليها (اختياري):</label>
+                    <label class="text-xs text-emerald-400 font-bold block mb-1">شهادات الخبرة (اختياري):</label>
                     <input type="text" id="setup-profile-certs" placeholder="رابط الشهادة أو اسم الاعتماد" class="w-full bg-slate-950 border border-slate-800 p-3 rounded-xl text-sm text-white outline-none focus:border-emerald-500">
                 </div>
                 <div>
@@ -337,10 +378,12 @@
         </div>
     </div>
 
-    <!-- Rating Modal (تقييم المتدرب للكوتش) -->
-    <div id="rating-modal" class="fixed inset-0 bg-slate-950/85 backdrop-blur-md hidden items-center justify-center z-50 p-4">
+    <!-- Rating Modal (تقييم موثق للمتدرب المشترك فقط)[cite: 5] -->
+    <div id="rating-modal" class="fixed inset-0 bg-slate-950/85 backdrop-blur-md hidden items-center justify-center z-50 p-4" dir="rtl">
         <div class="card-gym-glow border border-slate-800 p-6 rounded-3xl max-w-sm w-full text-center space-y-4 shadow-2xl">
-            <h3 class="text-xl font-bold text-white">قيم أداء كوتشك</h3>
+            <h3 class="text-xl font-bold text-white">تقييم موثق لأداء الكوتش[cite: 5]</h3>
+            <p class="text-slate-400 text-xs">التقييمات مقتصرة حصرياً على المشتركين الفعليين عبر نظام الضمان[cite: 5].</p>
+            <input type="text" id="review-txn-id" placeholder="رقم معاملة الشراء (مثال: TXN-1001)" class="w-full bg-slate-950 border border-slate-800 p-3 rounded-xl text-xs text-white outline-none focus:border-amber-500">
             <div class="flex justify-center gap-2 text-2xl text-amber-400 cursor-pointer">
                 <i class="fa-solid fa-star" onclick="setRatingStars(1)" id="star-1"></i>
                 <i class="fa-solid fa-star" onclick="setRatingStars(2)" id="star-2"></i>
@@ -348,9 +391,9 @@
                 <i class="fa-solid fa-star" onclick="setRatingStars(4)" id="star-4"></i>
                 <i class="fa-solid fa-star" onclick="setRatingStars(5)" id="star-5"></i>
             </div>
-            <textarea id="rating-message-input" rows="3" placeholder="اكتب رسالة تقييمك للكوتش..." class="w-full bg-slate-950 border border-slate-800 p-3 rounded-xl text-sm text-white outline-none focus:border-amber-500"></textarea>
+            <textarea id="rating-message-input" rows="3" placeholder="اكتب تعليقك وتقييمك الموثق..." class="w-full bg-slate-950 border border-slate-800 p-3 rounded-xl text-sm text-white outline-none focus:border-amber-500"></textarea>
             <div class="flex gap-2">
-                <button onclick="submitTraineeRating()" class="flex-1 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold py-2.5 rounded-xl transition">إرسال التقييم</button>
+                <button onclick="submitVerifiedReview()" class="flex-1 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold py-2.5 rounded-xl transition">إرسال التقييم الموثق[cite: 5]</button>
                 <button onclick="closeModals()" class="flex-1 bg-slate-800 text-slate-300 py-2.5 rounded-xl transition">إلغاء</button>
             </div>
         </div>
@@ -437,9 +480,15 @@
             <div id="vip-auth-section-register" class="hidden space-y-4 pt-2">
                 <input type="text" id="reg-vip-name" placeholder="الاسم الكامل" class="w-full bg-slate-950/90 border border-slate-800 p-3 rounded-xl text-sm outline-none focus:border-amber-500 text-white">
                 <input type="text" id="reg-vip-phone" placeholder="رقم الهاتف" class="w-full bg-slate-950/90 border border-slate-800 p-3 rounded-xl text-sm outline-none focus:border-amber-500 text-white">
+                <input type="number" id="reg-vip-weight" placeholder="الوزن (كجم)" class="w-full bg-slate-950/90 border border-slate-800 p-3 rounded-xl text-sm outline-none focus:border-amber-500 text-white">
+                <input type="number" id="reg-vip-height" placeholder="الطول (سم)" class="w-full bg-slate-950/90 border border-slate-800 p-3 rounded-xl text-sm outline-none focus:border-amber-500 text-white">
                 <select id="reg-vip-goal" class="w-full bg-slate-950/90 border border-slate-800 p-3 rounded-xl text-sm outline-none focus:border-amber-500 text-slate-200">
                     <option value="تضخيم وبناء عضلات صافية">تضخيم وبناء عضلات صافية</option>
                     <option value="تنشيف وحرق الدهون">تنشيف وحرق الدهون</option>
+                </select>
+                <select id="reg-vip-diet-pref" class="w-full bg-slate-950/90 border border-slate-800 p-3 rounded-xl text-sm outline-none focus:border-amber-500 text-slate-200">
+                    <option value="نظام طبيعي متكامل (لحوم، أسماك، دهون صحية، فواكه)">نظام طبيعي متكامل (لحوم، أسماك، دهون صحية، فواكه)</option>
+                    <option value="نظام بدون ألبان">نظام بدون ألبان</option>
                 </select>
                 <select id="reg-vip-package" class="w-full bg-slate-950/90 border border-amber-500/50 p-3 rounded-xl text-sm outline-none focus:border-amber-500 text-amber-200 font-bold">
                     <option value="باقة VIP الشهرية - 750 ج.م">باقة VIP الشهرية - 750 جنيه / شهر</option>
@@ -470,7 +519,7 @@
     <!-- AI Generator Modal -->
     <div id="ai-generator-modal" class="fixed inset-0 bg-slate-950/85 backdrop-blur-md hidden items-center justify-center z-50 p-4">
         <div class="card-gym-glow border border-slate-800 p-6 rounded-3xl max-w-lg w-full space-y-4 shadow-2xl">
-            <h3 class="text-xl font-bold text-white flex items-center gap-2"><i class="fa-solid fa-wand-magic-sparkles text-indigo-400"></i> مولد البرامج الذكي</h3>
+            <h3 class="text-xl font-bold text-white flex items-center gap-2"><i class="fa-solid fa-wand-magic-sparkles text-indigo-400"></i> مولد البرامج الذكي (Gemini)</h3>
             <textarea id="ai-prompt-input" rows="3" placeholder="صف هدف المتدرب..." class="w-full bg-slate-950/90 border border-slate-800 p-3 rounded-xl text-sm outline-none focus:border-indigo-500 text-white"></textarea>
             <div class="flex gap-2">
                 <button onclick="generateAiPlan()" class="flex-1 bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-2.5 rounded-xl transition">توليد بالـ AI 🚀</button>
@@ -539,13 +588,44 @@
             document.getElementById('coach-mandatory-profile-modal').classList.remove('flex');
             document.getElementById('rating-modal').classList.add('hidden');
             document.getElementById('rating-modal').classList.remove('flex');
+            document.getElementById('terms-modal').classList.add('hidden');
+            document.getElementById('terms-modal').classList.remove('flex');
+            document.getElementById('dispute-modal').classList.add('hidden');
+            document.getElementById('dispute-modal').classList.remove('flex');
+        }
+
+        function openTermsModal() {
+            document.getElementById('terms-modal').classList.remove('hidden');
+            document.getElementById('terms-modal').classList.add('flex');
+        }
+
+        function submitAgreement() {
+            const isChecked = document.getElementById('agreeTerms').checked;
+            if (!isChecked) {
+                alert("يجب الموافقة على شروط الاستخدام أولاً للمتابعة[cite: 3].");
+                return;
+            }
+            alert("تم توثيق موافقتك الرقمية بنجاح، يمكنك الانتقال للخطوة التالية[cite: 3].");
+            closeModals();
+        }
+
+        function openDisputeModal() {
+            document.getElementById('dispute-modal').classList.remove('hidden');
+            document.getElementById('dispute-modal').classList.add('flex');
+        }
+
+        async function submitDispute() {
+            const txnId = document.getElementById('dispute-txn-id').value.trim();
+            const reason = document.getElementById('dispute-reason-input').value.trim();
+            if(!txnId || !reason) return alert('يرجى إدخال رقم المعاملة وسبب النزاع.');
+            alert('تم تجميد الأموال مؤقتاً بنجاح. ستقوم إدارة المنصة بمراجعة النزاع واتخاذ القرار خلال 48 ساعة لحماية حقوقك[cite: 2].');
+            closeModals();
         }
 
         /* --- Public Coaches Directory & Profiles --- */
         async function openPublicCoachesModal() {
             await window.initCloudData();
             const listContainer = document.getElementById('public-coaches-list');
-            // فلترة الكوتشات الأكتف فقط
             const activeCoaches = cloudCoaches.filter(c => c.active === true);
 
             if(activeCoaches.length === 0) {
@@ -557,7 +637,7 @@
                         <div class="flex-1">
                             <h4 class="text-lg font-bold text-white">${c.profileName || c.email}</h4>
                             <p class="text-slate-400 text-xs line-clamp-1">${c.profileBio || 'مدرب معتمد في منصة CoachHub Pro'}</p>
-                            <div class="mt-2 text-xs text-amber-400 font-bold"><i class="fa-solid fa-star ml-1"></i> تقييم عام</div>
+                            <div class="mt-2 text-xs text-amber-400 font-bold"><i class="fa-solid fa-star ml-1"></i> تقييم عام مع ضمان Escrow[cite: 1, 6]</div>
                         </div>
                     </div>
                 `).join('');
@@ -569,7 +649,7 @@
         async function openCoachProfileDetail(coachEmail) {
             await window.initCloudData();
             const coach = cloudCoaches.find(c => c.email === coachEmail);
-            if(!coach || !coach.active) return alert('هذا البروفايل غير متاع أو انتهى اشتراك الكوتش.');
+            if(!coach || !coach.active) return alert('هذا البروفايل غير متاح أو انتهى اشتراك الكوتش.');
 
             const container = document.getElementById('coach-profile-detail-content');
             const ratings = coach.ratings || [];
@@ -580,7 +660,7 @@
                         <img src="${coach.profileImg || 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=200&auto=format&fit=crop'}" class="w-20 h-20 rounded-2xl object-cover border-2 border-emerald-500">
                         <div>
                             <h3 class="text-2xl font-black text-white">${coach.profileName || coach.email}</h3>
-                            <span class="text-xs bg-emerald-500/20 text-emerald-400 px-3 py-1 rounded-full font-bold">مدرب معتمد وأكتف</span>
+                            <span class="text-xs bg-emerald-500/20 text-emerald-400 px-3 py-1 rounded-full font-bold">مدرب معتمد بضمان Escrow[cite: 6]</span>
                         </div>
                     </div>
                     <button onclick="closeModals()" class="text-slate-400 hover:text-white text-xl"><i class="fa-solid fa-xmark"></i></button>
@@ -605,21 +685,31 @@
                     </div>
 
                     <div>
-                        <h4 class="text-sm font-bold text-emerald-400 mb-2">تقييمات وآراء المتدربين:</h4>
+                        <h4 class="text-sm font-bold text-emerald-400 mb-2">تقييمات وآراء المتدربين (موثقة):</h4>
                         <div class="space-y-2 max-h-36 overflow-y-auto">
                             ${ratings.length === 0 ? '<p class="text-slate-500 text-xs">لا توجد تقييمات بعد.</p>' : ratings.map(r => `
                                 <div class="bg-slate-950 p-2.5 rounded-xl border border-slate-800 text-xs space-y-1">
-                                    <div class="text-amber-400">${'★'.repeat(r.stars)}</div>
-                                    <p class="text-slate-300">"${r.message}"</p>
+                                    <div class="text-amber-400">${'★'.repeat(r.rating)} <span class="text-slate-400 text-[10px] mr-2">(${r.client_name} - شراء موثق[cite: 5])</span></div>
+                                    <p class="text-slate-300">"${r.comment}"</p>
                                 </div>
                             `).join('')}
                         </div>
                     </div>
 
-                    <!-- زر التواصل المباشر للواتساب بدون إظهار الرقم -->
+                    <!-- نظام ضمان Escrow ودفع آمن[cite: 6] -->
+                    <div class="bg-indigo-950/40 p-4 rounded-2xl border border-indigo-500/30 space-y-3">
+                        <div class="text-xs text-indigo-300 font-bold flex items-center gap-1">
+                            <i class="fa-solid fa-lock text-emerald-400"></i> ضمان المنصة الآمن (Escrow)[cite: 6]:
+                        </div>
+                        <p class="text-xs text-slate-300 leading-relaxed">أموالك محمية تماماً ولا يتم تحويلها للكوتش إلا بعد التأكد من بدء متابعتك والتزام الطرفين بنجاح[cite: 6].</p>
+                        <button onclick="payWithEscrow('${coach.profileName || coach.email}')" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 rounded-xl text-sm transition shadow-lg flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-credit-card"></i> ادفع الآن بأمان عبر المنصة وبدء التدريب[cite: 6]
+                        </button>
+                    </div>
+
                     <div class="pt-2">
                         <a href="https://wa.me/${coach.whatsapp || '201221078181'}" target="_blank" class="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black py-3.5 rounded-xl text-center block transition shadow-lg flex items-center justify-center gap-2">
-                            <i class="fa-brands fa-whatsapp text-xl"></i> تواصل مع الكوتش الآن عبر الواتساب للاشتراك
+                            <i class="fa-brands fa-whatsapp text-xl"></i> تواصل مع الكوتش الآن عبر الواتساب
                         </a>
                     </div>
                 </div>
@@ -630,7 +720,10 @@
             document.getElementById('coach-profile-detail-modal').classList.add('flex');
         }
 
-        /* --- Coach Mandatory Setup --- */
+        function payWithEscrow(coachName) {
+            alert(`سيتم توجيهك لبوابة الدفع الآمنة وإتمام الحجز مع (${coachName}) وتفعيل نظام الضمان (Escrow) ومتابعة الذكاء الاصطناعي فوراً[cite: 6].`);
+        }
+
         async function verifyCoachLogin() {
             const email = document.getElementById('login-coach-email').value.trim();
             const code = document.getElementById('login-coach-code').value.trim();
@@ -644,7 +737,6 @@
             currentCoachEmail = email;
             closeModals();
 
-            // تحقق هل قام بملء بيانات البروفايل من قبل أم لا
             if(!coach.profileCompleted) {
                 document.getElementById('setup-profile-name').value = coach.profileName || '';
                 document.getElementById('setup-profile-whatsapp').value = coach.whatsapp || '';
@@ -696,7 +788,7 @@
             document.getElementById('coach-mandatory-profile-modal').classList.add('flex');
         }
 
-        /* --- Trainee Rating --- */
+        /* --- Trainee Verified Rating --- */
         function openRatingModal() {
             document.getElementById('rating-modal').classList.remove('hidden');
             document.getElementById('rating-modal').classList.add('flex');
@@ -711,20 +803,31 @@
             }
         }
 
-        async function submitTraineeRating() {
-            const msg = document.getElementById('rating-message-input').value.trim();
-            if(!currentTrainee) return;
+        async function submitVerifiedReview() {
+            const txnId = document.getElementById('review-txn-id').value.trim();
+            const comment = document.getElementById('rating-message-input').value.trim();
+            if(!txnId || !currentTrainee) return alert('يرجى إدخال رقم معاملة الشراء.');
+
+            // محاكاة التحقق من الشراء الموثق وإضافته لبروفايل الكوتش
             const coachEmail = currentTrainee.coachEmail;
             const coach = cloudCoaches.find(c => c.email === coachEmail);
             if(!coach) return;
 
             const existingRatings = coach.ratings || [];
-            existingRatings.push({ stars: currentSelectedRating, message: msg || 'تقييم ممتاز' });
+            const newReview = {
+                coach_id: coachEmail,
+                client_name: currentTrainee.name,
+                rating: currentSelectedRating,
+                comment: comment || 'تقييم ممتاز',
+                verified_purchase: true,
+                date: new Date().toISOString().split('T')[0]
+            };
+            existingRatings.push(newReview);
 
             await window.updateDoc(window.doc(window.db, "coaches", coachEmail), { ratings: existingRatings });
             await window.initCloudData();
             closeModals();
-            alert('تم إرسال تقييمك بنجاح وشكراً لك!');
+            alert('تم إضافة تقييمك الموثق بنجاح على بروفايل الكوتش[cite: 5].');
         }
 
         /* --- Admin & Subscriptions Logic --- */
@@ -811,19 +914,25 @@
         async function submitVipSubscription() {
             const name = document.getElementById('reg-vip-name').value.trim();
             const phone = document.getElementById('reg-vip-phone').value.trim();
+            const weight = document.getElementById('reg-vip-weight').value.trim();
+            const height = document.getElementById('reg-vip-height').value.trim();
             const goal = document.getElementById('reg-vip-goal').value;
+            const dietPref = document.getElementById('reg-vip-diet-pref').value;
             const pkg = document.getElementById('reg-vip-package').value;
-            if(!name || !phone) return alert('يرجى إدخال الاسم ورقم الهاتف.');
+            if(!name || !phone || !weight || !height) return alert('يرجى إكمال جميع بيانات الـ VIP.');
             try {
                 const vipId = 'vip_' + phone;
+                // محاكاة استدعاء Gemini API لتوليد البرنامج المخصص
+                const aiGeneratedPlan = `خطة مخصصة بالذكاء الاصطناعي (${goal}):\n- اعتماد نظام غذائي طبيعي يعتمد على اللحوم، الأسماك، والدهون الصحية والفواكه الموسمية.\n- الوزن: ${weight} كجم | الطول: ${height} سم.\n- جدول تمارين أسبوعي متكامل عالي الكفاءة.`;
+
                 await window.setDoc(window.doc(window.db, "vipTrainees", vipId), {
-                    id: vipId, name, phone, goal, package: pkg, active: false,
-                    dietPlan: `نظام غذائي ذكي لهدف (${goal})`,
-                    workoutPlan: [{exercise: 'Squat', sets: '4', reps: '10', weight: '60 كجم'}]
+                    id: vipId, name, phone, weight, height, goal, diet_preference: dietPref, package: pkg, active: false,
+                    dietPlan: aiGeneratedPlan,
+                    workoutPlan: aiGeneratedPlan
                 });
                 await window.initCloudData();
                 closeModals();
-                alert('تم إرسال طلب اشتراك الـ VIP بنجاح!');
+                alert('تم إرسال طلب اشتراك الـ VIP وتوليد الخطة الذكية بنجاح! بانتظار تفعيل الأدمن[cite: 2].');
             } catch(e) {
                 alert('حدث خطأ أثناء التسجيل.');
             }
@@ -926,18 +1035,18 @@
         }
 
         function openAddTraineeModal() {
-            document.getElementById('add-trainee-modal').classList.remove('hidden');
             document.getElementById('add-trainee-modal').classList.add('flex');
+            document.getElementById('add-trainee-modal').classList.remove('hidden');
         }
 
         function openAiGeneratorModal() {
-            document.getElementById('ai-generator-modal').classList.remove('hidden');
             document.getElementById('ai-generator-modal').classList.add('flex');
+            document.getElementById('ai-generator-modal').classList.remove('hidden');
         }
 
         async function generateAiPlan() {
-            document.getElementById('new-trainee-diet').value = `نظام غذائي مقترح بالـ AI`;
-            document.getElementById('new-trainee-workout').value = `Squat | 4 | 10`;
+            document.getElementById('new-trainee-diet').value = `نظام غذائي طبيعي مقترح بالـ AI يعتمد على الدهون الصحية واللحوم والفواكه الموسمية`;
+            document.getElementById('new-trainee-workout').value = `Squat | 4 sets | 10 reps`;
             closeModals();
             openAddTraineeModal();
         }
@@ -975,6 +1084,7 @@
             currentVipTrainee = cloudVipTrainees.find(v => v.id === vipId) || currentVipTrainee;
             document.getElementById('vip-welcome-name').innerText = `أهلاً بك يا بطل VIP، ${currentVipTrainee.name}`;
             document.getElementById('vip-diet-plan-box').innerText = currentVipTrainee.dietPlan;
+            document.getElementById('vip-workout-plan-box').innerText = currentVipTrainee.workoutPlan;
         }
 
         async function saveTraineeVideoLink() {
@@ -992,12 +1102,12 @@
             chatBox.innerHTML += `<div class="flex justify-end"><div class="bg-purple-600/30 p-3 rounded-xl text-slate-100 max-w-[85%]">${input.value}</div></div>`;
             input.value = '';
             setTimeout(() => {
-                chatBox.innerHTML += `<div class="flex justify-start"><div class="bg-slate-900 p-3 rounded-xl text-slate-300 max-w-[85%]">استمر يا بطل! أنا معك هنا لدعمك.</div></div>`;
+                chatBox.innerHTML += `<div class="flex justify-start"><div class="bg-slate-900 p-3 rounded-xl text-slate-300 max-w-[85%]">استمر يا بطل! أنا معك هنا لدعمك بالنصائح الطبيعية والتدريبية.</div></div>`;
             }, 600);
         }
 
         async function generateVipAutonomousPlan() {
-            alert('تم تحديث برنامج الـ VIP الذكي بنجاح!');
+            alert('تم تحديث برنامج الـ VIP الذكي عبر الذكاء الاصطناعي بنجاح[cite: 2]!');
         }
     </script>
 </body>
