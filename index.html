@@ -3,25 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CoachHub - منصة إدارة التدريب الذكية</title>
+    <title>CoachHub - منصة إدارة التدريب الذكية (سحابية بالكامل)</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Firebase SDKs -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyD-Placeholder-Key-Change-This",
+            authDomain: "coachhub-pro.firebaseapp.com",
+            projectId: "coachhub-pro",
+            storageBucket: "coachhub-pro.appspot.com",
+            messagingSenderId: "123456789",
+            appId: "1:123456789:web:abcdef"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        window.db = db;
+        window.collection = collection;
+        window.addDoc = addDoc;
+        window.getDocs = getDocs;
+        window.doc = doc;
+        window.updateDoc = updateDoc;
+        window.setDoc = setDoc;
+        window.getDoc = getDoc;
+        
+        window.initCloudData();
+    </script>
+
     <style>
         body { font-family: 'Cairo', sans-serif; }
+        /* خلفية رياضية حماسية مع تدرجات وتأثير بصري */
+        .hero-gym-bg {
+            background: linear-gradient(rgba(3, 7, 18, 0.85), rgba(3, 7, 18, 0.95)), 
+                        url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1600&auto=format&fit=crop') center/cover no-repeat;
+        }
+        .card-gym-glow {
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(12px);
+        }
     </style>
 </head>
-<body class="bg-slate-950 text-slate-100 min-h-screen">
+<body class="bg-slate-950 text-slate-100 min-h-screen hero-gym-bg">
 
     <!-- Header -->
-    <header class="bg-slate-900 border-b border-slate-800 sticky top-0 z-50">
+    <header class="bg-slate-900/90 border-b border-slate-800/80 sticky top-0 z-50 backdrop-blur-md">
         <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
             <div class="flex items-center gap-3">
-                <div class="bg-emerald-500 text-slate-950 p-2 rounded-xl font-black text-xl"><i class="fa-solid fa-dumbbell"></i></div>
-                <h1 class="text-2xl font-black tracking-wider text-white">Coach<span class="text-emerald-400">Hub</span> <span class="text-xs bg-emerald-500/20 text-emerald-400 px-2 py-1 rounded-full border border-emerald-500/30">Pro AI</span></h1>
+                <div class="bg-emerald-500 text-slate-950 p-2.5 rounded-2xl font-black text-xl shadow-lg shadow-emerald-500/20"><i class="fa-solid fa-dumbbell"></i></div>
+                <h1 class="text-2xl font-black tracking-wider text-white">Coach<span class="text-emerald-400">Hub</span> <span class="text-xs bg-emerald-500/20 text-emerald-400 px-2.5 py-1 rounded-full border border-emerald-500/30">Cloud Power</span></h1>
             </div>
             <div id="nav-actions" class="flex gap-2">
-                <button onclick="showRoleSelection()" class="bg-slate-800 hover:bg-slate-700 text-slate-300 px-4 py-2 rounded-xl text-sm font-semibold transition"><i class="fa-solid fa-arrow-right-arrow-left ml-2"></i>تغيير الحساب</button>
+                <button onclick="showRoleSelection()" class="bg-slate-800/80 hover:bg-slate-700 text-slate-200 px-4 py-2 rounded-xl text-sm font-semibold transition border border-slate-700"><i class="fa-solid fa-arrow-right-arrow-left ml-2"></i>تغيير الحساب</button>
             </div>
         </div>
     </header>
@@ -31,45 +70,46 @@
 
         <!-- 1. Role Selection View -->
         <div id="view-role-selection" class="max-w-4xl mx-auto text-center py-12">
-            <h2 class="text-4xl font-black mb-4">مرحباً بك في مستقبل التدريب الرياضي</h2>
-            <p class="text-slate-400 mb-10 text-lg">اختر لوحة التحكم الخاصة بك للبدء في إدارة التدريب بأحدث التقنيات.</p>
+            <div class="inline-block mb-4 px-4 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-bold tracking-widest uppercase">طاقة بلا حدود • استمر في الدفع</div>
+            <h2 class="text-4xl md:text-5xl font-black mb-4 tracking-wide text-white">اصنع بطلك القادم ببيانات محمية وثابتة</h2>
+            <p class="text-slate-400 mb-12 text-lg max-w-2xl mx-auto">اختر لوحة التحكم الخاصة بك للبدء في إدارة التدريب ومتابعة الأوزان بحماس واحترافية.</p>
             
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-right">
                 <!-- Admin Card -->
-                <div onclick="openAdminPinModal()" class="bg-slate-900 border border-slate-800 hover:border-emerald-500 p-8 rounded-3xl cursor-pointer transition transform hover:-translate-y-2 group">
-                    <div class="w-16 h-16 bg-emerald-500/10 text-emerald-400 rounded-2xl flex items-center justify-center text-3xl mx-auto mb-6 group-hover:bg-emerald-500 group-hover:text-slate-950 transition"><i class="fa-solid fa-shield-halved"></i></div>
-                    <h3 class="text-2xl font-bold mb-2">الأدمن (الإدارة)</h3>
-                    <p class="text-slate-400 text-sm">مراجعة تحويلات المدربين وتفعيل الاشتراكات وإرسال الأكواد.</p>
+                <div onclick="openAdminPinModal()" class="card-gym-glow border border-slate-800 hover:border-emerald-500 p-8 rounded-3xl cursor-pointer transition transform hover:-translate-y-2 group shadow-xl">
+                    <div class="w-16 h-16 bg-emerald-500/10 text-emerald-400 rounded-2xl flex items-center justify-center text-3xl mx-auto md:mx-0 mb-6 group-hover:bg-emerald-500 group-hover:text-slate-950 transition"><i class="fa-solid fa-shield-halved"></i></div>
+                    <h3 class="text-2xl font-bold mb-2 text-white">الأدمن (الإدارة)</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">مراجعة تحويلات المدربين وتفعيل الاشتراكات وإرسال الأكواد السحابية.</p>
                 </div>
 
                 <!-- Coach Card -->
-                <div onclick="openCoachAuthModal()" class="bg-slate-900 border border-slate-800 hover:border-emerald-500 p-8 rounded-3xl cursor-pointer transition transform hover:-translate-y-2 group">
-                    <div class="w-16 h-16 bg-blue-500/10 text-blue-400 rounded-2xl flex items-center justify-center text-3xl mx-auto mb-6 group-hover:bg-blue-500 group-hover:text-slate-950 transition"><i class="fa-solid fa-user-tie"></i></div>
-                    <h3 class="text-2xl font-bold mb-2">المدرب (Coach)</h3>
-                    <p class="text-slate-400 text-sm">اشتراك جديد، اختيار باقات شهرية، الدفع عبر إنستا باي، ورفع إيصال التحويل.</p>
+                <div onclick="openCoachAuthModal()" class="card-gym-glow border border-slate-800 hover:border-emerald-500 p-8 rounded-3xl cursor-pointer transition transform hover:-translate-y-2 group shadow-xl">
+                    <div class="w-16 h-16 bg-blue-500/10 text-blue-400 rounded-2xl flex items-center justify-center text-3xl mx-auto md:mx-0 mb-6 group-hover:bg-blue-500 group-hover:text-slate-950 transition"><i class="fa-solid fa-user-tie"></i></div>
+                    <h3 class="text-2xl font-bold mb-2 text-white">المدرب (Coach)</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">اشتراك جديد، اختيار باقات شهرية، الدفع عبر إنستا باي، ورفع إيصال التحويل.</p>
                 </div>
 
                 <!-- Trainee Card -->
-                <div onclick="openTraineeLoginModal()" class="bg-slate-900 border border-slate-800 hover:border-emerald-500 p-8 rounded-3xl cursor-pointer transition transform hover:-translate-y-2 group">
-                    <div class="w-16 h-16 bg-purple-500/10 text-purple-400 rounded-2xl flex items-center justify-center text-3xl mx-auto mb-6 group-hover:bg-purple-500 group-hover:text-slate-950 transition"><i class="fa-solid fa-user"></i></div>
-                    <h3 class="text-2xl font-bold mb-2">المتدرب (Trainee)</h3>
-                    <p class="text-slate-400 text-sm">تسجيل الدخول برقم الهاتف لمتابعة الجدول وتعديل الأوزان.</p>
+                <div onclick="openTraineeLoginModal()" class="card-gym-glow border border-slate-800 hover:border-emerald-500 p-8 rounded-3xl cursor-pointer transition transform hover:-translate-y-2 group shadow-xl">
+                    <div class="w-16 h-16 bg-purple-500/10 text-purple-400 rounded-2xl flex items-center justify-center text-3xl mx-auto md:mx-0 mb-6 group-hover:bg-purple-500 group-hover:text-slate-950 transition"><i class="fa-solid fa-user"></i></div>
+                    <h3 class="text-2xl font-bold mb-2 text-white">المتدرب (Trainee)</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">تسجيل الدخول برقم الهاتف لمتابعة الجدول وتعديل الأوزان.</p>
                 </div>
             </div>
         </div>
 
         <!-- 2. Admin Dashboard -->
         <div id="view-admin" class="hidden space-y-6">
-            <div class="flex justify-between items-center bg-slate-900 p-6 rounded-2xl border border-slate-800">
+            <div class="flex justify-between items-center card-gym-glow p-6 rounded-3xl border border-slate-800">
                 <div>
-                    <h2 class="text-2xl font-bold">لوحة تحكم الأدمن</h2>
-                    <p class="text-slate-400 text-sm">متابعة إيصالات التحويل، تفعيل اشتراكات المدربين، وإرسال أكواد التفعيل الشهرية المتغيرة.</p>
+                    <h2 class="text-2xl font-bold text-white">لوحة تحكم الأدمن</h2>
+                    <p class="text-slate-400 text-sm">متابعة إيصالات التحويل وتفعيل اشتراكات المدربين.</p>
                 </div>
-                <button onclick="logout()" class="bg-red-500/10 text-red-400 px-4 py-2 rounded-xl text-sm font-semibold hover:bg-red-500/20">خروج</button>
+                <button onclick="logout()" class="bg-red-500/10 text-red-400 px-4 py-2 rounded-xl text-sm font-semibold hover:bg-red-500/20 transition">خروج</button>
             </div>
             
-            <div class="bg-slate-900 p-6 rounded-2xl border border-slate-800">
-                <h3 class="text-xl font-bold mb-4">طلبات اشتراكات المدربين وإيصالات التحويل</h3>
+            <div class="card-gym-glow p-6 rounded-3xl border border-slate-800">
+                <h3 class="text-xl font-bold mb-4 text-white">طلبات اشتراكات المدربين وإيصالات التحويل</h3>
                 <div class="overflow-x-auto">
                     <table class="w-full text-right">
                         <thead>
@@ -81,9 +121,7 @@
                                 <th class="pb-3">إجراء التفعيل وإرسال الكود</th>
                             </tr>
                         </thead>
-                        <tbody id="admin-requests-tbody">
-                            <!-- Injected -->
-                        </tbody>
+                        <tbody id="admin-requests-tbody"></tbody>
                     </table>
                 </div>
             </div>
@@ -91,20 +129,19 @@
 
         <!-- 3. Coach Dashboard -->
         <div id="view-coach" class="hidden space-y-6">
-            <div class="flex justify-between items-center bg-slate-900 p-6 rounded-2xl border border-slate-800 flex-wrap gap-4">
+            <div class="flex justify-between items-center card-gym-glow p-6 rounded-3xl border border-slate-800 flex-wrap gap-4">
                 <div>
-                    <h2 class="text-2xl font-bold">لوحة تحكم المدرب المحترف</h2>
+                    <h2 class="text-2xl font-bold text-white">لوحة تحكم المدرب المحترف</h2>
                     <p class="text-slate-400 text-sm" id="coach-welcome-email">مرحباً بك، مدربنا العزيز</p>
                 </div>
                 <div class="flex gap-2">
-                    <button onclick="openAddTraineeModal()" class="bg-emerald-500 text-slate-950 font-bold px-4 py-2 rounded-xl text-sm hover:bg-emerald-400 transition"><i class="fa-solid fa-plus ml-2"></i>إضافة متدرب جديد</button>
-                    <button onclick="logout()" class="bg-red-500/10 text-red-400 px-4 py-2 rounded-xl text-sm font-semibold hover:bg-red-500/20">خروج</button>
+                    <button onclick="openAddTraineeModal()" class="bg-emerald-500 text-slate-950 font-bold px-4 py-2 rounded-xl text-sm hover:bg-emerald-400 transition shadow-lg shadow-emerald-500/20"><i class="fa-solid fa-plus ml-2"></i>إضافة متدرب جديد</button>
+                    <button onclick="logout()" class="bg-red-500/10 text-red-400 px-4 py-2 rounded-xl text-sm font-semibold hover:bg-red-500/20 transition">خروج</button>
                 </div>
             </div>
 
-            <!-- Coach Management Content -->
-            <div class="bg-slate-900 p-6 rounded-2xl border border-slate-800 space-y-4">
-                <h3 class="text-lg font-bold mb-4">قائمة المتدربين والبرامج</h3>
+            <div class="card-gym-glow p-6 rounded-3xl border border-slate-800 space-y-4">
+                <h3 class="text-lg font-bold mb-4 text-white">قائمة المتدربين والبرامج (محفوظة سحابياً)</h3>
                 <div class="overflow-x-auto">
                     <table class="w-full text-right">
                         <thead>
@@ -114,9 +151,7 @@
                                 <th class="pb-3">الإجراءات</th>
                             </tr>
                         </thead>
-                        <tbody id="coach-trainees-tbody">
-                            <!-- Injected -->
-                        </tbody>
+                        <tbody id="coach-trainees-tbody"></tbody>
                     </table>
                 </div>
             </div>
@@ -124,157 +159,122 @@
 
         <!-- 4. Trainee Portal View -->
         <div id="view-trainee" class="hidden space-y-6">
-            <div class="bg-gradient-to-r from-emerald-900/40 to-slate-900 p-6 rounded-3xl border border-emerald-500/30 flex justify-between items-center flex-wrap gap-4">
+            <div class="bg-gradient-to-r from-emerald-900/60 to-slate-900/90 p-6 rounded-3xl border border-emerald-500/30 flex justify-between items-center flex-wrap gap-4 backdrop-blur-md shadow-2xl">
                 <div>
-                    <span class="text-xs bg-emerald-500/20 text-emerald-400 px-3 py-1 rounded-full font-bold">بوابة المتدرب الذكية</span>
-                    <h2 class="text-3xl font-black mt-2" id="trainee-welcome-name">أهلاً بك، بطل</h2>
+                    <span class="text-xs bg-emerald-500/20 text-emerald-400 px-3 py-1 rounded-full font-bold border border-emerald-500/30">بوابة المتدرب الحماسية 🔥</span>
+                    <h2 class="text-3xl font-black mt-2 text-white" id="trainee-welcome-name">أهلاً بك، بطل</h2>
                 </div>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <!-- Training Program & Weight Update -->
-                <div class="bg-slate-900 p-6 rounded-2xl border border-slate-800 space-y-4">
-                    <h3 class="text-xl font-bold flex items-center gap-2"><i class="fa-solid fa-dumbbell text-emerald-400"></i> الجدول التدريبي وتعديل الأوزان</h3>
+                <div class="card-gym-glow p-6 rounded-3xl border border-slate-800 space-y-4">
+                    <h3 class="text-xl font-bold flex items-center gap-2 text-white"><i class="fa-solid fa-dumbbell text-emerald-400"></i> الجدول التدريبي وتعديل الأوزان</h3>
                     <div id="trainee-workout-plan-box" class="space-y-3"></div>
                 </div>
 
                 <!-- Nutrition Program -->
-                <div class="bg-slate-900 p-6 rounded-2xl border border-slate-800 space-y-4">
-                    <h3 class="text-xl font-bold flex items-center gap-2"><i class="fa-solid fa-utensils text-emerald-400"></i> النظام الغذائي الكامل</h3>
-                    <div id="trainee-diet-plan-box" class="text-slate-300 text-sm leading-relaxed bg-slate-950 p-4 rounded-xl border border-slate-800"></div>
+                <div class="card-gym-glow p-6 rounded-3xl border border-slate-800 space-y-4">
+                    <h3 class="text-xl font-bold flex items-center gap-2 text-white"><i class="fa-solid fa-utensils text-emerald-400"></i> النظام الغذائي الكامل</h3>
+                    <div id="trainee-diet-plan-box" class="text-slate-300 text-sm leading-relaxed bg-slate-950/80 p-4 rounded-2xl border border-slate-800"></div>
                 </div>
             </div>
         </div>
 
     </main>
 
-    <!-- Admin PIN Modal -->
-    <div id="admin-pin-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
-        <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl max-w-sm w-full text-center space-y-4">
-            <h3 class="text-xl font-bold">رمز حماية الأدمن الخاص</h3>
-            <input type="password" id="admin-pin-input" maxlength="4" class="w-full bg-slate-950 border border-slate-800 text-center text-2xl tracking-widest py-3 rounded-xl focus:border-emerald-500 outline-none" placeholder="••••">
+    <!-- Modals -->
+    <div id="admin-pin-modal" class="fixed inset-0 bg-slate-950/85 backdrop-blur-md hidden items-center justify-center z-50 p-4">
+        <div class="card-gym-glow border border-slate-800 p-6 rounded-3xl max-w-sm w-full text-center space-y-4 shadow-2xl">
+            <h3 class="text-xl font-bold text-white">رمز حماية الأدمن</h3>
+            <input type="password" id="admin-pin-input" maxlength="4" class="w-full bg-slate-950/90 border border-slate-800 text-center text-2xl tracking-widest py-3 rounded-xl focus:border-emerald-500 outline-none text-white" placeholder="••••">
             <div class="flex gap-2">
-                <button onclick="verifyAdminPin()" class="flex-1 bg-emerald-500 text-slate-950 font-bold py-2 rounded-xl">دخول</button>
-                <button onclick="closeModals()" class="flex-1 bg-slate-800 text-slate-300 py-2 rounded-xl">إلغاء</button>
+                <button onclick="verifyAdminPin()" class="flex-1 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold py-2.5 rounded-xl transition">دخول</button>
+                <button onclick="closeModals()" class="flex-1 bg-slate-800 text-slate-300 py-2.5 rounded-xl transition">إلغاء</button>
             </div>
         </div>
     </div>
 
-    <!-- Coach Auth & Subscription Modal (زر الاشتراك وتسجيل الدخول الشامل للمدرب) -->
-    <div id="coach-auth-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
-        <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl max-w-xl w-full space-y-4 max-h-[90vh] overflow-y-auto">
+    <div id="coach-auth-modal" class="fixed inset-0 bg-slate-950/85 backdrop-blur-md hidden items-center justify-center z-50 p-4">
+        <div class="card-gym-glow border border-slate-800 p-6 rounded-3xl max-w-xl w-full space-y-4 max-h-[90vh] overflow-y-auto shadow-2xl">
             <div class="flex justify-between items-center border-b border-slate-800 pb-3">
-                <h3 class="text-xl font-bold">بوابة اشتراك وتسجيل دخول المدربين</h3>
+                <h3 class="text-xl font-bold text-white">بوابة اشتراك وتسجيل دخول المدربين</h3>
                 <button onclick="closeModals()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
             </div>
 
-            <!-- Tabs inside modal: Login vs Register/Subscribe -->
             <div class="flex gap-2 bg-slate-950 p-1 rounded-xl">
-                <button onclick="switchCoachAuthTab('login')" id="tab-coach-login" class="flex-1 py-2 rounded-lg bg-blue-600 text-white font-bold text-sm transition">تسجيل الدخول (بالجيميل والكود)</button>
-                <button onclick="switchCoachAuthTab('register')" id="tab-coach-register" class="flex-1 py-2 rounded-lg bg-slate-900 text-slate-400 font-bold text-sm transition">اشتراك جديد وباقات</button>
+                <button onclick="switchCoachAuthTab('login')" id="tab-coach-login" class="flex-1 py-2 rounded-lg bg-blue-600 text-white font-bold text-sm transition">تسجيل الدخول</button>
+                <button onclick="switchCoachAuthTab('register')" id="tab-coach-register" class="flex-1 py-2 rounded-lg bg-slate-900 text-slate-400 font-bold text-sm transition">اشتراك جديد</button>
             </div>
 
-            <!-- Login Section -->
             <div id="coach-auth-section-login" class="space-y-3 pt-2">
-                <p class="text-xs text-slate-400">أدخل جيميلك وكود التفعيل الشهري المتغير الذي استلمته بعد تأكيد الدفع:</p>
-                <input type="email" id="login-coach-email" placeholder="البريد الإلكتروني (Gmail)" class="w-full bg-slate-950 border border-slate-800 p-3 rounded-xl text-sm outline-none focus:border-blue-500">
-                <input type="password" id="login-coach-code" placeholder="كود التفعيل الشهري المتغير" class="w-full bg-slate-950 border border-slate-800 p-3 rounded-xl text-sm outline-none focus:border-blue-500">
-                <button onclick="verifyCoachLogin()" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 rounded-xl text-sm transition">دخول لوحة التحكم</button>
+                <input type="email" id="login-coach-email" placeholder="البريد الإلكتروني (Gmail)" class="w-full bg-slate-950/90 border border-slate-800 p-3 rounded-xl text-sm outline-none focus:border-blue-500 text-white">
+                <input type="password" id="login-coach-code" placeholder="كود التفعيل الشهري المتغير" class="w-full bg-slate-950/90 border border-slate-800 p-3 rounded-xl text-sm outline-none focus:border-blue-500 text-white">
+                <button onclick="verifyCoachLogin()" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 rounded-xl text-sm transition shadow-lg shadow-blue-600/20">دخول لوحة التحكم</button>
             </div>
 
-            <!-- Register & Packages Section -->
             <div id="coach-auth-section-register" class="hidden space-y-4 pt-2">
-                <div class="space-y-2">
-                    <label class="text-xs text-slate-400 block">1. بيانات حساب المدرب:</label>
-                    <input type="email" id="reg-coach-email" placeholder="البريد الإلكتروني (Gmail)" class="w-full bg-slate-950 border border-slate-800 p-3 rounded-xl text-sm outline-none focus:border-emerald-500">
-                    <input type="password" id="reg-coach-pass" placeholder="كلمة المرور الخاصة بالجيميل" class="w-full bg-slate-950 border border-slate-800 p-3 rounded-xl text-sm outline-none focus:border-emerald-500">
+                <input type="email" id="reg-coach-email" placeholder="البريد الإلكتروني (Gmail)" class="w-full bg-slate-950/90 border border-slate-800 p-3 rounded-xl text-sm outline-none focus:border-emerald-500 text-white">
+                <input type="password" id="reg-coach-pass" placeholder="كلمة المرور الخاصة بالجيميل" class="w-full bg-slate-950/90 border border-slate-800 p-3 rounded-xl text-sm outline-none focus:border-emerald-500 text-white">
+                <select id="reg-coach-package" class="w-full bg-slate-950/90 border border-slate-800 p-3 rounded-xl text-sm outline-none focus:border-emerald-500 text-slate-200">
+                    <option value="باقة ٥ أفراد - 300 ج.م (شهر)">باقة ٥ أفراد (300 جنيه / شهر)</option>
+                    <option value="باقة ١٥ شخص - 600 ج.م (شهر)">باقة ١٥ شخص (600 جنيه / شهر)</option>
+                    <option value="باقة ٢٥ شخص - 1000 ج.م (شهر)">باقة ٢٥ شخص (1000 جنيه / شهر)</option>
+                    <option value="باقة ٥٠ شخص - 1500 ج.م (شهر)">باقة ٥٠ شخص (1500 جنيه / شهر)</option>
+                    <option value="باقة ١٠٠ شخص - 2000 ج.م (شهر)">باقة ١٠٠ شخص (2000 جنيه / شهر)</option>
+                    <option value="باقة غير محدوده - 2500 ج.م (شهر)">باقة غير محدودة (2500 جنيه / شهر)</option>
+                </select>
+                <div class="bg-slate-950/90 p-4 rounded-2xl border border-slate-800 space-y-3">
+                    <div class="text-xs text-emerald-400 font-bold"><i class="fa-solid fa-wallet ml-1"></i> الدفع عبر إنستا باي: 01221078181</div>
+                    <input type="file" id="reg-receipt-file" accept="image/*" class="w-full text-xs text-slate-400 file:bg-emerald-500 file:text-slate-950 file:border-none file:rounded-xl file:px-3 file:py-1.5 font-bold">
                 </div>
-
-                <div class="space-y-2">
-                    <label class="text-xs text-slate-400 block">2. اختر باقتك الشهرية:</label>
-                    <select id="reg-coach-package" class="w-full bg-slate-950 border border-slate-800 p-3 rounded-xl text-sm outline-none focus:border-emerald-500 text-slate-200">
-                        <option value="باقة ٥ أفراد - 300 ج.م (شهر)">باقة ٥ أفراد (300 جنيه / شهر)</option>
-                        <option value="باقة ١٥ شخص - 600 ج.م (شهر)">باقة ١٥ شخص (600 جنيه / شهر)</option>
-                        <option value="باقة ٢٥ شخص - 1000 ج.م (شهر)">باقة ٢٥ شخص (1000 جنيه / شهر)</option>
-                        <option value="باقة ٥٠ شخص - 1500 ج.م (شهر)">باقة ٥٠ شخص (1500 جنيه / شهر)</option>
-                        <option value="باقة ١٠٠ شخص - 2000 ج.م (شهر)">باقة ١٠٠ شخص (2000 جنيه / شهر)</option>
-                        <option value="باقة غير محدوده - 2500 ج.م (شهر)">باقة غير محدودة (2500 جنيه / شهر)</option>
-                    </select>
-                </div>
-
-                <!-- Instapay info & Receipt upload -->
-                <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-3">
-                    <div class="text-xs text-emerald-400 font-bold"><i class="fa-solid fa-wallet ml-1"></i> طريقة الدفع عبر إنستا باي (InstaPay):</div>
-                    <p class="text-xs text-slate-300">قم بتحويل قيمة الباقة المستحقة على الحساب أو رقم الهاتف الخاص بالمنصة: <span class="text-amber-400 font-bold">01221078181</span></p>
-                    <div>
-                        <label class="text-xs text-slate-400 block mb-1">رفع صورة إيصال التحويل:</label>
-                        <input type="file" id="reg-receipt-file" accept="image/*" class="w-full text-xs text-slate-400 file:bg-emerald-500 file:text-slate-950 file:border-none file:rounded-lg file:px-3 file:py-1">
-                    </div>
-                </div>
-
-                <button onclick="submitCoachSubscription()" class="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold py-3 rounded-xl text-sm transition">إرسال طلب الاشتراك وإيصال الدفع للأدمن 🚀</button>
+                <button onclick="submitCoachSubscription()" class="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold py-3 rounded-xl text-sm transition shadow-lg shadow-emerald-500/20">إرسال طلب الاشتراك وإيصال الدفع 🚀</button>
             </div>
         </div>
     </div>
 
-    <!-- Trainee Phone Login Modal -->
-    <div id="trainee-login-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
-        <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl max-w-sm w-full text-center space-y-4">
-            <h3 class="text-xl font-bold">تسجيل دخول المتدرب</h3>
-            <p class="text-xs text-slate-400">أدخل رقم هاتفك:</p>
-            <input type="text" id="trainee-login-phone" class="w-full bg-slate-950 border border-slate-800 text-center py-3 px-4 rounded-xl focus:border-purple-500 outline-none text-sm font-bold tracking-wider" placeholder="مثال: 01012345678">
+    <div id="trainee-login-modal" class="fixed inset-0 bg-slate-950/85 backdrop-blur-md hidden items-center justify-center z-50 p-4">
+        <div class="card-gym-glow border border-slate-800 p-6 rounded-3xl max-w-sm w-full text-center space-y-4 shadow-2xl">
+            <h3 class="text-xl font-bold text-white">تسجيل دخول المتدرب</h3>
+            <input type="text" id="trainee-login-phone" class="w-full bg-slate-950/90 border border-slate-800 text-center py-3 px-4 rounded-xl focus:border-purple-500 outline-none text-sm font-bold tracking-wider text-white" placeholder="رقم الهاتف (مثال: 01012345678)">
             <div class="flex gap-2">
-                <button onclick="verifyTraineePhone()" class="flex-1 bg-purple-600 hover:bg-purple-500 text-white font-bold py-2 rounded-xl">دخول للنظام</button>
-                <button onclick="closeModals()" class="flex-1 bg-slate-800 text-slate-300 py-2 rounded-xl">إلغاء</button>
+                <button onclick="verifyTraineePhone()" class="flex-1 bg-purple-600 hover:bg-purple-500 text-white font-bold py-2.5 rounded-xl transition shadow-lg shadow-purple-600/20">دخول للنظام</button>
+                <button onclick="closeModals()" class="flex-1 bg-slate-800 text-slate-300 py-2.5 rounded-xl transition">إلغاء</button>
             </div>
         </div>
     </div>
 
-    <!-- Add Trainee Modal (For Coach) -->
-    <div id="add-trainee-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
-        <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl max-w-lg w-full space-y-4 max-h-[90vh] overflow-y-auto">
-            <h3 class="text-xl font-bold">إضافة متدرب جديد وتصميم برنامجه</h3>
-            <input type="text" id="new-trainee-name" placeholder="اسم المتدرب" class="w-full bg-slate-950 border border-slate-800 p-3 rounded-xl text-sm outline-none focus:border-emerald-500">
-            <input type="text" id="new-trainee-phone" placeholder="رقم الهاتف (كلمة المرور)" class="w-full bg-slate-950 border border-slate-800 p-3 rounded-xl text-sm outline-none focus:border-emerald-500">
-            <div>
-                <label class="text-xs text-slate-400 block mb-1">البرنامج الغذائي الكامل:</label>
-                <textarea id="new-trainee-diet" rows="3" placeholder="تفاصيل الوجبات..." class="w-full bg-slate-950 border border-slate-800 p-3 rounded-xl text-sm outline-none focus:border-emerald-500"></textarea>
-            </div>
-            <div>
-                <label class="text-xs text-slate-400 block mb-1">البرنامج التدريبي (تمارين وأوزان):</label>
-                <textarea id="new-trainee-workout" rows="3" placeholder="مثال: Bench Press | 4 | 10 | 70 كجم" class="w-full bg-slate-950 border border-slate-800 p-3 rounded-xl text-sm outline-none focus:border-emerald-500"></textarea>
-            </div>
+    <div id="add-trainee-modal" class="fixed inset-0 bg-slate-950/85 backdrop-blur-md hidden items-center justify-center z-50 p-4">
+        <div class="card-gym-glow border border-slate-800 p-6 rounded-3xl max-w-lg w-full space-y-4 max-h-[90vh] overflow-y-auto shadow-2xl">
+            <h3 class="text-xl font-bold text-white">إضافة متدرب جديد وتصميم برنامجه</h3>
+            <input type="text" id="new-trainee-name" placeholder="اسم المتدرب" class="w-full bg-slate-950/90 border border-slate-800 p-3 rounded-xl text-sm outline-none focus:border-emerald-500 text-white">
+            <input type="text" id="new-trainee-phone" placeholder="رقم الهاتف (كلمة المرور)" class="w-full bg-slate-950/90 border border-slate-800 p-3 rounded-xl text-sm outline-none focus:border-emerald-500 text-white">
+            <textarea id="new-trainee-diet" rows="2" placeholder="البرنامج الغذائي الكامل..." class="w-full bg-slate-950/90 border border-slate-800 p-3 rounded-xl text-sm outline-none focus:border-emerald-500 text-white"></textarea>
+            <textarea id="new-trainee-workout" rows="2" placeholder="البرنامج التدريبي (مثال: Bench Press | 4 | 10 | 70 كجم)" class="w-full bg-slate-950/90 border border-slate-800 p-3 rounded-xl text-sm outline-none focus:border-emerald-500 text-white"></textarea>
             <div class="flex gap-2 pt-2">
-                <button onclick="saveNewTrainee()" class="flex-1 bg-emerald-500 text-slate-950 font-bold py-2 rounded-xl">حفظ المتدرب</button>
-                <button onclick="closeModals()" class="flex-1 bg-slate-800 text-slate-300 py-2 rounded-xl">إغلاق</button>
+                <button onclick="saveNewTrainee()" class="flex-1 bg-emerald-500 text-slate-950 font-bold py-2.5 rounded-xl transition">حفظ المتدرب سحابياً</button>
+                <button onclick="closeModals()" class="flex-1 bg-slate-800 text-slate-300 py-2.5 rounded-xl transition">إغلاق</button>
             </div>
         </div>
     </div>
 
     <script>
-        let appData = JSON.parse(localStorage.getItem('coachhub_pro_data')) || {
-            coaches: [], // {email, pass, package, receipt, active, currentCode}
-            trainees: [
-                {
-                    id: 't1', 
-                    coachEmail: 'coach@gmail.com',
-                    name: 'أحمد محمد', 
-                    phone: '01012345678', 
-                    dietPlan: 'وجبات عالية البروتين: دجاج، أرز بسمتي، خضروات.',
-                    workoutPlan: [
-                        {exercise: 'Bench Press', sets: '4', reps: '10', weight: '70 كجم'},
-                        {exercise: 'Squat', sets: '4', reps: '8', weight: '90 كجم'}
-                    ]
-                }
-            ]
-        };
-
-        function saveData() {
-            localStorage.setItem('coachhub_pro_data', JSON.stringify(appData));
-        }
-
+        let cloudCoaches = [];
+        let cloudTrainees = [];
         let currentCoachEmail = '';
         let currentTrainee = null;
+
+        window.initCloudData = async function() {
+            try {
+                const coachSnap = await window.getDocs(window.collection(window.db, "coaches"));
+                cloudCoaches = coachSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+                const traineeSnap = await window.getDocs(window.collection(window.db, "trainees"));
+                cloudTrainees = traineeSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            } catch (e) {
+                console.log("جارٍ الاتصال بقاعدة البيانات السحابية...");
+            }
+        };
 
         function showRoleSelection() {
             hideAllViews();
@@ -307,8 +307,7 @@
         }
 
         function verifyAdminPin() {
-            const val = document.getElementById('admin-pin-input').value;
-            if(val === '1993') {
+            if(document.getElementById('admin-pin-input').value === '1993') {
                 closeModals();
                 loadAdminView();
             } else {
@@ -341,44 +340,36 @@
             }
         }
 
-        function submitCoachSubscription() {
+        async function submitCoachSubscription() {
             const email = document.getElementById('reg-coach-email').value.trim();
             const pass = document.getElementById('reg-coach-pass').value.trim();
             const pkg = document.getElementById('reg-coach-package').value;
             const fileInput = document.getElementById('reg-receipt-file');
 
             if(!email || !pass) return alert('يرجى إدخال الجيميل وكلمة المرور.');
-            if(fileInput.files.length === 0) return alert('يرجى رفع صورة إيصال التحويل عبر إنستا باي.');
+            if(fileInput.files.length === 0) return alert('يرجى رفع صورة إيصال التحويل.');
 
-            let existingCoach = appData.coaches.find(c => c.email === email);
-            if(existingCoach) {
-                existingCoach.pass = pass;
-                existingCoach.package = pkg;
-                existingCoach.receipt = fileInput.files[0].name;
-                existingCoach.active = false; // بانتظار تفعيل الأدمن
-            } else {
-                appData.coaches.push({
-                    email,
-                    pass,
-                    package: pkg,
-                    receipt: fileInput.files[0].name,
-                    active: false,
-                    currentCode: ''
+            try {
+                await window.setDoc(window.doc(window.db, "coaches", email), {
+                    email, pass, package: pkg, receipt: fileInput.files[0].name, active: false, currentCode: ''
                 });
+                await window.initCloudData();
+                closeModals();
+                alert('تم إرسال طلب الاشتراك بنجاح!');
+            } catch(e) {
+                alert('حدث خطأ أثناء الاتصال بالسرفر.');
             }
-            saveData();
-            closeModals();
-            alert('تم إرسال طلب الاشتراك وإيصال التحويل بنجاح إلى لوحة تحكم الأدمن! سيتم إرسال كود التفعيل لجيميلك بعد المراجعة والتفعيل.');
         }
 
-        function verifyCoachLogin() {
+        async function verifyCoachLogin() {
             const email = document.getElementById('login-coach-email').value.trim();
             const code = document.getElementById('login-coach-code').value.trim();
-
-            const coach = appData.coaches.find(c => c.email === email);
+            await window.initCloudData();
+            const coach = cloudCoaches.find(c => c.email === email);
+            
             if(!coach) return alert('البريد الإلكتروني غير مسجل.');
-            if(!coach.active) return alert('حسابك غير مفعل أو في انتظار مراجعة إيصال التحويل من الإدارة.');
-            if(coach.currentCode !== code) return alert('كود التفعيل غير صحيح أو منتهي.');
+            if(!coach.active) return alert('حسابك غير مفعل بانتظار مراجعة الإيصال.');
+            if(coach.currentCode !== code) return alert('كود التفعيل غير صحيح.');
 
             currentCoachEmail = email;
             closeModals();
@@ -391,91 +382,79 @@
             document.getElementById('trainee-login-modal').classList.add('flex');
         }
 
-        function verifyTraineePhone() {
-            const phoneInput = document.getElementById('trainee-login-phone').value.trim();
-            if(!phoneInput) return alert('يرجى إدخال رقم الهاتف.');
-
-            const foundTrainee = appData.trainees.find(t => t.phone === phoneInput);
-            if(foundTrainee) {
-                const coach = appData.coaches.find(c => c.email === foundTrainee.coachEmail);
-                if(!coach || !coach.active) return alert('عذراً، اشتراك الكوتش الخاص بك غير مفعل حالياً.');
-                currentTrainee = foundTrainee;
+        async function verifyTraineePhone() {
+            const phone = document.getElementById('trainee-login-phone').value.trim();
+            if(!phone) return alert('يرجى إدخال رقم الهاتف.');
+            await window.initCloudData();
+            const found = cloudTrainees.find(t => t.phone === phone);
+            
+            if(found) {
+                const coach = cloudCoaches.find(c => c.email === found.coachEmail);
+                if(!coach || !coach.active) return alert('اشتراك الكوتش غير مفعل.');
+                currentTrainee = found;
                 closeModals();
-                loadTraineeView(foundTrainee.id);
+                loadTraineeView(found.id);
             } else {
                 alert('رقم الهاتف غير مسجل.');
             }
         }
 
-        function logout() {
-            showRoleSelection();
-        }
+        function logout() { showRoleSelection(); }
 
-        // Admin Functions
-        function loadAdminView() {
+        async function loadAdminView() {
             hideAllViews();
             document.getElementById('view-admin').classList.remove('hidden');
-            
+            await window.initCloudData();
             const tbody = document.getElementById('admin-requests-tbody');
-            if(appData.coaches.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="5" class="py-4 text-center text-slate-400">لا توجد طلبات اشتراك حالياً.</td></tr>`;
+            
+            if(cloudCoaches.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5" class="py-4 text-center text-slate-400">لا توجد طلبات.</td></tr>`;
                 return;
             }
 
-            tbody.innerHTML = appData.coaches.map(c => `
+            tbody.innerHTML = cloudCoaches.map(c => `
                 <tr class="border-b border-slate-800/50 text-sm">
                     <td class="py-3 font-bold text-white">${c.email}</td>
                     <td class="py-3 text-emerald-400">${c.package}</td>
-                    <td class="py-3 text-slate-300"><i class="fa-solid fa-image text-blue-400 ml-1"></i> ${c.receipt || 'مرفق'}</td>
-                    <td class="py-3">
-                        <span class="px-2 py-1 rounded-full text-xs font-bold ${c.active ? 'bg-emerald-500/20 text-emerald-400' : 'bg-amber-500/20 text-amber-400'}">
-                            ${c.active ? 'مفعل' : 'بانتظار التفعيل'}
-                        </span>
-                    </td>
-                    <td class="py-3">
-                        <button onclick="approveAndSendCode('${c.email}')" class="bg-emerald-500 text-slate-950 px-3 py-1 rounded-xl text-xs font-bold transition hover:bg-emerald-400">
-                            تفعيل وإرسال الكود الجديد ✉️
-                        </button>
-                    </td>
+                    <td class="py-3 text-slate-300">${c.receipt || 'مرفق'}</td>
+                    <td class="py-3"><span class="px-2.5 py-1 rounded-full text-xs font-bold ${c.active ? 'bg-emerald-500/20 text-emerald-400' : 'bg-amber-500/20 text-amber-400'}">${c.active ? 'مفعل' : 'بانتظار التفعيل'}</span></td>
+                    <td class="py-3"><button onclick="approveAndSendCode('${c.email}')" class="bg-emerald-500 text-slate-950 px-3 py-1 rounded-xl text-xs font-bold hover:bg-emerald-400 transition">تفعيل وإرسال الكود</button></td>
                 </tr>
             `).join('');
         }
 
-        function approveAndSendCode(email) {
-            const coach = appData.coaches.find(c => c.email === email);
+        async function approveAndSendCode(email) {
+            const coach = cloudCoaches.find(c => c.email === email);
             if(coach) {
-                // توليد كود تفعيل متغير جديد كلياً عند كل تجديد
                 const newCode = 'COACH-' + Math.floor(100000 + Math.random() * 900000);
-                coach.currentCode = newCode;
-                coach.active = true;
-                saveData();
+                await window.updateDoc(window.doc(window.db, "coaches", email), { currentCode: newCode, active: true });
                 loadAdminView();
-                alert(`تم تفعيل الاشتراك بنجاح! تم إرسال كود التفعيل المتغير التالي إلى الجيميل (${email}):\n\n🔑 ${newCode}`);
+                alert(`تم التفعيل بنجاح! كود التفعيل الجديد للجيميل (${email}):\n\n🔑 ${newCode}`);
             }
         }
 
-        // Coach Functions
-        function loadCoachView() {
+        async function loadCoachView() {
             hideAllViews();
             document.getElementById('view-coach').classList.remove('hidden');
-            document.getElementById('coach-welcome-email').innerText = `مرحباً بك، الكوتش (${currentCoachEmail})`;
+            document.getElementById('coach-welcome-email').innerText = `مرحباً بك، (${currentCoachEmail})`;
+            await window.initCloudData();
             renderCoachTrainees();
         }
 
         function renderCoachTrainees() {
             const tbody = document.getElementById('coach-trainees-tbody');
-            const coachTrainees = appData.trainees.filter(t => t.coachEmail === currentCoachEmail);
+            const list = cloudTrainees.filter(t => t.coachEmail === currentCoachEmail);
             
-            if(coachTrainees.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="3" class="py-4 text-center text-slate-400">لا يوجد متدربون مضافون حالياً.</td></tr>`;
+            if(list.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="3" class="py-4 text-center text-slate-400">لا يوجد متدربون حالياً.</td></tr>`;
                 return;
             }
 
-            tbody.innerHTML = coachTrainees.map(t => `
+            tbody.innerHTML = list.map(t => `
                 <tr class="border-b border-slate-800/50 text-sm">
                     <td class="py-3 font-bold text-white">${t.name}</td>
                     <td class="py-3 text-slate-400">${t.phone}</td>
-                    <td class="py-3"><span class="text-xs text-emerald-400">نشط ومتابع</span></td>
+                    <td class="py-3"><span class="text-xs text-emerald-400 font-bold">نشط سحابياً</span></td>
                 </tr>
             `).join('');
         }
@@ -489,7 +468,7 @@
             document.getElementById('add-trainee-modal').classList.add('flex');
         }
 
-        function saveNewTrainee() {
+        async function saveNewTrainee() {
             const name = document.getElementById('new-trainee-name').value.trim();
             const phone = document.getElementById('new-trainee-phone').value.trim();
             const diet = document.getElementById('new-trainee-diet').value.trim();
@@ -497,57 +476,56 @@
 
             if(!name || !phone) return alert('يرجى إدخال الاسم ورقم الهاتف.');
 
-            const workoutPlan = [{exercise: workoutText || 'تمارين عامة', sets: '3', reps: '10', weight: '50 كجم'}];
-
-            appData.trainees.push({
-                id: 't_' + Date.now(),
+            const traineeId = 't_' + Date.now();
+            await window.setDoc(window.doc(window.db, "trainees", traineeId), {
+                id: traineeId,
                 coachEmail: currentCoachEmail,
                 name,
                 phone,
                 dietPlan: diet || 'النظام الغذائي القياسي',
-                workoutPlan
+                workoutPlan: [{exercise: workoutText || 'تمارين عامة', sets: '3', reps: '10', weight: '50 كجم'}]
             });
-            saveData();
+            await window.initCloudData();
             closeModals();
             renderCoachTrainees();
-            alert('تمت إضافة المتدرب بنجاح!');
+            alert('تم حفظ المتدرب سحابياً بنجاح!');
         }
 
-        // Trainee Portal Functions
-        function loadTraineeView(traineeId) {
+        async function loadTraineeView(traineeId) {
             hideAllViews();
             document.getElementById('view-trainee').classList.remove('hidden');
-            const trainee = appData.trainees.find(t => t.id === traineeId) || currentTrainee;
-            currentTrainee = trainee;
+            await window.initCloudData();
+            currentTrainee = cloudTrainees.find(t => t.id === traineeId) || currentTrainee;
 
-            document.getElementById('trainee-welcome-name').innerText = `أهلاً بك، ${trainee.name}`;
-            document.getElementById('trainee-diet-plan-box').innerText = trainee.dietPlan;
-
+            document.getElementById('trainee-welcome-name').innerText = `أهلاً بك، ${currentTrainee.name}`;
+            document.getElementById('trainee-diet-plan-box').innerText = currentTrainee.dietPlan;
             renderTraineeWorkoutPlan();
         }
 
         function renderTraineeWorkoutPlan() {
             const box = document.getElementById('trainee-workout-plan-box');
             box.innerHTML = currentTrainee.workoutPlan.map((w, index) => `
-                <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-2">
+                <div class="bg-slate-950/80 p-4 rounded-2xl border border-slate-800 space-y-2">
                     <div class="flex justify-between items-center font-bold text-white">
                         <span>${w.exercise}</span>
                         <span class="text-xs text-slate-400">${w.sets} مجموعات × ${w.reps} تكرار</span>
                     </div>
                     <div class="flex items-center gap-2 pt-2">
                         <span class="text-xs text-slate-400">الوزن الحالي:</span>
-                        <input type="text" id="weight-input-${index}" value="${w.weight}" class="bg-slate-900 border border-slate-800 rounded-lg px-3 py-1 text-sm text-emerald-400 font-bold w-32 outline-none focus:border-emerald-500">
-                        <button onclick="updateTraineeWeight(${index})" class="bg-emerald-500 text-slate-950 font-bold px-3 py-1 rounded-lg text-xs">تحديث الوزن</button>
+                        <input type="text" id="weight-input-${index}" value="${w.weight}" class="bg-slate-900 border border-slate-800 rounded-xl px-3 py-1.5 text-sm text-emerald-400 font-bold w-32 outline-none focus:border-emerald-500">
+                        <button onclick="updateTraineeWeight(${index})" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold px-3 py-1.5 rounded-xl text-xs transition">تحديث</button>
                     </div>
                 </div>
             `).join('');
         }
 
-        function updateTraineeWeight(index) {
-            const newWeight = document.getElementById(`weight-input-${index}` ).value;
+        async function updateTraineeWeight(index) {
+            const newWeight = document.getElementById(`weight-input-${index}`).value;
             currentTrainee.workoutPlan[index].weight = newWeight;
-            saveData();
-            alert('تم تحديث الأوزان بنجاح!');
+            await window.updateDoc(window.doc(window.db, "trainees", currentTrainee.id), {
+                workoutPlan: currentTrainee.workoutPlan
+            });
+            alert('تم تحديث الأوزان وحفظها سحابياً بنجاح!');
         }
     </script>
 </body>
