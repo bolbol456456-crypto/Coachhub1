@@ -68,19 +68,22 @@
     <main class="max-w-7xl mx-auto px-4 py-8">
 
         <!-- 1. Role Selection View -->
-        <div id="view-role-selection" class="max-w-4xl mx-auto text-center py-12 space-y-8">
+        <div id="view-role-selection" class="max-w-5xl mx-auto text-center py-12 space-y-8">
             <div>
                 <div class="inline-block mb-4 px-4 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-bold tracking-widest uppercase">منصة آمنة ومحمية بالكامل ضد الاختراق</div>
                 <h2 class="text-4xl md:text-5xl font-black mb-4 tracking-wide text-white">منصة التدريب الذكية المؤمنة</h2>
-                <p class="text-slate-400 text-lg max-w-2xl mx-auto">اختر لوحة التحكم الخاصة بك أو استعرض باقات الاشتراكات والأسعار مع ضمان كامل لحقوقك[cite: 1, 3].</p>
+                <p class="text-slate-400 text-lg max-w-2xl mx-auto">اختر لوحة التحكم الخاصة بك، استعرض المدربين، أو تصفح الباقات مع ضمان كامل لحقوقك[cite: 1, 3].</p>
             </div>
 
             <div class="flex justify-center gap-4 flex-wrap">
                 <button onclick="openPricingModal()" class="bg-gradient-to-r from-amber-500 to-yellow-600 hover:from-amber-400 hover:to-yellow-500 text-slate-950 font-black px-8 py-4 rounded-2xl text-lg shadow-xl shadow-amber-500/20 transition transform hover:scale-105 flex items-center gap-3">
                     <i class="fa-solid fa-tags text-2xl"></i> استعراض أسعار الباقات والاشتراكات والمزايا
                 </button>
+                <button onclick="openCoachSelectionModal()" class="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-black px-8 py-4 rounded-2xl text-lg shadow-xl shadow-blue-500/20 transition transform hover:scale-105 flex items-center gap-3">
+                    <i class="fa-solid fa-user-check text-2xl"></i> اختر مدربك والمميزات
+                </button>
                 <button onclick="openTermsModal()" class="bg-slate-800 hover:bg-slate-700 text-emerald-400 font-bold px-6 py-4 rounded-2xl text-sm border border-emerald-500/30 transition flex items-center gap-2">
-                    <i class="fa-solid fa-file-contract text-lg"></i> اتفاقية الاستخدام وضمان Escrow
+                    <i class="fa-solid fa-file-contract text-lg"></i> اتفاقية الاستخدام وضمان Escrow[cite: 3]
                 </button>
             </div>
             
@@ -89,7 +92,7 @@
                 <div onclick="openAdminPinModal()" class="card-gym-glow border border-slate-800 hover:border-emerald-500 p-6 rounded-3xl cursor-pointer transition transform hover:-translate-y-2 group shadow-xl">
                     <div class="w-14 h-14 bg-emerald-500/10 text-emerald-400 rounded-2xl flex items-center justify-center text-2xl mx-auto md:mx-0 mb-4 group-hover:bg-emerald-500 group-hover:text-slate-950 transition"><i class="fa-solid fa-shield-halved"></i></div>
                     <h3 class="text-xl font-bold mb-2 text-white">الأدمن (الإدارة الآمنة)</h3>
-                    <p class="text-slate-400 text-xs leading-relaxed">إدارة أرباح المنصة، فض النزاعات وتفعيل طلبات اشتراكات العملاء.</p>
+                    <p class="text-slate-400 text-xs leading-relaxed">إدارة أرباح المنصة، فض النزاعات وتفعيل طلبات اشتراكات العملاء[cite: 2].</p>
                 </div>
 
                 <!-- Coach Card -->
@@ -110,7 +113,7 @@
                 <div onclick="openVipAuthModal()" class="card-gym-glow border border-amber-500/60 hover:border-amber-400 p-6 rounded-3xl cursor-pointer transition transform hover:-translate-y-2 group shadow-xl bg-gradient-to-b from-amber-500/10 to-slate-900/90">
                     <div class="w-14 h-14 bg-amber-500/20 text-amber-400 rounded-2xl flex items-center justify-center text-2xl mx-auto md:mx-0 mb-4 group-hover:bg-amber-400 group-hover:text-slate-950 transition"><i class="fa-solid fa-crown"></i></div>
                     <h3 class="text-xl font-bold mb-2 text-white">تسجيل دخول VIP</h3>
-                    <p class="text-amber-200/70 text-xs leading-relaxed">دخول عملاء الباقات الخاصة بعد تفعيل الإدارة لحسابك.</p>
+                    <p class="text-amber-200/70 text-xs leading-relaxed">دخول عملاء الباقات الخاصة بعد تفعيل الإدارة لحسابك[cite: 2].</p>
                 </div>
             </div>
         </div>
@@ -190,8 +193,62 @@
 
     </main>
 
-    <!-- MODALS (Pricing & Registration & Logins) -->
+    <!-- MODALS (Pricing, Coach Selection, & Registration) -->
     
+    <!-- Coach Selection & Features Modal -->
+    <div id="coach-selection-modal" class="fixed inset-0 bg-slate-950/90 backdrop-blur-md hidden items-center justify-center z-50 p-4">
+        <div class="card-gym-glow border border-blue-500/50 p-6 rounded-3xl max-w-4xl w-full space-y-6 max-h-[90vh] overflow-y-auto shadow-2xl" dir="rtl">
+            <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+                <h3 class="text-2xl font-black text-white flex items-center gap-2"><i class="fa-solid fa-user-check text-blue-400"></i> اختر مدربك والمميزات الخاصة</h3>
+                <button onclick="closeModals()" class="text-slate-400 hover:text-white text-xl"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Coach 1 -->
+                <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl flex flex-col justify-between space-y-4">
+                    <div>
+                        <div class="w-16 h-16 bg-blue-500/20 text-blue-400 rounded-full flex items-center justify-center text-2xl mb-3 mx-auto font-black">ك.م</div>
+                        <h4 class="text-lg font-bold text-white text-center">كابتن محمود الباز</h4>
+                        <p class="text-xs text-blue-400 text-center mb-3">خبير بناء الاجسام وتطوير القوة</p>
+                        <ul class="text-slate-300 text-xs space-y-2 mt-4">
+                            <li><i class="fa-solid fa-check text-blue-400 ml-1"></i> جداول مخصصة لرفع الأوزان</li>
+                            <li><i class="fa-solid fa-check text-blue-400 ml-1"></i> متابعة الأداء الفني</li>
+                        </ul>
+                    </div>
+                    <button onclick="selectCoachAndProceed('كابتن محمود الباز')" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-2.5 rounded-xl text-sm transition">اختر هذا المدرب</button>
+                </div>
+
+                <!-- Coach 2 -->
+                <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl flex flex-col justify-between space-y-4">
+                    <div>
+                        <div class="w-16 h-16 bg-emerald-500/20 text-emerald-400 rounded-full flex items-center justify-center text-2xl mb-3 mx-auto font-black">ك.أ</div>
+                        <h4 class="text-lg font-bold text-white text-center">كابتن أحمد سامح</h4>
+                        <p class="text-xs text-emerald-400 text-center mb-3">متخصص في اللياقة الحرق والتخسيس</p>
+                        <ul class="text-slate-300 text-xs space-y-2 mt-4">
+                            <li><i class="fa-solid fa-check text-emerald-400 ml-1"></i> برامج كارديو مكثفة</li>
+                            <li><i class="fa-solid fa-check text-emerald-400 ml-1"></i> أنظمة غذائية متوازنة</li>
+                        </ul>
+                    </div>
+                    <button onclick="selectCoachAndProceed('كابتن أحمد سامح')" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2.5 rounded-xl text-sm transition">اختر هذا المدرب</button>
+                </div>
+
+                <!-- Coach 3 (AI Expert) -->
+                <div class="bg-gradient-to-b from-purple-500/10 to-slate-900 border border-purple-500/60 p-6 rounded-2xl flex flex-col justify-between space-y-4">
+                    <div>
+                        <div class="w-16 h-16 bg-purple-500/20 text-purple-400 rounded-full flex items-center justify-center text-2xl mb-3 mx-auto font-black"><i class="fa-solid fa-robot"></i></div>
+                        <h4 class="text-lg font-bold text-purple-400 text-center">مدرب الذكاء الاصطناعي</h4>
+                        <p class="text-xs text-purple-300 text-center mb-3">متابعة فورية ذكية 24/7</p>
+                        <ul class="text-slate-300 text-xs space-y-2 mt-4">
+                            <li><i class="fa-solid fa-check text-purple-400 ml-1"></i> تعديل البرامج لحظياً بالذكاء</li>
+                            <li><i class="fa-solid fa-check text-purple-400 ml-1"></i> استشارات غير محدودة</li>
+                        </ul>
+                    </div>
+                    <button onclick="selectCoachAndProceed('مدرب الذكاء الاصطناعي')" class="w-full bg-purple-600 hover:bg-purple-500 text-white font-bold py-2.5 rounded-xl text-sm transition shadow-lg">اختر المدرب الذكي</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Pricing & Subscription Selection Modal -->
     <div id="pricing-modal" class="fixed inset-0 bg-slate-950/90 backdrop-blur-md hidden items-center justify-center z-50 p-4">
         <div class="card-gym-glow border border-amber-500/50 p-6 rounded-3xl max-w-4xl w-full space-y-6 max-h-[90vh] overflow-y-auto shadow-2xl" dir="rtl">
@@ -260,6 +317,10 @@
                     <input type="text" id="checkout-package-name" readonly class="w-full bg-slate-950 border border-slate-800 p-3 rounded-xl text-sm text-emerald-400 font-bold outline-none">
                 </div>
                 <div>
+                    <label class="text-xs text-slate-400 block mb-1">المدرب المختار:</label>
+                    <input type="text" id="checkout-coach-name" readonly class="w-full bg-slate-950 border border-slate-800 p-3 rounded-xl text-sm text-blue-400 font-bold outline-none" value="لم يتم التحديد بعد">
+                </div>
+                <div>
                     <label class="text-xs text-slate-400 block mb-1">الاسم الكامل:</label>
                     <input type="text" id="checkout-name" placeholder="اكتب اسمك الكامل" class="w-full bg-slate-950/90 border border-slate-800 p-3 rounded-xl text-sm outline-none focus:border-emerald-500 text-white">
                 </div>
@@ -268,7 +329,7 @@
                     <input type="text" id="checkout-phone" placeholder="مثال: 01012345678" class="w-full bg-slate-950/90 border border-slate-800 p-3 rounded-xl text-sm outline-none focus:border-emerald-500 text-white font-bold">
                 </div>
                 <div class="p-3 bg-slate-900 border border-slate-800 rounded-xl text-xs text-slate-300">
-                    <i class="fa-solid fa-shield-halved text-emerald-400 ml-1"></i> سيتم حفظ طلبك وإرساله للإدارة فوراً بعد تأكيد الدفع، وسيعمل حسابك بمجرد تفعيله من قِبل الأدمن[cite: 2].
+                    <i class="fa-solid fa-shield-halved text-emerald-400 ml-1"></i> سيتم حفظ طلبك وإرساله للإدارة فوراً بعد تأكيد الدفع، وسيعمل حسابك بمجرد تفعيل الإدارة له[cite: 2].
                 </div>
                 <button onclick="submitClientRegistration()" class="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold py-3 rounded-xl text-sm transition shadow-lg">تأكيد الدفع وإرسال الطلب للإدارة</button>
             </div>
@@ -348,7 +409,7 @@
         let cloudCoaches = [];
         let cloudTrainees = [];
         let cloudVipTrainees = [];
-        let currentCoachEmail = '';
+        let selectedCoachForCheckout = 'لم يتم التحديد بعد';
 
         window.initCloudData = async function() {
             try {
@@ -382,7 +443,7 @@
         }
 
         function closeModals() {
-            const modals = ['admin-pin-modal', 'coach-auth-modal', 'trainee-login-modal', 'vip-auth-modal', 'terms-modal', 'pricing-modal', 'checkout-modal'];
+            const modals = ['admin-pin-modal', 'coach-auth-modal', 'trainee-login-modal', 'vip-auth-modal', 'terms-modal', 'pricing-modal', 'checkout-modal', 'coach-selection-modal'];
             modals.forEach(id => {
                 const el = document.getElementById(id);
                 if(el) {
@@ -398,20 +459,29 @@
         function openTraineeLoginModal() { document.getElementById('trainee-login-modal').classList.remove('hidden'); document.getElementById('trainee-login-modal').classList.add('flex'); }
         function openVipAuthModal() { document.getElementById('vip-auth-modal').classList.remove('hidden'); document.getElementById('vip-auth-modal').classList.add('flex'); }
         function openPricingModal() { document.getElementById('pricing-modal').classList.remove('hidden'); document.getElementById('pricing-modal').classList.add('flex'); }
+        function openCoachSelectionModal() { document.getElementById('coach-selection-modal').classList.remove('hidden'); document.getElementById('coach-selection-modal').classList.add('flex'); }
         function openDisputeModal() { alert('تم فتح النزاع وتجميد المدفوعات بأمان[cite: 2].'); }
+
+        function selectCoachAndProceed(coachName) {
+            selectedCoachForCheckout = coachName;
+            closeModals();
+            openPricingModal();
+        }
 
         function openCheckoutForm(packageName, price) {
             closeModals();
             document.getElementById('checkout-package-name').value = `${packageName} (${price})`;
+            document.getElementById('checkout-coach-name').value = selectedCoachForCheckout;
             document.getElementById('checkout-modal').classList.remove('hidden');
             document.getElementById('checkout-modal').classList.add('flex');
         }
 
-        // تسجيل العميل وإرساله للوحة تحكم الأدمن تلقائياً
+        // تسجيل العميل وإرساله لوحة تحكم الأدمن تلقائياً
         async function submitClientRegistration() {
             const name = document.getElementById('checkout-name').value.trim();
             const phone = document.getElementById('checkout-phone').value.trim();
             const packageName = document.getElementById('checkout-package-name').value.trim();
+            const coachName = document.getElementById('checkout-coach-name').value.trim();
 
             if(!name || !phone) {
                 alert('يرجى إدخال الاسم ورقم الهاتف بشكل صحيح.');
@@ -423,9 +493,10 @@
                     name: name,
                     phone: phone,
                     package: packageName,
+                    coach: coachName,
                     active: false // قيد الانتظار لحين تفعيل الأدمن
                 });
-                alert('تم تسجيل طلبك وإتمام خطوة الدفع بنجاح! يرجى الانتظار لحين مراجعة وتفعيل الحساب من قِبل الإدارة[cite: 2].');
+                alert('تم تسجيل طلبك واختيار المدرب بنجاح! يرجى الانتظار لحين مراجعة وتفعيل الحساب من قِبل الإدارة[cite: 2].');
                 closeModals();
                 await window.initCloudData();
             } catch (e) {
@@ -448,7 +519,7 @@
                 const tr = document.createElement('tr');
                 tr.className = 'border-b border-slate-800/60 text-sm';
                 tr.innerHTML = `
-                    <td class="py-3 text-white font-bold">${item.name || 'غير محدد'}</td>
+                    <td class="py-3 text-white font-bold">${item.name || 'غير محدد'} <br><span class="text-xs text-blue-400 font-normal">المدرب: ${item.coach || 'غير محدد'}</span></td>
                     <td class="py-3 text-slate-300 font-mono">${item.phone}</td>
                     <td class="py-3 text-amber-400">${item.package || 'VIP'}</td>
                     <td class="py-3">
