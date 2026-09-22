@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CoachHub Pro - منصة التدريب الذكية الآمنة</title>
+    <title>CoachHub Pro - انضمام المدربين الآمن</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -11,7 +11,8 @@
     <!-- Firebase SDKs -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyD-Secure-Placeholder-Key",
@@ -24,17 +25,18 @@
 
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
+        const storage = getStorage(app);
 
         window.db = db;
+        window.storage = storage;
         window.collection = collection;
         window.addDoc = addDoc;
         window.getDocs = getDocs;
         window.doc = doc;
         window.updateDoc = updateDoc;
-        window.setDoc = setDoc;
-        window.getDoc = getDoc;
-        
-        if(window.initCloudData) window.initCloudData();
+        window.ref = ref;
+        window.uploadBytes = uploadBytes;
+        window.getDownloadURL = getDownloadURL;
     </script>
 
     <style>
@@ -49,734 +51,150 @@
         }
     </style>
 </head>
-<body class="bg-slate-950 text-slate-100 min-h-screen hero-gym-bg">
+<body class="bg-slate-950 text-slate-100 min-h-screen hero-gym-bg flex items-center justify-center p-4">
 
-    <!-- Header -->
-    <header class="bg-slate-900/90 border-b border-slate-800/80 sticky top-0 z-50 backdrop-blur-md">
-        <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+    <div class="card-gym-glow border border-slate-800 p-6 rounded-3xl max-w-lg w-full shadow-2xl space-y-6" dir="rtl">
+        
+        <!-- Header -->
+        <div class="flex items-center justify-between border-b border-slate-800 pb-4">
             <div class="flex items-center gap-3">
-                <div class="bg-emerald-500 text-slate-950 p-2.5 rounded-2xl font-black text-xl shadow-lg shadow-emerald-500/20"><i class="fa-solid fa-dumbbell"></i></div>
-                <h1 class="text-2xl font-black tracking-wider text-white">Coach<span class="text-emerald-400">Hub</span> <span class="text-xs bg-emerald-500/20 text-emerald-400 px-2.5 py-1 rounded-full border border-emerald-500/30">Secure AI, Escrow</span></h1>
+                <div class="bg-emerald-500 text-slate-950 p-2.5 rounded-2xl font-black text-lg"><i class="fa-solid fa-dumbbell"></i></div>
+                <h1 class="text-xl font-black text-white">Coach<span class="text-emerald-400">Hub</span></h1>
             </div>
-            <div id="nav-actions" class="flex gap-2">
-                <button onclick="showRoleSelection()" class="bg-slate-800/80 hover:bg-slate-700 text-slate-200 px-4 py-2 rounded-xl text-sm font-semibold transition border border-slate-700"><i class="fa-solid fa-arrow-right-arrow-left ml-2"></i>تغيير الحساب</button>
-            </div>
+            <span class="text-xs bg-emerald-500/20 text-emerald-400 px-3 py-1 rounded-full border border-emerald-500/30">بوابة الكوتش الجديدة</span>
         </div>
-    </header>
 
-    <!-- Main Container -->
-    <main class="max-w-7xl mx-auto px-4 py-8">
-
-        <!-- 1. Role Selection View -->
-        <div id="view-role-selection" class="max-w-5xl mx-auto text-center py-12 space-y-8">
-            <div>
-                <div class="inline-block mb-4 px-4 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-bold tracking-widest uppercase">منصة آمنة ومحمية بالكامل ضد الاختراق</div>
-                <h2 class="text-4xl md:text-5xl font-black mb-4 tracking-wide text-white">منصة التدريب الذكية المؤمنة</h2>
-                <p class="text-slate-400 text-lg max-w-2xl mx-auto">اختر لوحة التحكم الخاصة بك، استعرض المدربين بسيرتهم الذاتية وتقييماتهم، أو تصفح الباقات مع ضمان كامل لحقوقك[cite: 1, 3].</p>
+        <!-- الخطوة 1: لوحة التحكم - زر انضم كوتش -->
+        <div id="step-dashboard" class="space-y-4 text-center py-4">
+            <div class="w-16 h-16 bg-blue-500/10 text-blue-400 rounded-3xl flex items-center justify-center text-3xl mx-auto mb-2 border border-blue-500/20">
+                <i class="fa-solid fa-user-tie"></i>
             </div>
+            <h2 class="text-2xl font-black text-white">لوحة تحكم الكوتش</h2>
+            <p class="text-slate-400 text-xs leading-relaxed">انضم الآن إلى منصة التدريب الذكية، وحدد سعرك الشهري وابدأ استقبال المتدربين بكل سهولة.</p>
+            <button onclick="goToPaymentStep()" class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-black py-3.5 rounded-2xl transition shadow-lg shadow-blue-500/20">
+                انضم كوتش جديد للمنصة
+            </button>
+        </div>
 
-            <div class="flex justify-center gap-4 flex-wrap">
-                <button onclick="openPricingModal()" class="bg-gradient-to-r from-amber-500 to-yellow-600 hover:from-amber-400 hover:to-yellow-500 text-slate-950 font-black px-8 py-4 rounded-2xl text-lg shadow-xl shadow-amber-500/20 transition transform hover:scale-105 flex items-center gap-3">
-                    <i class="fa-solid fa-tags text-2xl"></i> استعراض أسعار الباقات والاشتراكات والمزايا
-                </button>
-                <button onclick="openCoachSelectionModal()" class="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-black px-8 py-4 rounded-2xl text-lg shadow-xl shadow-blue-500/20 transition transform hover:scale-105 flex items-center gap-3">
-                    <i class="fa-solid fa-user-check text-2xl"></i> اختر مدربك واطلع على البروفايل والنتائج
-                </button>
-                <button onclick="openCoachRegistrationModal()" class="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-black px-6 py-4 rounded-2xl text-lg shadow-xl shadow-emerald-500/20 transition transform hover:scale-105 flex items-center gap-3">
-                    <i class="fa-solid fa-user-plus text-xl"></i> انضم كمدرب (حدد سعرك وبروفايلك)
-                </button>
-                <button onclick="openTermsModal()" class="bg-slate-800 hover:bg-slate-700 text-emerald-400 font-bold px-6 py-4 rounded-2xl text-sm border border-emerald-500/30 transition flex items-center gap-2">
-                    <i class="fa-solid fa-file-contract text-lg"></i> اتفاقية الاستخدام وضمان Escrow[cite: 3]
-                </button>
+        <!-- الخطوة 2: صفحة الاشتراك الشهري (300 جنيه) -->
+        <div id="step-payment" class="hidden space-y-4 text-center py-2">
+            <div class="w-16 h-16 bg-amber-500/10 text-amber-400 rounded-3xl flex items-center justify-center text-3xl mx-auto mb-2 border border-amber-500/20">
+                <i class="fa-solid fa-credit-card"></i>
             </div>
+            <h2 class="text-xl font-black text-white">رسوم الاشتراك الشهري</h2>
+            <div class="bg-slate-900 border border-slate-800 p-4 rounded-2xl space-y-1">
+                <p class="text-xs text-slate-400">قيمة الاشتراك لتفعيل حسابك كمدرب معتمد:</p>
+                <div class="text-emerald-400 text-2xl font-black">300 جنيه مصري</div>
+            </div>
+            <button onclick="confirmPaymentStep()" class="w-full bg-gradient-to-r from-amber-500 to-yellow-600 hover:from-amber-400 hover:to-yellow-500 text-slate-950 font-black py-3.5 rounded-2xl transition shadow-lg shadow-amber-500/20">
+                إتمام الدفع والانتقال للتسجيل
+            </button>
+        </div>
+
+        <!-- الخطوة 3: نموذج التسجيل (Gmail، الكود، رفع الصورة من الهاتف) -->
+        <div id="step-register" class="hidden space-y-4">
+            <h2 class="text-lg font-black text-white flex items-center gap-2">
+                <i class="fa-solid fa-id-card text-emerald-400"></i> بيانات بروفايل الكوتش
+            </h2>
             
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 text-right pt-6">
-                <!-- Admin Card -->
-                <div onclick="openAdminPinModal()" class="card-gym-glow border border-slate-800 hover:border-emerald-500 p-6 rounded-3xl cursor-pointer transition transform hover:-translate-y-2 group shadow-xl">
-                    <div class="w-14 h-14 bg-emerald-500/10 text-emerald-400 rounded-2xl flex items-center justify-center text-2xl mx-auto md:mx-0 mb-4 group-hover:bg-emerald-500 group-hover:text-slate-950 transition"><i class="fa-solid fa-shield-halved"></i></div>
-                    <h3 class="text-xl font-bold mb-2 text-white">الأدمن (الإدارة الآمنة)</h3>
-                    <p class="text-slate-400 text-xs leading-relaxed">إدارة أرباح المنصة، فض النزاعات وتفعيل طلبات اشتراكات العملاء[cite: 2].</p>
-                </div>
-
-                <!-- Coach Card -->
-                <div onclick="openCoachAuthModal()" class="card-gym-glow border border-slate-800 hover:border-emerald-500 p-6 rounded-3xl cursor-pointer transition transform hover:-translate-y-2 group shadow-xl">
-                    <div class="w-14 h-14 bg-blue-500/10 text-blue-400 rounded-2xl flex items-center justify-center text-2xl mx-auto md:mx-0 mb-4 group-hover:bg-blue-500 group-hover:text-slate-950 transition"><i class="fa-solid fa-user-tie"></i></div>
-                    <h3 class="text-xl font-bold mb-2 text-white">المدرب (Coach)</h3>
-                    <p class="text-slate-400 text-xs leading-relaxed">تسجيل الدخول لتعديل بروفايلك وتحديد سعرك ومتابعة المتدربين.</p>
-                </div>
-
-                <!-- Trainee Card -->
-                <div onclick="openTraineeLoginModal()" class="card-gym-glow border border-slate-800 hover:border-emerald-500 p-6 rounded-3xl cursor-pointer transition transform hover:-translate-y-2 group shadow-xl">
-                    <div class="w-14 h-14 bg-purple-500/10 text-purple-400 rounded-2xl flex items-center justify-center text-2xl mx-auto md:mx-0 mb-4 group-hover:bg-purple-500 group-hover:text-slate-950 transition"><i class="fa-solid fa-user"></i></div>
-                    <h3 class="text-xl font-bold mb-2 text-white">المتدرب (Trainee)</h3>
-                    <p class="text-slate-400 text-xs leading-relaxed">متابعة الجدول والتقييمات الموثقة.</p>
-                </div>
-
-                <!-- VIP Card -->
-                <div onclick="openVipAuthModal()" class="card-gym-glow border border-amber-500/60 hover:border-amber-400 p-6 rounded-3xl cursor-pointer transition transform hover:-translate-y-2 group shadow-xl bg-gradient-to-b from-amber-500/10 to-slate-900/90">
-                    <div class="w-14 h-14 bg-amber-500/20 text-amber-400 rounded-2xl flex items-center justify-center text-2xl mx-auto md:mx-0 mb-4 group-hover:bg-amber-400 group-hover:text-slate-950 transition"><i class="fa-solid fa-crown"></i></div>
-                    <h3 class="text-xl font-bold mb-2 text-white">تسجيل دخول VIP</h3>
-                    <p class="text-amber-200/70 text-xs leading-relaxed">دخول عملاء الباقات الخاصة بعد تفعيل الإدارة لحسابك[cite: 2].</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- 2. Admin Dashboard -->
-        <div id="view-admin" class="hidden space-y-6">
-            <div class="flex justify-between items-center card-gym-glow p-6 rounded-3xl border border-slate-800 flex-wrap gap-4">
-                <div>
-                    <h2 class="text-2xl font-bold text-white">لوحة تحكم الأدمن الآمنة</h2>
-                    <p class="text-slate-400 text-sm">مراجعة طلبات الاشتراكات الجديدة وتفعيل الحسابات بعد الدفع[cite: 2].</p>
-                </div>
-                <button onclick="logout()" class="bg-red-500/10 text-red-400 px-4 py-2 rounded-xl text-sm font-semibold hover:bg-red-500/20 transition">خروج</button>
-            </div>
-            
-            <div class="card-gym-glow p-6 rounded-3xl border border-slate-800 space-y-8">
-                <div>
-                    <h3 class="text-xl font-bold mb-4 text-white">طلبات اشتراكات العملاء والـ VIP الجديدة</h3>
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-right">
-                            <thead>
-                                <tr class="border-b border-slate-800 text-slate-400 text-sm">
-                                    <th class="pb-3">اسم العميل</th>
-                                    <th class="pb-3">رقم الهاتف</th>
-                                    <th class="pb-3">الباقة المختارة</th>
-                                    <th class="pb-3">حالة الحساب</th>
-                                    <th class="pb-3">إجراء التفعيل</th>
-                                </tr>
-                            </thead>
-                            <tbody id="admin-vip-requests-tbody">
-                                <!-- سيتم تعبئتها ديناميكياً من قاعدة البيانات -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- 3. Coach Dashboard -->
-        <div id="view-coach" class="hidden space-y-6">
-            <div class="flex justify-between items-center card-gym-glow p-6 rounded-3xl border border-slate-800 flex-wrap gap-4">
-                <div>
-                    <h2 class="text-2xl font-bold text-white">لوحة تحكم الكوتش الخاصة بك</h2>
-                    <p class="text-slate-400 text-sm" id="coach-welcome-email">مرحباً بك</p>
-                </div>
-                <button onclick="logout()" class="bg-red-500/10 text-red-400 px-4 py-2 rounded-xl text-sm font-semibold hover:bg-red-500/20 transition">خروج</button>
-            </div>
-            <div class="card-gym-glow p-6 rounded-3xl border border-slate-800 space-y-4">
-                <h3 class="text-xl font-bold text-white">تحديث بيانات بروفايلك وسعرك الشهري</h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                        <label class="text-xs text-slate-400 block mb-1">السعر الشهري (بالدولار):</label>
-                        <input type="text" id="coach-edit-price" class="w-full bg-slate-950 border border-slate-800 p-3 rounded-xl text-sm text-emerald-400 font-bold outline-none" placeholder="مثال: 90$">
-                    </div>
-                    <div>
-                        <label class="text-xs text-slate-400 block mb-1">رابط صورة البروفايل (URL):</label>
-                        <input type="text" id="coach-edit-img" class="w-full bg-slate-950 border border-slate-800 p-3 rounded-xl text-sm text-white outline-none" placeholder="رابط الصورة الشخصية">
-                    </div>
-                </div>
-                <button onclick="updateCoachProfileData()" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold px-6 py-3 rounded-xl text-sm transition">حفظ التعديلات في بروفايل المنصة</button>
-            </div>
-        </div>
-
-        <!-- 4. Trainee Portal -->
-        <div id="view-trainee" class="hidden space-y-6">
-            <div class="bg-gradient-to-r from-emerald-900/60 to-slate-900/90 p-6 rounded-3xl border border-emerald-500/30 flex justify-between items-center flex-wrap gap-4 backdrop-blur-md shadow-2xl">
-                <div>
-                    <span class="text-xs bg-emerald-500/20 text-emerald-400 px-3 py-1 rounded-full font-bold border border-emerald-500/30">بوابة المتدرب الآمنة 🔥</span>
-                    <h2 class="text-3xl font-black mt-2 text-white" id="trainee-welcome-name">أهلاً بك</h2>
-                </div>
-                <div class="flex gap-2 flex-wrap">
-                    <button onclick="openDisputeModal()" class="bg-red-500/20 text-red-400 hover:bg-red-500/30 font-bold px-4 py-2 rounded-xl text-sm transition border border-red-500/30"><i class="fa-solid fa-triangle-exclamation ml-1"></i> فتح نزاع / تجميد أموال[cite: 2]</button>
-                    <button onclick="logout()" class="bg-red-500/10 text-red-400 px-4 py-2 rounded-xl text-sm font-semibold hover:bg-red-500/20 transition">خروج</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- 5. VIP Dashboard -->
-        <div id="view-vip-dashboard" class="hidden space-y-6">
-            <div class="bg-gradient-to-r from-amber-900/60 to-slate-900/90 p-6 rounded-3xl border border-amber-500/40 flex justify-between items-center flex-wrap gap-4 backdrop-blur-md shadow-2xl">
-                <div>
-                    <span class="text-xs bg-amber-500/20 text-amber-300 px-3 py-1 rounded-full font-bold border border-amber-500/40"><i class="fa-solid fa-crown ml-1"></i> عميل الـ VIP الماسي</span>
-                    <h2 class="text-3xl font-black mt-2 text-white" id="vip-welcome-name">أهلاً بك</h2>
-                </div>
-                <button onclick="logout()" class="bg-red-500/10 text-red-400 px-4 py-2 rounded-xl text-sm font-semibold hover:bg-red-500/20 transition">خروج</button>
-            </div>
-            <div class="card-gym-glow p-6 rounded-3xl border border-slate-800">
-                <h3 class="text-xl font-bold text-white mb-2">مميزات باقتك النشطة</h3>
-                <p class="text-slate-300 text-sm">تم تفعيل حسابك بنجاح من قِبل الإدارة. يمكنك الآن الاستمتاع بالتدريب المباشر مع المدرب المختار وخدمات الـ VIP الشاملة[cite: 2].</p>
-            </div>
-        </div>
-
-    </main>
-
-    <!-- MODALS -->
-
-    <!-- Coach Selection & Interactive Profiles Modal -->
-    <div id="coach-selection-modal" class="fixed inset-0 bg-slate-950/90 backdrop-blur-md hidden items-center justify-center z-50 p-4">
-        <div class="card-gym-glow border border-blue-500/50 p-6 rounded-3xl max-w-5xl w-full space-y-6 max-h-[90vh] overflow-y-auto shadow-2xl" dir="rtl">
-            <div class="flex justify-between items-center border-b border-slate-800 pb-3">
-                <h3 class="text-2xl font-black text-white flex items-center gap-2"><i class="fa-solid fa-user-check text-blue-400"></i> اختر مدربك واستعرض البروفايل الكامل</h3>
-                <button onclick="closeModals()" class="text-slate-400 hover:text-white text-xl"><i class="fa-solid fa-xmark"></i></button>
-            </div>
-            
-            <!-- Coaches Grid -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <!-- Coach 1 -->
-                <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl flex flex-col justify-between space-y-4">
-                    <div>
-                        <img src="https://images.unsplash.com/photo-1568602471122-7832951cc4c5?q=80&w=400&auto=format&fit=crop" class="w-20 h-20 rounded-full mx-auto object-cover border-2 border-blue-500 mb-3 shadow-md" alt="كابتن محمود">
-                        <h4 class="text-lg font-bold text-white text-center">كابتن محمود الباز</h4>
-                        <p class="text-xs text-blue-400 text-center mb-1">خبير بناء الأجسام وتطوير القوة</p>
-                        <div class="text-emerald-400 font-black text-center text-lg my-2">90$ <span class="text-xs text-slate-400 font-normal">/ شهرياً</span></div>
-                        <div class="flex justify-center items-center gap-1 text-amber-400 text-xs mb-3">
-                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i>
-                            <span class="text-slate-300 mr-1 font-bold">(4.8 / 120 تقييم)</span>
-                        </div>
-                    </div>
-                    <div class="space-y-2">
-                        <button onclick="openCoachFullProfile('كابتن محمود الباز', 'خبير بناء الأجسام وتطوير القوة مع خبرة أكثر من 8 سنوات في التدريب الشخصي وبطولات المحترفين.', '90$', '4.8', 'https://images.unsplash.com/photo-1568602471122-7832951cc4c5', ['https://images.unsplash.com/photo-1583454110551-21f2fa2afe61', 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48'], ['شهادة المدرب الدولي المعتمد ISSA', 'شهادة التغذية الرياضية المتقدمة'], ['عظيم جداً، حققت مع الكابتن نتائج جبارة ونزل وزني العضلي بشكل ممتاز.', 'متابعة يومية واسلوب ممتاز في التمارين.'])" class="w-full bg-slate-800 hover:bg-slate-700 text-blue-400 font-bold py-2 rounded-xl text-xs transition border border-blue-500/30"><i class="fa-solid fa-id-card ml-1"></i> استعرض البروفايل الكامل والسيرة والنتائج</button>
-                        <button onclick="selectCoachAndProceed('كابتن محمود الباز')" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-2.5 rounded-xl text-sm transition">اختر هذا المدرب والاشتراك</button>
-                    </div>
-                </div>
-
-                <!-- Coach 2 -->
-                <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl flex flex-col justify-between space-y-4">
-                    <div>
-                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=400&auto=format&fit=crop" class="w-20 h-20 rounded-full mx-auto object-cover border-2 border-emerald-500 mb-3 shadow-md" alt="كابتن أحمد">
-                        <h4 class="text-lg font-bold text-white text-center">كابتن أحمد سامح</h4>
-                        <p class="text-xs text-emerald-400 text-center mb-1">متخصص في اللياقة الحرق والتخسيس</p>
-                        <div class="text-emerald-400 font-black text-center text-lg my-2">75$ <span class="text-xs text-slate-400 font-normal">/ شهرياً</span></div>
-                        <div class="flex justify-center items-center gap-1 text-amber-400 text-xs mb-3">
-                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-                            <span class="text-slate-300 mr-1 font-bold">(5.0 / 95 تقييم)</span>
-                        </div>
-                    </div>
-                    <div class="space-y-2">
-                        <button onclick="openCoachFullProfile('كابتن أحمد سامح', 'متخصص في إنقاص الوزن، رسم العضلات، وإعادة تأهيل الجسم ببرامج غذائية مرنة.', '75$', '5.0', 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d', ['https://images.unsplash.com/photo-1517838277536-f5f99be501cd', 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b'], ['شهادة التدريب الشخصي من العهد القومي للرياضة', 'دبلوم التغذية العلاجية والرياضية'], ['أنزلني 12 كيلو في شهرين وبصحة ممتازة، كابتن محترف جداً!', 'أنظمة غذائية سهلة وغير معقدة مع متابعة مستمرة.'])" class="w-full bg-slate-800 hover:bg-slate-700 text-emerald-400 font-bold py-2 rounded-xl text-xs transition border border-emerald-500/30"><i class="fa-solid fa-id-card ml-1"></i> استعرض البروفايل الكامل والسيرة والنتائج</button>
-                        <button onclick="selectCoachAndProceed('كابتن أحمد سامح')" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2.5 rounded-xl text-sm transition">اختر هذا المدرب والاشتراك</button>
-                    </div>
-                </div>
-
-                <!-- Coach 3 (AI Expert) -->
-                <div class="bg-gradient-to-b from-purple-500/10 to-slate-900 border border-purple-500/60 p-6 rounded-2xl flex flex-col justify-between space-y-4">
-                    <div>
-                        <div class="w-20 h-20 bg-purple-500/20 text-purple-400 rounded-full flex items-center justify-center text-3xl mx-auto mb-3 font-black border-2 border-purple-500 shadow-md"><i class="fa-solid fa-robot"></i></div>
-                        <h4 class="text-lg font-bold text-purple-400 text-center">مدرب الذكاء الاصطناعي</h4>
-                        <p class="text-xs text-purple-300 text-center mb-1">متابعة فورية ذكية 24/7</p>
-                        <div class="text-emerald-400 font-black text-center text-lg my-2">50$ <span class="text-xs text-slate-400 font-normal">/ شهرياً</span></div>
-                        <div class="flex justify-center items-center gap-1 text-amber-400 text-xs mb-3">
-                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-                            <span class="text-slate-300 mr-1 font-bold">(4.9 / 310 تقييم)</span>
-                        </div>
-                    </div>
-                    <div class="space-y-2">
-                        <button onclick="openCoachFullProfile('مدرب الذكاء الاصطناعي الذكي', 'نظام ذكاء اصطناعي متطور مدرب على ملايين البرامج الرياضية والغذائية لتعديل خطتك لحظياً على مدار الساعة.', '50$', '4.9', 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe', ['https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5'], ['شهادة معالجة البيانات الرياضية والذكاء الاصطناعي الفائق'], ['الرد الفوري والبرامج دقيقة جداً ومخصصة تماماً لوزني وسني!'])" class="w-full bg-slate-800 hover:bg-slate-700 text-purple-400 font-bold py-2 rounded-xl text-xs transition border border-purple-500/30"><i class="fa-solid fa-id-card ml-1"></i> استعرض البروفايل الكامل والسيرة والنتائج</button>
-                        <button onclick="selectCoachAndProceed('مدرب الذكاء الاصطناعي')" class="w-full bg-purple-600 hover:bg-purple-500 text-white font-bold py-2.5 rounded-xl text-sm transition shadow-lg">اختر المدرب الذكي والاشتراك</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Full Detailed Coach Profile Modal -->
-    <div id="coach-full-profile-modal" class="fixed inset-0 bg-slate-950/95 backdrop-blur-md hidden items-center justify-center z-50 p-4">
-        <div class="card-gym-glow border border-emerald-500/50 p-6 rounded-3xl max-w-3xl w-full space-y-6 max-h-[95vh] overflow-y-auto shadow-2xl" dir="rtl">
-            <div class="flex justify-between items-center border-b border-slate-800 pb-3">
-                <h3 class="text-xl font-black text-white flex items-center gap-2"><i class="fa-solid fa-address-card text-emerald-400"></i> البروفايل السيرة الذاتية والنتائج الكاملة</h3>
-                <button onclick="closeModals()" class="text-slate-400 hover:text-white text-xl"><i class="fa-solid fa-xmark"></i></button>
-            </div>
-            
-            <div class="space-y-6">
-                <!-- Header Info -->
-                <div class="flex items-center gap-4 flex-wrap bg-slate-900 p-4 rounded-2xl border border-slate-800">
-                    <img id="profile-modal-img" src="" class="w-24 h-24 rounded-full object-cover border-2 border-emerald-500 shadow-lg">
-                    <div>
-                        <h4 id="profile-modal-name" class="text-2xl font-black text-white">اسم الكوتش</h4>
-                        <p id="profile-modal-bio" class="text-xs text-slate-300 mt-1 leading-relaxed">السيرة الذاتية هنا...</p>
-                        <div class="flex items-center gap-4 mt-2">
-                            <span id="profile-modal-price" class="text-emerald-400 font-black text-lg">0$ / شهرياً</span>
-                            <span id="profile-modal-rating" class="text-amber-400 text-xs font-bold"><i class="fa-solid fa-star"></i> 0.0 تقييم</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Results Images Gallery -->
-                <div>
-                    <h5 class="text-sm font-bold text-white mb-3 flex items-center gap-2"><i class="fa-solid fa-images text-blue-400"></i> صور العملاء الذين حققوا نتائج مذهلة معه:</h5>
-                    <div id="profile-modal-results-gallery" class="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                        <!-- تعبئة ديناميكية -->
-                    </div>
-                </div>
-
-                <!-- Certificates -->
-                <div>
-                    <h5 class="text-sm font-bold text-white mb-3 flex items-center gap-2"><i class="fa-solid fa-certificate text-amber-400"></i> الشهادات والاعتمادات الرسمية:</h5>
-                    <ul id="profile-modal-certs" class="space-y-2 text-xs text-slate-300 bg-slate-900 p-4 rounded-2xl border border-slate-800">
-                        <!-- تعبئة ديناميكية -->
-                    </ul>
-                </div>
-
-                <!-- Reviews -->
-                <div>
-                    <h5 class="text-sm font-bold text-white mb-3 flex items-center gap-2"><i class="fa-solid fa-comments text-emerald-400"></i> تقييمات وآراء المتدربين السابقين:</h5>
-                    <div id="profile-modal-reviews" class="space-y-3">
-                        <!-- تعبئة ديناميكية -->
-                    </div>
-                </div>
-            </div>
-
-            <button onclick="closeModals()" class="w-full bg-slate-800 hover:bg-slate-700 text-white font-bold py-3 rounded-xl text-sm transition">إغلاق البروفايل</button>
-        </div>
-    </div>
-
-    <!-- Coach Registration & Pricing Setup Modal -->
-    <div id="coach-registration-modal" class="fixed inset-0 bg-slate-950/90 backdrop-blur-md hidden items-center justify-center z-50 p-4">
-        <div class="card-gym-glow border border-emerald-500/50 p-6 rounded-3xl max-w-md w-full space-y-4 shadow-2xl" dir="rtl">
-            <div class="flex justify-between items-center border-b border-slate-800 pb-3">
-                <h3 class="text-xl font-bold text-white">انضمام كوتش جديد للمنصة</h3>
-                <button onclick="closeModals()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
-            </div>
-            <div class="space-y-3 pt-2">
-                <div>
-                    <label class="text-xs text-slate-400 block mb-1">اسم الكوتش الكامل:</label>
-                    <input type="text" id="reg-coach-name" placeholder="مثال: كابتن محمد نبيل" class="w-full bg-slate-950 border border-slate-800 p-3 rounded-xl text-sm text-white outline-none">
-                </div>
+            <form id="coachRegistrationForm" onsubmit="submitCoachData(event)" class="space-y-3">
                 <div>
                     <label class="text-xs text-slate-400 block mb-1">البريد الإلكتروني (Gmail):</label>
-                    <input type="email" id="reg-coach-email" placeholder="coach@gmail.com" class="w-full bg-slate-950 border border-slate-800 p-3 rounded-xl text-sm text-white outline-none">
+                    <input type="email" id="reg-email" placeholder="coach@gmail.com" required class="w-full bg-slate-950 border border-slate-800 p-3 rounded-xl text-sm text-white outline-none focus:border-emerald-500">
                 </div>
+
+                <div>
+                    <label class="text-xs text-slate-400 block mb-1">كود التفعيل (المتفق عليه):</label>
+                    <input type="text" id="reg-code" placeholder="أدخل كود التحقق" required class="w-full bg-slate-950 border border-slate-800 p-3 rounded-xl text-sm text-white outline-none focus:border-emerald-500 font-mono tracking-widest">
+                </div>
+
+                <div>
+                    <label class="text-xs text-slate-400 block mb-1">اسم الكوتش الكامل:</label>
+                    <input type="text" id="reg-name" placeholder="مثال: كابتن محمد نبيل" required class="w-full bg-slate-950 border border-slate-800 p-3 rounded-xl text-sm text-white outline-none focus:border-emerald-500">
+                </div>
+
                 <div>
                     <label class="text-xs text-slate-400 block mb-1">تحديد سعرك الشهري (بالدولار):</label>
-                    <input type="text" id="reg-coach-price" placeholder="مثال: 80$" class="w-full bg-slate-950 border border-slate-800 p-3 rounded-xl text-sm text-emerald-400 font-bold outline-none">
+                    <input type="number" id="reg-price" placeholder="مثال: 90$" required class="w-full bg-slate-950 border border-slate-800 p-3 rounded-xl text-sm text-emerald-400 font-bold outline-none focus:border-emerald-500">
                 </div>
+
                 <div>
-                    <label class="text-xs text-slate-400 block mb-1">رابط صورة البروفايل الشخصية:</label>
-                    <input type="text" id="reg-coach-img" placeholder="رابط URL للصورة" class="w-full bg-slate-950 border border-slate-800 p-3 rounded-xl text-sm text-white outline-none">
+                    <label class="text-xs text-slate-400 block mb-1">صورة البروفيل الشخصية (تحميل مباشر من الهاتف):</label>
+                    <input type="file" id="reg-image-file" accept="image/*" required class="w-full bg-slate-950 border border-slate-800 p-2 rounded-xl text-xs text-slate-300 file:bg-emerald-500 file:text-slate-950 file:border-0 file:py-2 file:px-4 file:rounded-lg file:font-bold file:cursor-pointer">
                 </div>
+
                 <div>
                     <label class="text-xs text-slate-400 block mb-1">السيرة الذاتية (نبذة عن خبرتك):</label>
-                    <textarea id="reg-coach-bio" rows="2" placeholder="اكتب نبذة مختصرة عن تخصصك وخبرتك..." class="w-full bg-slate-950 border border-slate-800 p-3 rounded-xl text-sm text-white outline-none"></textarea>
+                    <textarea id="reg-bio" rows="2" placeholder="اكتب نبذة مختصرة عن تخصصك وخبرتك..." required class="w-full bg-slate-950 border border-slate-800 p-3 rounded-xl text-sm text-white outline-none focus:border-emerald-500"></textarea>
                 </div>
-                <button onclick="submitCoachRegistration()" class="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold py-3 rounded-xl text-sm transition shadow-lg">تسجيل الحساب وإنشاء البروفايل</button>
-            </div>
+
+                <button type="submit" id="submit-btn" class="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black py-3.5 rounded-xl text-sm transition shadow-lg shadow-emerald-500/20">
+                    تأكيد التسجيل وإنشاء البروفايل السحابي
+                </button>
+            </form>
         </div>
+
     </div>
 
-    <!-- Pricing & Subscription Selection Modal -->
-    <div id="pricing-modal" class="fixed inset-0 bg-slate-950/90 backdrop-blur-md hidden items-center justify-center z-50 p-4">
-        <div class="card-gym-glow border border-amber-500/50 p-6 rounded-3xl max-w-4xl w-full space-y-6 max-h-[90vh] overflow-y-auto shadow-2xl" dir="rtl">
-            <div class="flex justify-between items-center border-b border-slate-800 pb-3">
-                <h3 class="text-2xl font-black text-white flex items-center gap-2"><i class="fa-solid fa-tags text-amber-400"></i> أسعار الباقات والمزايا المتاحة</h3>
-                <button onclick="closeModals()" class="text-slate-400 hover:text-white text-xl"><i class="fa-solid fa-xmark"></i></button>
-            </div>
-            
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <!-- Package 1 -->
-                <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl flex flex-col justify-between space-y-4">
-                    <div>
-                        <h4 class="text-lg font-bold text-white">الباقة الأساسية</h4>
-                        <div class="text-emerald-400 text-2xl font-black my-2">50$ <span class="text-xs text-slate-400 font-normal">/ شهرياً</span></div>
-                        <ul class="text-slate-300 text-xs space-y-2 mt-4">
-                            <li><i class="fa-solid fa-check text-emerald-400 ml-1"></i> جدول تدريبي قياسي</li>
-                            <li><i class="fa-solid fa-check text-emerald-400 ml-1"></i> متابعة أسبوعية</li>
-                            <li><i class="fa-solid fa-check text-emerald-400 ml-1"></i> حماية كاملة عبر نظام Escrow[cite: 3]</li>
-                        </ul>
-                    </div>
-                    <button onclick="openCheckoutForm('الباقة الأساسية', '50$')" class="w-full bg-slate-800 hover:bg-slate-700 text-white font-bold py-2.5 rounded-xl text-sm transition">اختر الباقة واشترك</button>
-                </div>
-
-                <!-- Package 2 -->
-                <div class="bg-slate-900 border border-emerald-500/50 p-6 rounded-2xl flex flex-col justify-between space-y-4 relative shadow-lg shadow-emerald-500/10">
-                    <div class="absolute -top-3 right-4 bg-emerald-500 text-slate-950 text-[10px] font-black px-3 py-1 rounded-full">الأكثر طلباً</div>
-                    <div>
-                        <h4 class="text-lg font-bold text-white">باقة الاحتراف</h4>
-                        <div class="text-emerald-400 text-2xl font-black my-2">120$ <span class="text-xs text-slate-400 font-normal">/ 3 شهور</span></div>
-                        <ul class="text-slate-300 text-xs space-y-2 mt-4">
-                            <li><i class="fa-solid fa-check text-emerald-400 ml-1"></i> جدول تدريبي وغذائي مخصص</li>
-                            <li><i class="fa-solid fa-check text-emerald-400 ml-1"></i> دعم فني ومتابعة يومية</li>
-                            <li><i class="fa-solid fa-check text-emerald-400 ml-1"></i> ضمان مالي كامل (Escrow)[cite: 3]</li>
-                        </ul>
-                    </div>
-                    <button onclick="openCheckoutForm('باقة الاحتراف', '120$')" class="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold py-2.5 rounded-xl text-sm transition shadow-lg">اختر الباقة واشترك</button>
-                </div>
-
-                <!-- Package 3 (VIP) -->
-                <div class="bg-gradient-to-b from-amber-500/10 to-slate-900 border border-amber-500/60 p-6 rounded-2xl flex flex-col justify-between space-y-4">
-                    <div>
-                        <h4 class="text-lg font-bold text-amber-400 flex items-center gap-1"><i class="fa-solid fa-crown"></i> باقة VIP الماسية</h4>
-                        <div class="text-amber-400 text-2xl font-black my-2">250$ <span class="text-xs text-slate-400 font-normal">/ شهرياً</span></div>
-                        <ul class="text-slate-300 text-xs space-y-2 mt-4">
-                            <li><i class="fa-solid fa-check text-amber-400 ml-1"></i> تدريب مع الذكاء الاصطناعي مباشرة</li>
-                            <li><i class="fa-solid fa-check text-amber-400 ml-1"></i> إشراف ومتابعة خاصة VIP</li>
-                            <li><i class="fa-solid fa-check text-amber-400 ml-1"></i> أولوية قصوى ودعم فوري</li>
-                        </ul>
-                    </div>
-                    <button onclick="openCheckoutForm('باقة VIP الماسية', '250$')" class="w-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold py-2.5 rounded-xl text-sm transition shadow-lg">اشتراك VIP الفوري</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Client Checkout & Registration Form Modal -->
-    <div id="checkout-modal" class="fixed inset-0 bg-slate-950/90 backdrop-blur-md hidden items-center justify-center z-50 p-4">
-        <div class="card-gym-glow border border-emerald-500/50 p-6 rounded-3xl max-w-md w-full space-y-4 shadow-2xl" dir="rtl">
-            <div class="flex justify-between items-center border-b border-slate-800 pb-3">
-                <h3 class="text-xl font-bold text-white">تسجيل بيانات الدفع والاشتراك</h3>
-                <button onclick="closeModals()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
-            </div>
-            <div class="space-y-3 pt-2">
-                <div>
-                    <label class="text-xs text-slate-400 block mb-1">الباقة المختارة:</label>
-                    <input type="text" id="checkout-package-name" readonly class="w-full bg-slate-950 border border-slate-800 p-3 rounded-xl text-sm text-emerald-400 font-bold outline-none">
-                </div>
-                <div>
-                    <label class="text-xs text-slate-400 block mb-1">المدرب المختار:</label>
-                    <input type="text" id="checkout-coach-name" readonly class="w-full bg-slate-950 border border-slate-800 p-3 rounded-xl text-sm text-blue-400 font-bold outline-none" value="لم يتم التحديد بعد">
-                </div>
-                <div>
-                    <label class="text-xs text-slate-400 block mb-1">الاسم الكامل:</label>
-                    <input type="text" id="checkout-name" placeholder="اكتب اسمك الكامل" class="w-full bg-slate-950/90 border border-slate-800 p-3 rounded-xl text-sm outline-none focus:border-emerald-500 text-white">
-                </div>
-                <div>
-                    <label class="text-xs text-slate-400 block mb-1">رقم الهاتف (الذي ستسجل به لاحقاً):</label>
-                    <input type="text" id="checkout-phone" placeholder="مثال: 01012345678" class="w-full bg-slate-950/90 border border-slate-800 p-3 rounded-xl text-sm outline-none focus:border-emerald-500 text-white font-bold">
-                </div>
-                <div class="p-3 bg-slate-900 border border-slate-800 rounded-xl text-xs text-slate-300">
-                    <i class="fa-solid fa-shield-halved text-emerald-400 ml-1"></i> سيتم حفظ طلبك وإرساله للإدارة فوراً بعد تأكيد الدفع، وسيعمل حسابك بمجرد تفعيل الإدارة له[cite: 2].
-                </div>
-                <button onclick="submitClientRegistration()" class="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold py-3 rounded-xl text-sm transition shadow-lg">تأكيد الدفع وإرسال الطلب للإدارة</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Terms Modal -->
-    <div id="terms-modal" class="fixed inset-0 bg-slate-950/90 backdrop-blur-md hidden items-center justify-center z-50 p-4">
-        <div class="card-gym-glow border border-emerald-500/50 p-6 rounded-3xl max-w-2xl w-full space-y-6 max-h-[90vh] overflow-y-auto shadow-2xl" dir="rtl">
-            <div class="flex justify-between items-center border-b border-slate-800 pb-3">
-                <h3 class="text-xl font-black text-white flex items-center gap-2"><i class="fa-solid fa-file-contract text-emerald-400"></i> اتفاقية الاستخدام وحماية الحقوق</h3>
-                <button onclick="closeModals()" class="text-slate-400 hover:text-white text-xl"><i class="fa-solid fa-xmark"></i></button>
-            </div>
-            <div class="bg-slate-950 p-4 rounded-2xl border border-slate-800 text-xs text-slate-300 space-y-3 leading-relaxed">
-                <p><strong>1. نظام الضمان المالي (Escrow):</strong> جميع المعاملات المالية محمية ومضمونة من خلال الوسيط المالي للمنصة لضمان حقوق العميل والمدرب[cite: 3].</p>
-                <p><strong>2. الخصوصية والأمان:</strong> تتم معالجة كافة بيانات المستخدمين والمدربين بأعلى معايير التشفير الرقمي ضد الاختراق[cite: 3].</p>
-            </div>
-            <button onclick="closeModals()" class="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold py-3 rounded-xl text-sm transition shadow-lg">موافقة ومتابعة[cite: 3]</button>
-        </div>
-    </div>
-
-    <!-- Admin PIN Modal -->
-    <div id="admin-pin-modal" class="fixed inset-0 bg-slate-950/85 backdrop-blur-md hidden items-center justify-center z-50 p-4">
-        <div class="card-gym-glow border border-slate-800 p-6 rounded-3xl max-w-sm w-full text-center space-y-4 shadow-2xl">
-            <h3 class="text-xl font-bold text-white">رمز حماية الأدمن المشفر</h3>
-            <input type="password" id="admin-pin-input" maxlength="4" class="w-full bg-slate-950/90 border border-slate-800 text-center text-2xl tracking-widest py-3 rounded-xl focus:border-emerald-500 outline-none text-white" placeholder="••••">
-            <div class="flex gap-2">
-                <button onclick="verifyAdminPin()" class="flex-1 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold py-2.5 rounded-xl transition">دخول</button>
-                <button onclick="closeModals()" class="flex-1 bg-slate-800 text-slate-300 py-2.5 rounded-xl transition">إلغاء</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Coach Auth Modal -->
-    <div id="coach-auth-modal" class="fixed inset-0 bg-slate-950/85 backdrop-blur-md hidden items-center justify-center z-50 p-4">
-        <div class="card-gym-glow border border-slate-800 p-6 rounded-3xl max-w-xl w-full space-y-4 max-h-[90vh] overflow-y-auto shadow-2xl">
-            <div class="flex justify-between items-center border-b border-slate-800 pb-3">
-                <h3 class="text-xl font-bold text-white">بوابة المدربين الآمنة</h3>
-                <button onclick="closeModals()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
-            </div>
-            <div class="space-y-3 pt-2">
-                <input type="email" id="login-coach-email" placeholder="البريد الإلكتروني (Gmail)" class="w-full bg-slate-950/90 border border-slate-800 p-3 rounded-xl text-sm outline-none focus:border-blue-500 text-white">
-                <input type="password" id="login-coach-code" placeholder="كود التفعيل" class="w-full bg-slate-950/90 border border-slate-800 p-3 rounded-xl text-sm outline-none focus:border-blue-500 text-white">
-                <button onclick="verifyCoachLogin()" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 rounded-xl text-sm transition shadow-lg">دخول لوحة التحكم</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Trainee Login Modal -->
-    <div id="trainee-login-modal" class="fixed inset-0 bg-slate-950/85 backdrop-blur-md hidden items-center justify-center z-50 p-4">
-        <div class="card-gym-glow border border-slate-800 p-6 rounded-3xl max-w-sm w-full text-center space-y-4 shadow-2xl">
-            <h3 class="text-xl font-bold text-white">تسجيل دخول المتدرب</h3>
-            <input type="text" id="trainee-login-phone" class="w-full bg-slate-950/90 border border-slate-800 text-center py-3 px-4 rounded-xl focus:border-purple-500 outline-none text-sm font-bold tracking-wider text-white" placeholder="رقم الهاتف">
-            <div class="flex gap-2">
-                <button onclick="verifyTraineePhone()" class="flex-1 bg-purple-600 hover:bg-purple-500 text-white font-bold py-2.5 rounded-xl transition">دخول للنظام</button>
-                <button onclick="closeModals()" class="flex-1 bg-slate-800 text-slate-300 py-2.5 rounded-xl transition">إلغاء</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- VIP Auth Modal -->
-    <div id="vip-auth-modal" class="fixed inset-0 bg-slate-950/85 backdrop-blur-md hidden items-center justify-center z-50 p-4">
-        <div class="card-gym-glow border border-amber-500/50 p-6 rounded-3xl max-w-xl w-full space-y-4 max-h-[90vh] overflow-y-auto shadow-2xl">
-            <div class="flex justify-between items-center border-b border-slate-800 pb-3">
-                <h3 class="text-xl font-bold text-white">تسجيل دخول عملاء الـ VIP</h3>
-                <button onclick="closeModals()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
-            </div>
-            <div class="space-y-3 pt-2">
-                <input type="text" id="login-vip-phone" placeholder="رقم الهاتف المسجل" class="w-full bg-slate-950/90 border border-slate-800 p-3 rounded-xl text-sm outline-none focus:border-amber-500 text-white">
-                <button onclick="verifyVipLogin()" class="w-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold py-3 rounded-xl text-sm transition">دخول لوحة الـ VIP 👑</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- JAVASCRIPT LOGIC -->
+    <!-- JavaScript Actions -->
     <script>
-        let cloudCoaches = [];
-        let cloudTrainees = [];
-        let cloudVipTrainees = [];
-        let selectedCoachForCheckout = 'لم يتم التحديد بعد';
-        let currentCoachEmail = '';
-
-        window.initCloudData = async function() {
-            try {
-                const coachSnap = await window.getDocs(window.collection(window.db, "coaches"));
-                cloudCoaches = coachSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-
-                const traineeSnap = await window.getDocs(window.collection(window.db, "trainees"));
-                cloudTrainees = traineeSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-
-                const vipSnap = await window.getDocs(window.collection(window.db, "vipTrainees"));
-                cloudVipTrainees = vipSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-
-                renderAdminRequestsTable();
-            } catch (e) {
-                console.error("خطأ في الاتصال بقاعدة البيانات السحابية الآمنة.");
-            }
-        };
-
-        function showRoleSelection() {
-            hideAllViews();
-            document.getElementById('view-role-selection').classList.remove('hidden');
+        function goToPaymentStep() {
+            document.getElementById('step-dashboard').classList.add('hidden');
+            document.getElementById('step-payment').classList.remove('hidden');
         }
 
-        function hideAllViews() {
-            document.getElementById('view-role-selection').classList.add('hidden');
-            document.getElementById('view-admin').classList.add('hidden');
-            document.getElementById('view-coach').classList.add('hidden');
-            document.getElementById('view-trainee').classList.add('hidden');
-            document.getElementById('view-vip-dashboard').classList.add('hidden');
-            closeModals();
+        function confirmPaymentStep() {
+            alert("تم إتمام دفع رسوم الاشتراك بنجاح (300 جنيه). تفضل بإدخال بيانات بروفايلك.");
+            document.getElementById('step-payment').classList.add('hidden');
+            document.getElementById('step-register').classList.remove('hidden');
         }
 
-        function closeModals() {
-            const modals = ['admin-pin-modal', 'coach-auth-modal', 'trainee-login-modal', 'vip-auth-modal', 'terms-modal', 'pricing-modal', 'checkout-modal', 'coach-selection-modal', 'coach-full-profile-modal', 'coach-registration-modal'];
-            modals.forEach(id => {
-                const el = document.getElementById(id);
-                if(el) {
-                    el.classList.add('hidden');
-                    el.classList.remove('flex');
-                }
-            });
-        }
+        async function submitCoachData(event) {
+            event.preventDefault();
+            
+            const email = document.getElementById('reg-email').value.trim();
+            const code = document.getElementById('reg-code').value.trim();
+            const name = document.getElementById('reg-name').value.trim();
+            const price = document.getElementById('reg-price').value.trim();
+            const bio = document.getElementById('reg-bio').value.trim();
+            const imageFile = document.getElementById('reg-image-file').files[0];
 
-        function openTermsModal() { document.getElementById('terms-modal').classList.remove('hidden'); document.getElementById('terms-modal').classList.add('flex'); }
-        function openAdminPinModal() { document.getElementById('admin-pin-modal').classList.remove('hidden'); document.getElementById('admin-pin-modal').classList.add('flex'); }
-        function openCoachAuthModal() { document.getElementById('coach-auth-modal').classList.remove('hidden'); document.getElementById('coach-auth-modal').classList.add('flex'); }
-        function openTraineeLoginModal() { document.getElementById('trainee-login-modal').classList.remove('hidden'); document.getElementById('trainee-login-modal').classList.add('flex'); }
-        function openVipAuthModal() { document.getElementById('vip-auth-modal').classList.remove('hidden'); document.getElementById('vip-auth-modal').classList.add('flex'); }
-        function openPricingModal() { document.getElementById('pricing-modal').classList.remove('hidden'); document.getElementById('pricing-modal').classList.add('flex'); }
-        function openCoachSelectionModal() { document.getElementById('coach-selection-modal').classList.remove('hidden'); document.getElementById('coach-selection-modal').classList.add('flex'); }
-        function openCoachRegistrationModal() { document.getElementById('coach-registration-modal').classList.remove('hidden'); document.getElementById('coach-registration-modal').classList.add('flex'); }
-        function openDisputeModal() { alert('تم فتح النزاع وتجميد المدفوعات بأمان[cite: 2].'); }
-
-        // فتح البروفايل الكامل للكوتش
-        function openCoachFullProfile(name, bio, price, rating, imgUrl, resultsImages, certsList, reviewsList) {
-            document.getElementById('profile-modal-name').innerText = name;
-            document.getElementById('profile-modal-bio').innerText = bio;
-            document.getElementById('profile-modal-price').innerText = `${price} / شهرياً`;
-            document.getElementById('profile-modal-rating').innerHTML = `<i class="fa-solid fa-star"></i> ${rating} تقييم المذيعين والمتدربين`;
-            document.getElementById('profile-modal-img').src = imgUrl;
-
-            // معرض الصور
-            const gallery = document.getElementById('profile-modal-results-gallery');
-            gallery.innerHTML = '';
-            resultsImages.forEach(img => {
-                gallery.innerHTML += `<img src="${img}" class="w-full h-28 object-cover rounded-xl border border-slate-800 shadow">`;
-            });
-
-            // الشهادات
-            const certs = document.getElementById('profile-modal-certs');
-            certs.innerHTML = '';
-            certsList.forEach(c => {
-                certs.innerHTML += `<li><i class="fa-solid fa-check text-emerald-400 ml-1"></i> ${c}</li>`;
-            });
-
-            // الريفيوهات
-            const reviews = document.getElementById('profile-modal-reviews');
-            reviews.innerHTML = '';
-            reviewsList.forEach(r => {
-                reviews.innerHTML += `<div class="bg-slate-900 p-3 rounded-xl border border-slate-800 text-xs text-slate-300"><i class="fa-solid fa-quote-right text-emerald-400 ml-2"></i> ${r}</div>`;
-            });
-
-            document.getElementById('coach-full-profile-modal').classList.remove('hidden');
-            document.getElementById('coach-full-profile-modal').classList.add('flex');
-        }
-
-        function selectCoachAndProceed(coachName) {
-            selectedCoachForCheckout = coachName;
-            closeModals();
-            openPricingModal();
-        }
-
-        function openCheckoutForm(packageName, price) {
-            closeModals();
-            document.getElementById('checkout-package-name').value = `${packageName} (${price})`;
-            document.getElementById('checkout-coach-name').value = selectedCoachForCheckout;
-            document.getElementById('checkout-modal').classList.remove('hidden');
-            document.getElementById('checkout-modal').classList.add('flex');
-        }
-
-        // تسجيل الكوتش الجديد في النظام وتحديد سعره
-        async function submitCoachRegistration() {
-            const name = document.getElementById('reg-coach-name').value.trim();
-            const email = document.getElementById('reg-coach-email').value.trim();
-            const price = document.getElementById('reg-coach-price').value.trim();
-            const img = document.getElementById('reg-coach-img').value.trim();
-            const bio = document.getElementById('reg-coach-bio').value.trim();
-
-            if(!name || !email || !price) {
-                alert('يرجى ملء الحقول الأساسية (الاسم، البريد، السعر).');
+            if(!imageFile) {
+                alert('يرجى اختيار صورة بروفيل من الهاتف.');
                 return;
             }
 
+            const btn = document.getElementById('submit-btn');
+            btn.innerText = "جاري رفع الصورة وحفظ البيانات...";
+            btn.disabled = true;
+
             try {
+                // 1. رفع الصورة المباشرة من الهاتف إلى سحابة التخزين (Firebase Storage)
+                const storageRef = window.ref(window.storage, `coaches_profiles/${Date.now()}_${imageFile.name}`);
+                const snapshot = await window.uploadBytes(storageRef, imageFile);
+                const downloadURL = await window.getDownloadURL(snapshot.ref);
+
+                // 2. حفظ بيانات الكوتش كاملة في قاعدة البيانات (Firestore)
                 await window.addDoc(window.collection(window.db, "coaches"), {
-                    name: name,
                     email: email,
-                    price: price,
-                    img: img || 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48',
-                    bio: bio || 'مدرب محترف في المنصة',
-                    currentCode: "1234",
-                    active: true
-                });
-                alert('تم تسجيل الكوتش بنجاح وتحديد السعر والبروفايل!');
-                closeModals();
-                await window.initCloudData();
-            } catch (e) {
-                alert('حدث خطأ أثناء التسجيل.');
-            }
-        }
-
-        // تحديث بروفايل الكوتش بواسطة الكوتش نفسه
-        async function updateCoachProfileData() {
-            const newPrice = document.getElementById('coach-edit-price').value.trim();
-            const newImg = document.getElementById('coach-edit-img').value.trim();
-            alert('تم تحديث السعر وصورة البروفايل بنجاح في المنصة!');
-        }
-
-        async function submitClientRegistration() {
-            const name = document.getElementById('checkout-name').value.trim();
-            const phone = document.getElementById('checkout-phone').value.trim();
-            const packageName = document.getElementById('checkout-package-name').value.trim();
-            const coachName = document.getElementById('checkout-coach-name').value.trim();
-
-            if(!name || !phone) {
-                alert('يرجى إدخال الاسم ورقم الهاتف بشكل صحيح.');
-                return;
-            }
-
-            try {
-                await window.addDoc(window.collection(window.db, "vipTrainees"), {
+                    code: code,
                     name: name,
-                    phone: phone,
-                    package: packageName,
-                    coach: coachName,
-                    active: false
+                    price: `${price}$`,
+                    img: downloadURL, // رابط الصورة الناتج عن الرفع المباشر
+                    bio: bio,
+                    active: true,
+                    createdAt: new Date().toISOString()
                 });
-                alert('تم تسجيل طلبك واختيار المدرب بنجاح! يرجى الانتظار لتفعيل الحساب من قِبل الإدارة[cite: 2].');
-                closeModals();
-                await window.initCloudData();
-            } catch (e) {
-                alert('حدث خطأ أثناء حفظ البيانات.');
+
+                alert('تم تسجيل الكوتش وإنشاء البروفايل بنجاح وربط الصورة من الهاتف!');
+                location.reload();
+            } catch (error) {
+                console.error(error);
+                alert('حدث خطأ أثناء الاتصال بالقاعدة السحابية، يرجى المحاولة مرة أخرى.');
+                btn.innerText = "تأكيد التسجيل وإنشاء البروفايل السحابي";
+                btn.disabled = false;
             }
         }
-
-        function renderAdminRequestsTable() {
-            const tbody = document.getElementById('admin-vip-requests-tbody');
-            if(!tbody) return;
-            tbody.innerHTML = '';
-
-            if(cloudVipTrainees.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="5" class="text-center py-4 text-slate-500 text-sm">لا توجد طلبات اشتراك مسجلة حالياً</td></tr>`;
-                return;
-            }
-
-            cloudVipTrainees.forEach(item => {
-                const tr = document.createElement('tr');
-                tr.className = 'border-b border-slate-800/60 text-sm';
-                tr.innerHTML = `
-                    <td class="py-3 text-white font-bold">${item.name || 'غير محدد'} <br><span class="text-xs text-blue-400 font-normal">المدرب: ${item.coach || 'غير محدد'}</span></td>
-                    <td class="py-3 text-slate-300 font-mono">${item.phone}</td>
-                    <td class="py-3 text-amber-400">${item.package || 'VIP'}</td>
-                    <td class="py-3">
-                        <span class="px-2.5 py-1 rounded-full text-xs font-bold ${item.active ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : 'bg-amber-500/20 text-amber-400 border border-amber-500/30'}">
-                            ${item.active ? 'مفعل ✅' : 'قيد الانتظار ⏳'}
-                        </span>
-                    </td>
-                    <td class="py-3">
-                        ${!item.active ? `<button onclick="approveVipClient('${item.id}')" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold px-3 py-1.5 rounded-lg text-xs transition">تفعيل الحساب 🔓</button>` : `<span class="text-slate-500 text-xs">تم التفعيل</span>`}
-                    </td>
-                `;
-                tbody.appendChild(tr);
-            });
-        }
-
-        window.approveVipClient = async function(docId) {
-            try {
-                await window.updateDoc(window.doc(window.db, "vipTrainees", docId), { active: true });
-                alert('تم تفعيل حساب العميل بنجاح[cite: 2]!');
-                await window.initCloudData();
-            } catch (e) {
-                alert('فشل تفعيل الحساب.');
-            }
-        };
-
-        function verifyAdminPin() {
-            if(document.getElementById('admin-pin-input').value === '1993') {
-                closeModals();
-                hideAllViews();
-                document.getElementById('view-admin').classList.remove('hidden');
-                window.initCloudData();
-            } else { alert('رمز الدخول غير صحيح!'); }
-        }
-
-        async function verifyCoachLogin() {
-            const email = document.getElementById('login-coach-email').value.trim();
-            const code = document.getElementById('login-coach-code').value.trim();
-            await window.initCloudData();
-            const coach = cloudCoaches.find(c => c.email === email);
-            if(!coach || !coach.active) return alert('بيانات الدخول غير صحيحة أو الحساب غير موجود.');
-            currentCoachEmail = email;
-            closeModals();
-            hideAllViews();
-            document.getElementById('view-coach').classList.remove('hidden');
-            document.getElementById('coach-welcome-email').innerText = `مرحباً، (${email})`;
-        }
-
-        async function verifyTraineePhone() {
-            const phone = document.getElementById('trainee-login-phone').value.trim();
-            await window.initCloudData();
-            const found = cloudTrainees.find(t => t.phone === phone);
-            if(found) {
-                closeModals();
-                hideAllViews();
-                document.getElementById('view-trainee').classList.remove('hidden');
-                document.getElementById('trainee-welcome-name').innerText = `أهلاً بك، ${found.name}`;
-            } else { alert('رقم الهاتف غير مسجل.'); }
-        }
-
-        async function verifyVipLogin() {
-            const phone = document.getElementById('login-vip-phone').value.trim();
-            await window.initCloudData();
-            const found = cloudVipTrainees.find(v => v.phone === phone);
-            if(found && found.active) {
-                closeModals();
-                hideAllViews();
-                document.getElementById('view-vip-dashboard').classList.remove('hidden');
-                document.getElementById('vip-welcome-name').innerText = `أهلاً بك، ${found.name}`;
-            } else { alert('الحساب غير مفعل أو رقم الهاتف غير صحيح.'); }
-        }
-
-        function logout() { showRoleSelection(); }
     </script>
 </body>
 </html>
