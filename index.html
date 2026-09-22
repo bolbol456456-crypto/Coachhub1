@@ -356,11 +356,20 @@
             <div id="coach-auth-section-register" class="hidden space-y-4 pt-2">
                 <input type="email" id="reg-coach-email" placeholder="البريد الإلكتروني (Gmail)" class="w-full bg-slate-950/90 border border-slate-800 p-3 rounded-xl text-sm outline-none focus:border-emerald-500 text-white">
                 <input type="password" id="reg-coach-pass" placeholder="كلمة المرور الخاصة بالجيميل" class="w-full bg-slate-950/90 border border-slate-800 p-3 rounded-xl text-sm outline-none focus:border-emerald-500 text-white">
-                <select id="reg-coach-package" class="w-full bg-slate-950/90 border border-slate-800 p-3 rounded-xl text-sm outline-none focus:border-emerald-500 text-slate-200">
-                    <option value="باقة ٥ أفراد - 300 ج.م">باقة ٥ أفراد (300 جنيه / شهر)</option>
-                    <option value="باقة ١٥ شخص - 600 ج.م">باقة ١٥ شخص (600 جنيه / شهر)</option>
-                    <option value="باقة غير محدوده - 2500 ج.م">باقة غير محدودة (2500 جنيه / شهر)</option>
-                </select>
+                
+                <!-- تم إضافة الـ 7 باقات الخاصة بالمدربين تدريجياً من 300 إلى 2500 جنيه -->
+                <div class="space-y-1">
+                    <label class="text-xs text-emerald-400 font-bold block">اختر باقة المدرب المناسبة لعدد متدربيك:</label>
+                    <select id="reg-coach-package" class="w-full bg-slate-950/90 border border-emerald-500/40 p-3 rounded-xl text-sm outline-none focus:border-emerald-500 text-emerald-200 font-bold">
+                        <option value="باقة ٥ أفراد - 300 ج.م">باقة ٥ أفراد (300 جنيه / شهر)</option>
+                        <option value="باقة ١٥ شخص - 600 ج.م">باقة ١٥ شخص (600 جنيه / شهر)</option>
+                        <option value="باقة ٢٥ شخص - 950 ج.م">باقة ٢٥ شخص (950 جنيه / شهر)</option>
+                        <option value="باقة ٥٠ شخص - 1400 ج.م">باقة ٥٠ شخص (1400 جنيه / شهر)</option>
+                        <option value="باقة ١٠٠ شخص - 1900 ج.م">باقة ١٠٠ شخص (1900 جنيه / شهر)</option>
+                        <option value="باقة غير محدودة - 2500 ج.م">باقة غير محدودة (2500 جنيه / شهر)</option>
+                    </select>
+                </div>
+
                 <div class="bg-slate-950/90 p-4 rounded-2xl border border-slate-800 space-y-3">
                     <div class="text-xs text-emerald-400 font-bold"><i class="fa-solid fa-wallet ml-1"></i> الدفع عبر إنستا باي: 01221078181</div>
                     <input type="file" id="reg-receipt-file" accept="image/*" class="w-full text-xs text-slate-400 file:bg-emerald-500 file:text-slate-950 file:border-none file:rounded-xl file:px-3 file:py-1.5 font-bold">
