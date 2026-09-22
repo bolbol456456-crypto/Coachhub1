@@ -382,7 +382,7 @@
         </div>
     </div>
 
-    <!-- VIP Auth Modal (Login & Register with Updated 540 EGP Yearly Price) -->
+    <!-- VIP Auth Modal (Login & Register with Package Selection) -->
     <div id="vip-auth-modal" class="fixed inset-0 bg-slate-950/85 backdrop-blur-md hidden items-center justify-center z-50 p-4">
         <div class="card-gym-glow border border-amber-500/50 p-6 rounded-3xl max-w-xl w-full space-y-4 max-h-[90vh] overflow-y-auto shadow-2xl">
             <div class="flex justify-between items-center border-b border-slate-800 pb-3">
@@ -401,7 +401,7 @@
                 <button onclick="verifyVipLogin()" class="w-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold py-3 rounded-xl text-sm transition shadow-lg shadow-amber-500/20">دخول لوحة تحكم الـ VIP الذكية 👑</button>
             </div>
 
-            <!-- VIP Register Section with Updated Packages & InstaPay -->
+            <!-- VIP Register Section with Direct Package Selection & InstaPay -->
             <div id="vip-auth-section-register" class="hidden space-y-4 pt-2">
                 <input type="text" id="reg-vip-name" placeholder="الاسم الكامل" class="w-full bg-slate-950/90 border border-slate-800 p-3 rounded-xl text-sm outline-none focus:border-amber-500 text-white">
                 <input type="text" id="reg-vip-phone" placeholder="رقم الهاتف (سيكون كلمة مرورك)" class="w-full bg-slate-950/90 border border-slate-800 p-3 rounded-xl text-sm outline-none focus:border-amber-500 text-white">
@@ -410,15 +410,20 @@
                     <option value="تنشيف وحرق الدهون">تنشيف وحرق الدهون</option>
                     <option value="لياقة بدنية عامة وقوة">لياقة بدنية عامة وقوة</option>
                 </select>
-                <!-- Updated VIP Package Selection with 5400 EGP Yearly -->
-                <select id="reg-vip-package" class="w-full bg-slate-950/90 border border-amber-500/40 p-3 rounded-xl text-sm outline-none focus:border-amber-500 text-amber-200 font-bold">
-                    <option value="باقة VIP الشهرية - 750 ج.م">باقة VIP الشهرية (750 جنيه / شهر)</option>
-                    <option value="باقة VIP لمدة 6 شهور - 3000 ج.م">باقة VIP لمدة 6 شهور (3,000 جنيه / 6 شهور)</option>
-                    <option value="باقة VIP السنوية - 5400 ج.م">باقة VIP السنوية (5,400 جنيه / سنة)</option>
-                </select>
+
+                <!-- زر واختيار باقات الـ VIP المتاحة للعميل -->
+                <div class="space-y-1">
+                    <label class="text-xs text-amber-400 font-bold block">اختر باقة الـ VIP المناسبة لك:</label>
+                    <select id="reg-vip-package" class="w-full bg-slate-950/90 border border-amber-500/50 p-3 rounded-xl text-sm outline-none focus:border-amber-500 text-amber-200 font-bold">
+                        <option value="باقة VIP الشهرية - 750 ج.م">باقة VIP الشهرية - 750 جنيه / شهر</option>
+                        <option value="باقة VIP لمدة 6 شهور - 3000 ج.م">باقة VIP لمدة 6 شهور - 3,000 جنيه (خصم خاص)</option>
+                        <option value="باقة VIP السنوية - 5400 ج.م">باقة VIP السنوية - 5,400 جنيه (أفضل قيمة توفيرية)</option>
+                    </select>
+                </div>
+
                 <div class="bg-slate-950/90 p-4 rounded-2xl border border-amber-500/30 space-y-3">
                     <div class="text-xs text-amber-400 font-bold"><i class="fa-solid fa-wallet ml-1"></i> الدفع عبر إنستا باي (InstaPay): 01221078181</div>
-                    <p class="text-slate-400 text-[11px]">قم بالتحويل بالقيمة المحددة للباقة ثم ارفع صورة إيصال الدفع أدناه ليتم تفعيل حسابك فوراً من الإدارة:</p>
+                    <p class="text-slate-400 text-[11px]">قم بالتحويل بقيمة الباقة المختار أعلاه ثم ارفع صورة إيصال الدفع أدناه:</p>
                     <input type="file" id="reg-vip-receipt-file" accept="image/*" class="w-full text-xs text-slate-400 file:bg-amber-500 file:text-slate-950 file:border-none file:rounded-xl file:px-3 file:py-1.5 font-bold cursor-pointer">
                 </div>
                 <button onclick="submitVipSubscription()" class="w-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold py-3 rounded-xl text-sm transition shadow-lg shadow-amber-500/20">إرسال طلب اشتراك الـ VIP وإيصال الدفع 🚀</button>
